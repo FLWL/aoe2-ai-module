@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\expert">
+      <UniqueIdentifier>{07d27b90-ecbf-425b-99ee-7f7549acfe71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\expert">
+      <UniqueIdentifier>{8db809be-25de-4235-847e-a8d54113ae2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\expert\fact">
+      <UniqueIdentifier>{933dacd5-e12c-49dd-99a6-e13e63c6d343}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\expert\action">
+      <UniqueIdentifier>{a3f85440-f46b-4532-9613-9d14fe7e85fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\expert\action">
+      <UniqueIdentifier>{4c322ebc-0d61-436a-b88e-84df6792b456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\expert\fact">
+      <UniqueIdentifier>{c4ed1339-d149-4bf5-a582-559eb2381cc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protos">
+      <UniqueIdentifier>{93cb14a5-3351-496b-84c8-114228e5b9fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protos\expert">
+      <UniqueIdentifier>{b28d0c7b-f4b1-488f-9c90-911d26c3397f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protos\expert\action">
+      <UniqueIdentifier>{d3fea6c2-46dc-4dad-b6c7-cb7d308d1c0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protos\expert\fact">
+      <UniqueIdentifier>{85a97a48-ce9c-4770-b90f-94e922cb2a89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protos">
+      <UniqueIdentifier>{deb7bbf4-6dd8-45b5-8671-d96ba94fe2e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protos\expert">
+      <UniqueIdentifier>{9bca9911-e279-46cd-9ce5-acc549080851}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protos\expert\action">
+      <UniqueIdentifier>{ebbc491c-b7d5-4082-ac8a-0f0b5603b59d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protos\expert\fact">
+      <UniqueIdentifier>{0b543944-3ddc-4833-ab96-db80c2d69c41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\misc">
+      <UniqueIdentifier>{48374ba4-3a25-44a7-984e-96d730c0b4e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\misc">
+      <UniqueIdentifier>{8127cb79-1826-4d78-b3cd-5b8ccf83e328}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AIModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="expert\Expert.h">
+      <Filter>Header Files\expert</Filter>
+    </ClInclude>
+    <ClInclude Include="protos\ai_module_api.pb.h">
+      <Filter>Header Files\protos</Filter>
+    </ClInclude>
+    <ClInclude Include="protos\ai_module_api.grpc.pb.h">
+      <Filter>Header Files\protos</Filter>
+    </ClInclude>
+    <ClInclude Include="protos\expert\expert_api.pb.h">
+      <Filter>Header Files\protos\expert</Filter>
+    </ClInclude>
+    <ClInclude Include="protos\expert\expert_api.grpc.pb.h">
+      <Filter>Header Files\protos\expert</Filter>
+    </ClInclude>
+    <ClInclude Include="protos\expert\action\action.pb.h">
+      <Filter>Header Files\protos\expert\action</Filter>
+    </ClInclude>
+    <ClInclude Include="protos\expert\fact\fact.pb.h">
+      <Filter>Header Files\protos\expert\fact</Filter>
+    </ClInclude>
+    <ClInclude Include="AIModuleService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="expert\ExpertService.h">
+      <Filter>Header Files\expert</Filter>
+    </ClInclude>
+    <ClInclude Include="expert\ExpertCommandQueue.h">
+      <Filter>Header Files\expert</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\DebugConsole.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\RPCServer.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\Statics.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\Configuration.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="expert\action\ExpertAction.h">
+      <Filter>Header Files\expert\action</Filter>
+    </ClInclude>
+    <ClInclude Include="expert\fact\ExpertFact.h">
+      <Filter>Header Files\expert\fact</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AIModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="expert\Expert.cpp">
+      <Filter>Source Files\expert</Filter>
+    </ClCompile>
+    <ClCompile Include="protos\ai_module_api.pb.cc">
+      <Filter>Source Files\protos</Filter>
+    </ClCompile>
+    <ClCompile Include="protos\ai_module_api.grpc.pb.cc">
+      <Filter>Source Files\protos</Filter>
+    </ClCompile>
+    <ClCompile Include="protos\expert\expert_api.pb.cc">
+      <Filter>Source Files\protos\expert</Filter>
+    </ClCompile>
+    <ClCompile Include="protos\expert\expert_api.grpc.pb.cc">
+      <Filter>Source Files\protos\expert</Filter>
+    </ClCompile>
+    <ClCompile Include="protos\expert\action\action.pb.cc">
+      <Filter>Source Files\protos\expert\action</Filter>
+    </ClCompile>
+    <ClCompile Include="protos\expert\fact\fact.pb.cc">
+      <Filter>Source Files\protos\expert\fact</Filter>
+    </ClCompile>
+    <ClCompile Include="AIModuleService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="expert\ExpertService.cpp">
+      <Filter>Source Files\expert</Filter>
+    </ClCompile>
+    <ClCompile Include="expert\ExpertCommandQueue.cpp">
+      <Filter>Source Files\expert</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\DebugConsole.cpp">
+      <Filter>Source Files\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\RPCServer.cpp">
+      <Filter>Source Files\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="expert\action\ExpertAction.cpp">
+      <Filter>Source Files\expert\action</Filter>
+    </ClCompile>
+    <ClCompile Include="expert\fact\ExpertFact.cpp">
+      <Filter>Source Files\expert\fact</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
