@@ -5,9 +5,9 @@
 
 void ExpertAction::UpdateAddresses()
 {
-	statics::SetFuncAddr(&FuncTrain, statics::TranslateAddr(expert_conf::ADDR_FUNC_TRAIN));
-	statics::SetFuncAddr(&FuncBuild, statics::TranslateAddr(expert_conf::ADDR_FUNC_BUILD));
-	statics::SetFuncAddr(&FuncUpGetFact, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_FACT));
+	statics::SetFuncAddr(FuncTrain, statics::TranslateAddr(expert_conf::ADDR_FUNC_TRAIN));
+	statics::SetFuncAddr(FuncBuild, statics::TranslateAddr(expert_conf::ADDR_FUNC_BUILD));
+	statics::SetFuncAddr(FuncUpGetFact, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_FACT));
 }
 
 bool ExpertAction::Train(int unitType)

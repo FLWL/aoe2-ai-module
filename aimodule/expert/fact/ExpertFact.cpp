@@ -6,8 +6,8 @@
 
 void ExpertFact::UpdateAddresses()
 {
-	statics::SetFuncAddr(&FuncGetFactById, statics::TranslateAddr(expert_conf::ADDR_FUNC_GET_FACT_BY_ID));
-	statics::SetFuncAddr(&FuncGetGoal, statics::TranslateAddr(expert_conf::ADDR_FUNC_GET_GOAL));
+	statics::SetFuncAddr(FuncGetFactById, statics::TranslateAddr(expert_conf::ADDR_FUNC_GET_FACT_BY_ID));
+	statics::SetFuncAddr(FuncGetGoal, statics::TranslateAddr(expert_conf::ADDR_FUNC_GET_GOAL));
 
 	informationAi = (void**)statics::TranslateAddr(expert_conf::ADDR_VAR_INFORMATION_AI);
 	currentPlayer = (void**)statics::TranslateAddr(expert_conf::ADDR_VAR_CURRENT_PLAYER);

@@ -15,8 +15,8 @@ namespace statics
 	}
 
 	template<typename T>
-	static void SetFuncAddr(T func, int64_t newAddr)
+	static void SetFuncAddr(T& func, int64_t newAddr)
 	{
-		*reinterpret_cast<int64_t*>(func) = newAddr;
+		*reinterpret_cast<int64_t*>(&func) = newAddr;
 	}
 }

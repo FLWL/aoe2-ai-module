@@ -23,7 +23,7 @@ Expert::Expert(AIModule* aiModule) :
 
 void Expert::UpdateAddresses()
 {
-	statics::SetFuncAddr(&FuncRunList, statics::TranslateAddr(expert_conf::ADDR_FUNC_RUN_LIST));
+	statics::SetFuncAddr(FuncRunList, statics::TranslateAddr(expert_conf::ADDR_FUNC_RUN_LIST));
 
 	ExpertAction::UpdateAddresses();
 	ExpertFact::UpdateAddresses();
