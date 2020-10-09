@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package protos.expert.action;
+
+message Train {
+  int32 unitType = 1;
+}
+message TrainReply {
+  bool success = 1;
+}
+
+message Build {
+  int32 buildingType = 1;
+}
+message BuildReply {
+  bool success = 1;
+}
+
+message UpGetFact {
+  int32 factId = 1;
+  int32 factParam = 2;
+  int32 goalId = 3;
+}
+message UpGetFactReply {
+  
+}

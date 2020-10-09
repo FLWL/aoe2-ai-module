@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package protos;
+
+service AIModuleAPI {
+  rpc Unload(UnloadRequest) returns (UnloadReply) { }
+}
+
+message UnloadRequest {
+  
+}
+
+message UnloadReply {
+  
+}
