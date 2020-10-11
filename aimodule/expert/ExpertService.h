@@ -9,7 +9,7 @@ public:
 	ExpertService(Expert* expert);
 	~ExpertService();
 
-	grpc::Status RunRequestList(grpc::ServerContext* context, const protos::expert::RequestList* request, protos::expert::ReplyList* reply) override;
+	grpc::Status ExecuteCommandList(grpc::ServerContext* context, const protos::expert::CommandList* commandList, protos::expert::CommandResultList* commandResultList) override;
 
 private:
 	Expert* expert;

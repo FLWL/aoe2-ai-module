@@ -13,7 +13,7 @@ ExpertCommandQueue::~ExpertCommandQueue()
 	
 }
 
-grpc::Status ExpertCommandQueue::PushAndWaitForCompletion(const protos::expert::RequestList* request, protos::expert::ReplyList* reply)
+grpc::Status ExpertCommandQueue::PushAndWaitForCompletion(const protos::expert::CommandList* commandList, protos::expert::CommandResultList* commandResultList)
 {
 	// vars to determine when this request has been processed by the game thread
 	bool isProcessed = false;
@@ -22,8 +22,8 @@ grpc::Status ExpertCommandQueue::PushAndWaitForCompletion(const protos::expert::
 
 	// data about this request to pass to the game thread
 	Item item;
-	item.request = request;
-	item.reply = reply;
+	item.commandList = commandList;
+	item.commandResultList = commandResultList;
 	item.isProcessed = &isProcessed;
 	item.conditionVar = &conditionVar;
 	item.status = &status;

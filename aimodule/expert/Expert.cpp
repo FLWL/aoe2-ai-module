@@ -1,6 +1,7 @@
 #include "Expert.h"
 
 #include <iostream>
+#include <chrono>
 
 #include <Windows.h>
 #include <detours/detours.h>
@@ -8,7 +9,9 @@
 #include "AIModule.h"
 #include "misc/Statics.h"
 #include "expert/action/ExpertAction.h"
+#include "expert/action/ExpertActionHandler.h"
 #include "expert/fact/ExpertFact.h"
+#include "expert/fact/ExpertFactHandler.h"
 
 Expert* Expert::instance;
 
@@ -18,6 +21,7 @@ Expert::Expert(AIModule* aiModule) :
 {
 	instance = this;
 	UpdateAddresses();
+	PopulateCommandMap();
 	EnableDetours();
 }
 
@@ -27,6 +31,16 @@ void Expert::UpdateAddresses()
 
 	ExpertAction::UpdateAddresses();
 	ExpertFact::UpdateAddresses();
+}
+
+void Expert::PopulateCommandMap()
+{
+	commandMap.insert({ "type.googleapis.com/protos.expert.action.Train", &ExpertActionHandler::Train });
+	commandMap.insert({ "type.googleapis.com/protos.expert.action.Build", &ExpertActionHandler::Build });
+	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetFact", &ExpertActionHandler::UpGetFact });
+	commandMap.insert({ "type.googleapis.com/protos.expert.fact.Goal", &ExpertFactHandler::Goal });
+	commandMap.insert({ "type.googleapis.com/protos.expert.fact.Goals", &ExpertFactHandler::Goals });
+	commandMap.insert({ "type.googleapis.com/protos.expert.fact.UpGetFact", &ExpertFactHandler::UpGetFact });
 }
 
 void Expert::EnableDetours()
@@ -48,12 +62,23 @@ void Expert::DisableDetours()
 int64_t __fastcall Expert::DetouredRunList(void* aiExpertEngine, int listId, void* statsOutput)
 {
 	int64_t result = FuncRunList(aiExpertEngine, listId, statsOutput);
-	Expert::instance->ProcessCommands();
+
+	auto t1 = std::chrono::high_resolution_clock::now();
+	int numCommandsProcessed = Expert::instance->ProcessCommands();
+	auto t2 = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+
+	if (numCommandsProcessed)
+	{
+		std::cout << "Processed " << numCommandsProcessed  << " command(s) in " << duration << " us"<< std::endl;
+	}
+
 	return result;
 }
 
-void Expert::ProcessCommands()
+int Expert::ProcessCommands()
 {
+	int numCommandsProcessed = 0;
 	std::lock_guard<std::mutex> lguard(*commandQueue.GetMutex());
 	while (!commandQueue.IsEmpty())
 	{
@@ -61,57 +86,34 @@ void Expert::ProcessCommands()
 		ExpertCommandQueue::Item* item = commandQueue.Pop();
 
 		// process
-		ProcessCommand(item->request, item->reply);
+		numCommandsProcessed += ProcessCommandList(item->commandList, item->commandResultList);
 
 		// mark as processed and wake up the corresponding rpc thread
 		*item->isProcessed = true;
 		item->conditionVar->notify_one();
 	}
+
+	return numCommandsProcessed;
 }
 
-void Expert::ProcessCommand(const protos::expert::RequestList* request, protos::expert::ReplyList* reply)
+int Expert::ProcessCommandList(const protos::expert::CommandList* commandList, protos::expert::CommandResultList* commandResultList)
 {
-	for (int requestIndex = 0; requestIndex < request->request_size(); requestIndex++)
-	{
-		protos::expert::Request singleRequest = request->request(requestIndex);
-		protos::expert::Reply* singleReply = reply->add_reply();
+	int numCommandsProcessed = 0;
 
-		switch (singleRequest.requestType_case())
+	for (int requestIndex = 0; requestIndex < commandList->commands_size(); requestIndex++)
+	{
+		google::protobuf::Any anyCommand = commandList->commands(requestIndex);
+		google::protobuf::Any* anyResult = commandResultList->add_results();
+		
+		auto commandHandler = commandMap[anyCommand.type_url()];
+		if (commandHandler)
 		{
-			// Actions
-			case protos::expert::Request::kTrain:
-			{
-				singleReply->mutable_trainreply()->set_success(ExpertAction::Train(singleRequest.train().unittype()));
-				break;
-			}
-			case protos::expert::Request::kBuild:
-			{
-				singleReply->mutable_buildreply()->set_success(ExpertAction::Build(singleRequest.build().buildingtype()));
-				break;
-			}
-			case protos::expert::Request::kUpGetFact:
-			{
-				auto upGetFactReq = singleRequest.upgetfact();
-				ExpertAction::UpGetFact(upGetFactReq.factid(), upGetFactReq.factparam(), upGetFactReq.goalid());
-				singleReply->mutable_upgetfactreply();
-				break;
-			}
-			// Facts
-			case protos::expert::Request::kGoal:
-			{
-				auto goalReq = singleRequest.goal();
-				singleReply->mutable_goalreply()->set_goalvalue(ExpertFact::Goal(goalReq.goalid()));
-				break;
-			}
-			case protos::expert::Request::kGoals:
-			{
-				auto goalsReq = singleRequest.goals();
-				auto goals = ExpertFact::Goals();
-				for (int i = 0; i < goals.size(); i++) singleReply->mutable_goalsreply()->add_goalvalue(goals.at(i));
-				break;
-			}
+			commandHandler(anyCommand, anyResult);
+			numCommandsProcessed++;
 		}
 	}
+
+	return numCommandsProcessed;
 }
 
 void Expert::PreUnload()

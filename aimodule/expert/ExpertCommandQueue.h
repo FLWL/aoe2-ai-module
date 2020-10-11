@@ -15,14 +15,14 @@ public:
 
 	struct Item
 	{
-		const protos::expert::RequestList* request;
-		protos::expert::ReplyList* reply;
+		const protos::expert::CommandList* commandList;
+		protos::expert::CommandResultList* commandResultList;
 		std::condition_variable* conditionVar;
 		bool* isProcessed;
 		grpc::Status* status;
 	};
 
-	grpc::Status PushAndWaitForCompletion(const protos::expert::RequestList* request, protos::expert::ReplyList* reply);
+	grpc::Status PushAndWaitForCompletion(const protos::expert::CommandList* commandList, protos::expert::CommandResultList* commandResultList);
 	std::mutex* GetMutex();
 	Item* Pop();
 	void Clear();

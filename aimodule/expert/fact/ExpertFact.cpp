@@ -13,7 +13,7 @@ void ExpertFact::UpdateAddresses()
 	currentPlayer = (void**)statics::TranslateAddr(expert_conf::ADDR_VAR_CURRENT_PLAYER);
 }
 
-// not currently used or exposed
+
 int64_t ExpertFact::UpGetFact(int factId, int factParam)
 {
 	return FuncGetFactById(*currentPlayer, *currentPlayer, factId, factParam);

@@ -114,6 +114,12 @@
     <ClInclude Include="expert\fact\ExpertFact.h">
       <Filter>Header Files\expert\fact</Filter>
     </ClInclude>
+    <ClInclude Include="expert\action\ExpertActionHandler.h">
+      <Filter>Header Files\expert\action</Filter>
+    </ClInclude>
+    <ClInclude Include="expert\fact\ExpertFactHandler.h">
+      <Filter>Header Files\expert\fact</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -162,6 +168,12 @@
       <Filter>Source Files\expert\action</Filter>
     </ClCompile>
     <ClCompile Include="expert\fact\ExpertFact.cpp">
+      <Filter>Source Files\expert\fact</Filter>
+    </ClCompile>
+    <ClCompile Include="expert\action\ExpertActionHandler.cpp">
+      <Filter>Source Files\expert\action</Filter>
+    </ClCompile>
+    <ClCompile Include="expert\fact\ExpertFactHandler.cpp">
       <Filter>Source Files\expert\fact</Filter>
     </ClCompile>
   </ItemGroup>
