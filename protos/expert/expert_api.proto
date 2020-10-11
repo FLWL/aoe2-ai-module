@@ -2,39 +2,16 @@ syntax = "proto3";
 
 package protos.expert;
 
-import "protos/expert/fact/fact.proto";
-import "protos/expert/action/action.proto";
+import "google/protobuf/any.proto";
 
 service ExpertAPI {
-  rpc RunRequestList(RequestList) returns (ReplyList) {}
+  rpc ExecuteCommandList(CommandList) returns (CommandResultList) {}
 }
 
-message RequestList {
-  repeated Request request = 1;
+message CommandList {
+  repeated google.protobuf.Any commands = 1;
 }
 
-message Request {
-  oneof requestType {
-    action.Train train = 1;
-	action.Build build = 2;
-	action.UpGetFact upGetFact = 3;
-	
-	fact.Goal goal = 501;
-	fact.Goals goals = 502;
-  }
-}
-
-message ReplyList {
-  repeated Reply reply = 1;
-}
-
-message Reply {
-  oneof replyType {
-	action.TrainReply trainReply = 1;
-	action.BuildReply buildReply = 2;
-	action.UpGetFactReply upGetFactReply = 3;
-	
-	fact.GoalReply goalReply = 501;
-	fact.GoalsReply goalsReply = 502;
-  }
+message CommandResultList {
+  repeated google.protobuf.Any results = 1;
 }

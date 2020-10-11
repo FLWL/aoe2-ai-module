@@ -5,13 +5,21 @@ package protos.expert.fact;
 message Goal {
   int32 goalId = 1;
 }
-message GoalReply {
+message GoalResult {
   int32 goalValue = 1;
 }
 
 message Goals {
   
 }
-message GoalsReply {
+message GoalsResult {
   repeated int32 goalValue = 1;
+}
+
+message UpGetFact {
+  int32 factId = 1;
+  int32 factParam = 2;
+}
+message UpGetFactResult {
+  int32 factValue = 1;
 }

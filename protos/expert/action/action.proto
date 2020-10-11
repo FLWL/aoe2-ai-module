@@ -5,14 +5,14 @@ package protos.expert.action;
 message Train {
   int32 unitType = 1;
 }
-message TrainReply {
+message TrainResult {
   bool success = 1;
 }
 
 message Build {
   int32 buildingType = 1;
 }
-message BuildReply {
+message BuildResult {
   bool success = 1;
 }
 
@@ -21,6 +21,6 @@ message UpGetFact {
   int32 factParam = 2;
   int32 goalId = 3;
 }
-message UpGetFactReply {
+message UpGetFactResult {
   
 }
