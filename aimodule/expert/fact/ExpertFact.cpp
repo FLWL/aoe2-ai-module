@@ -6,17 +6,11 @@
 
 void ExpertFact::UpdateAddresses()
 {
-	statics::SetFuncAddr(FuncGetFactById, statics::TranslateAddr(expert_conf::ADDR_FUNC_GET_FACT_BY_ID));
 	statics::SetFuncAddr(FuncGetGoal, statics::TranslateAddr(expert_conf::ADDR_FUNC_GET_GOAL));
+	statics::SetFuncAddr(FuncGetFactById, statics::TranslateAddr(expert_conf::ADDR_FUNC_GET_FACT_BY_ID));
 
 	informationAi = (void**)statics::TranslateAddr(expert_conf::ADDR_VAR_INFORMATION_AI);
 	currentPlayer = (void**)statics::TranslateAddr(expert_conf::ADDR_VAR_CURRENT_PLAYER);
-}
-
-
-int64_t ExpertFact::UpGetFact(int factId, int factParam)
-{
-	return FuncGetFactById(*currentPlayer, *currentPlayer, factId, factParam);
 }
 
 unsigned int ExpertFact::Goal(unsigned int goalId)
@@ -26,7 +20,7 @@ unsigned int ExpertFact::Goal(unsigned int goalId)
 
 std::vector<unsigned int> ExpertFact::Goals()
 {
-	unsigned* goalArray = (unsigned int*)((int64_t)*informationAi + 812);
+	unsigned* goalArray = (unsigned int*)((uintptr_t)*informationAi + 812);
 
 	std::vector<unsigned int> result;
 	result.assign(goalArray, goalArray + 512);

@@ -4,6 +4,7 @@
 
 #include "google/protobuf/any.pb.h"
 
+#include "misc/Configuration.h"
 #include "expert/ExpertCommandQueue.h"
 #include "expert/ExpertService.h"
 
@@ -33,6 +34,12 @@ private:
 	std::unordered_map<std::string, void(*)(const google::protobuf::Any&, google::protobuf::Any*)> commandMap;
 
 	static Expert* instance;
-	static int64_t __fastcall DetouredRunList(void* aiExpertEngine, int listId, void* statsOutput);
-	inline static int64_t(__fastcall* FuncRunList)(void* aiExpertEngine, int listId, void* statsOutput) = 0;
+	static intptr_t __fastcall DetouredRunList(void* aiExpertEngine, int listId, void* statsOutput);
+#ifdef DEBUG_MODE
+	static intptr_t __fastcall DetouredDefAction(void* aiExpert, char *name, char argCount, void* function);
+#endif
+	inline static intptr_t(__fastcall* FuncRunList)(void* aiExpertEngine, int listId, void* statsOutput) = 0;
+#ifdef DEBUG_MODE
+	inline static intptr_t(__fastcall* FuncDefAction)(void* aiExpert, char *name, char argCount, void* function) = 0;
+#endif
 };

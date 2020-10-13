@@ -4,19 +4,19 @@
 
 namespace statics
 {
-	static int64_t GetGameModuleBaseAddr()
+	static uintptr_t GetGameModuleBaseAddr()
 	{
-		return (int64_t) GetModuleHandleA("AoE2DE_s.exe");
+		return (uintptr_t) GetModuleHandleA(aimodule_conf::GAME_MODULE_NAME.c_str());
 	}
 	
-	static int64_t TranslateAddr(int64_t absoluteAddress, int64_t absoluteBaseAddress = aimodule_conf::REFERENCE_BASE_ADDR)
+	static uintptr_t TranslateAddr(uintptr_t absoluteAddress, uintptr_t absoluteBaseAddress = aimodule_conf::REFERENCE_BASE_ADDR)
 	{
 		return GetGameModuleBaseAddr() + (absoluteAddress - absoluteBaseAddress);
 	}
 
 	template<typename T>
-	static void SetFuncAddr(T& func, int64_t newAddr)
+	static void SetFuncAddr(T& func, uintptr_t newAddr)
 	{
-		*reinterpret_cast<int64_t*>(&func) = newAddr;
+		*reinterpret_cast<uintptr_t*>(&func) = newAddr;
 	}
 }
