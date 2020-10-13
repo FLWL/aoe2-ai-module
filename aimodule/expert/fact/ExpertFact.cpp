@@ -13,6 +13,11 @@ void ExpertFact::UpdateAddresses()
 	currentPlayer = (void**)statics::TranslateAddr(expert_conf::ADDR_VAR_CURRENT_PLAYER);
 }
 
+void ExpertFact::EvaluateRelOpCalled(int value)
+{
+	lastRelOpValue = value;
+}
+
 unsigned int ExpertFact::Goal(unsigned int goalId)
 {
 	return (unsigned int)FuncGetGoal(*informationAi, goalId - 1);

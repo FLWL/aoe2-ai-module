@@ -50,7 +50,12 @@ def run():
             #action.UpResearch(escrowState=0, typeOp=0, techId=22),
             #action.UpBuild(buildingId=12)
             #action.UpGarrison(objectId=109, typeOp=0, unitId=83)
-            action.UpDeleteIdleUnits(idleType=0)
+            #action.UpDeleteIdleUnits(idleType=0)
+            action.SetGoal(goalId=100, goalValue = 100),
+            action.SetGoal(goalId=101, goalValue = 100),
+            action.UpSendFlare(goalPoint=100),
+            #action.UpSendScout(groupType=101, positionType=1),
+            #action.UpBuild(buildingId=50)
         ]))
 
         print(result_list)

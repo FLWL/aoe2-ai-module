@@ -2,6 +2,384 @@ syntax = "proto3";
 
 package protos.expert.fact;
 
+message AttackSoldierCount {
+  
+}
+message AttackSoldierCountResult {
+  
+}
+
+message AttackWarboatCount {
+  
+}
+message AttackWarboatCountResult {
+  
+}
+
+message BuildingAvailable {
+  
+}
+message BuildingAvailableResult {
+  
+}
+
+message BuildingCount {
+  
+}
+message BuildingCountResult {
+  
+}
+
+message BuildingCountTotal {
+  
+}
+message BuildingCountTotalResult {
+  
+}
+
+message BuildingTypeCount {
+  
+}
+message BuildingTypeCountResult {
+  
+}
+
+message BuildingTypeCountTotal {
+  
+}
+message BuildingTypeCountTotalResult {
+  
+}
+
+message CanAffordBuilding {
+  
+}
+message CanAffordBuildingResult {
+  
+}
+
+message CanAffordCompleteWall {
+  
+}
+message CanAffordCompleteWallResult {
+  
+}
+
+message CanAffordResearch {
+  
+}
+message CanAffordResearchResult {
+  
+}
+
+message CanAffordUnit {
+  
+}
+message CanAffordUnitResult {
+  
+}
+
+message CanBuild {
+  
+}
+message CanBuildResult {
+  
+}
+
+message CanBuildGate {
+  
+}
+message CanBuildGateResult {
+  
+}
+
+message CanBuildGateWithEscrow {
+  
+}
+message CanBuildGateWithEscrowResult {
+  
+}
+
+message CanBuildWall {
+  
+}
+message CanBuildWallResult {
+  
+}
+
+message CanBuildWallWithEscrow {
+  
+}
+message CanBuildWallWithEscrowResult {
+  
+}
+
+message CanBuildWithEscrow {
+  
+}
+message CanBuildWithEscrowResult {
+  
+}
+
+message CanBuyCommodity {
+  
+}
+message CanBuyCommodityResult {
+  
+}
+
+message CanResearch {
+  
+}
+message CanResearchResult {
+  
+}
+
+message CanResearchWithEscrow {
+  
+}
+message CanResearchWithEscrowResult {
+  
+}
+
+message CanSellCommodity {
+  
+}
+message CanSellCommodityResult {
+  
+}
+
+message CanSpy {
+  
+}
+message CanSpyResult {
+  
+}
+
+message CanSpyWithEscrow {
+  
+}
+message CanSpyWithEscrowResult {
+  
+}
+
+message CanTrain {
+  
+}
+message CanTrainResult {
+  
+}
+
+message CanTrainWithEscrow {
+  
+}
+message CanTrainWithEscrowResult {
+  
+}
+
+message CcPlayersBuildingCount {
+  
+}
+message CcPlayersBuildingCountResult {
+  
+}
+
+message CcPlayersBuildingTypeCount {
+  
+}
+message CcPlayersBuildingTypeCountResult {
+  
+}
+
+message CcPlayersUnitCount {
+  
+}
+message CcPlayersUnitCountResult {
+  
+}
+
+message CcPlayersUnitTypeCount {
+  
+}
+message CcPlayersUnitTypeCountResult {
+  
+}
+
+message CheatsEnabled {
+  
+}
+message CheatsEnabledResult {
+  
+}
+
+message CivSelected {
+  
+}
+message CivSelectedResult {
+  
+}
+
+message CivilianPopulation {
+  
+}
+message CivilianPopulationResult {
+  
+}
+
+message CommodityBuyingPrice {
+  
+}
+message CommodityBuyingPriceResult {
+  
+}
+
+message CommoditySellingPrice {
+  
+}
+message CommoditySellingPriceResult {
+  
+}
+
+message CurrentAge {
+  
+}
+message CurrentAgeResult {
+  
+}
+
+message CurrentAgeTime {
+  
+}
+message CurrentAgeTimeResult {
+  
+}
+
+message CurrentScore {
+  
+}
+message CurrentScoreResult {
+  
+}
+
+message DeathMatchGame {
+  
+}
+message DeathMatchGameResult {
+  
+}
+
+message DefendSoldierCount {
+  
+}
+message DefendSoldierCountResult {
+  
+}
+
+message DefendWarboatCount {
+  
+}
+message DefendWarboatCountResult {
+  
+}
+
+message Difficulty {
+  
+}
+message DifficultyResult {
+  
+}
+
+message Doctrine {
+  
+}
+message DoctrineResult {
+  
+}
+
+message DropsiteMinDistance {
+  
+}
+message DropsiteMinDistanceResult {
+  
+}
+
+message EndingAge {
+  
+}
+message EndingAgeResult {
+  
+}
+
+message EnemyBuildingsInTown {
+  
+}
+message EnemyBuildingsInTownResult {
+  
+}
+
+message EnemyCapturedRelics {
+  
+}
+message EnemyCapturedRelicsResult {
+  
+}
+
+message EscrowAmount {
+  
+}
+message EscrowAmountResult {
+  
+}
+
+message EventDetected {
+  
+}
+message EventDetectedResult {
+  
+}
+
+message False {
+  
+}
+message FalseResult {
+  
+}
+
+message FeCanBuildAtPoint {
+  
+}
+message FeCanBuildAtPointResult {
+  
+}
+
+message FoodAmount {
+  
+}
+message FoodAmountResult {
+  
+}
+
+message GameTime {
+  
+}
+message GameTimeResult {
+  
+}
+
+message GameType {
+  
+}
+message GameTypeResult {
+  
+}
+
+message GateCount {
+  
+}
+message GateCountResult {
+  
+}
+
 message Goal {
   int32 goalId = 1;
 }
@@ -16,10 +394,913 @@ message GoalsResult {
   repeated int32 goalValue = 1;
 }
 
+message GoldAmount {
+  
+}
+message GoldAmountResult {
+  
+}
+
+message HoldKohRuin {
+  
+}
+message HoldKohRuinResult {
+  
+}
+
+message HoldRelics {
+  
+}
+message HoldRelicsResult {
+  
+}
+
+message HousingHeadroom {
+  
+}
+message HousingHeadroomResult {
+  
+}
+
+message IdleFarmCount {
+  
+}
+message IdleFarmCountResult {
+  
+}
+
+message MapSize {
+  
+}
+message MapSizeResult {
+  
+}
+
+message MapType {
+  
+}
+message MapTypeResult {
+  
+}
+
+message MilitaryPopulation {
+  
+}
+message MilitaryPopulationResult {
+  
+}
+
+message PlayerComputer {
+  
+}
+message PlayerComputerResult {
+  
+}
+
+message PlayerHuman {
+  
+}
+message PlayerHumanResult {
+  
+}
+
+message PlayerInGame {
+  
+}
+message PlayerInGameResult {
+  
+}
+
+message PlayerNumber {
+  
+}
+message PlayerNumberResult {
+  
+}
+
+message PlayerResigned {
+  
+}
+message PlayerResignedResult {
+  
+}
+
+message PlayerValid {
+  
+}
+message PlayerValidResult {
+  
+}
+
+message PlayersAchievements {
+  
+}
+message PlayersAchievementsResult {
+  
+}
+
+message PlayersBuildingCount {
+  
+}
+message PlayersBuildingCountResult {
+  
+}
+
+message PlayersBuildingTypeCount {
+  
+}
+message PlayersBuildingTypeCountResult {
+  
+}
+
+message PlayersCiv {
+  
+}
+message PlayersCivResult {
+  
+}
+
+message PlayersCivilianPopulation {
+  
+}
+message PlayersCivilianPopulationResult {
+  
+}
+
+message PlayersCurrentAge {
+  
+}
+message PlayersCurrentAgeResult {
+  
+}
+
+message PlayersCurrentAgeTime {
+  
+}
+message PlayersCurrentAgeTimeResult {
+  
+}
+
+message PlayersMilitaryPopulation {
+  
+}
+message PlayersMilitaryPopulationResult {
+  
+}
+
+message PlayersPopulation {
+  
+}
+message PlayersPopulationResult {
+  
+}
+
+message PlayersScore {
+  
+}
+message PlayersScoreResult {
+  
+}
+
+message PlayersStance {
+  
+}
+message PlayersStanceResult {
+  
+}
+
+message PlayersTribute {
+  
+}
+message PlayersTributeResult {
+  
+}
+
+message PlayersTributeMemory {
+  
+}
+message PlayersTributeMemoryResult {
+  
+}
+
+message PlayersUnitCount {
+  
+}
+message PlayersUnitCountResult {
+  
+}
+
+message PlayersUnitTypeCount {
+  
+}
+message PlayersUnitTypeCountResult {
+  
+}
+
+message Population {
+  
+}
+message PopulationResult {
+  
+}
+
+message PopulationCap {
+  
+}
+message PopulationCapResult {
+  
+}
+
+message PopulationHeadroom {
+  
+}
+message PopulationHeadroomResult {
+  
+}
+
+message RandomNumber {
+  
+}
+message RandomNumberResult {
+  
+}
+
+message RegicideGame {
+  
+}
+message RegicideGameResult {
+  
+}
+
+message ResearchAvailable {
+  
+}
+message ResearchAvailableResult {
+  
+}
+
+message ResearchCompleted {
+  
+}
+message ResearchCompletedResult {
+  
+}
+
+message ResourceFound {
+  
+}
+message ResourceFoundResult {
+  
+}
+
+message SharedGoal {
+  
+}
+message SharedGoalResult {
+  
+}
+
+message SheepAndForageTooFar {
+  
+}
+message SheepAndForageTooFarResult {
+  
+}
+
+message SoldierCount {
+  
+}
+message SoldierCountResult {
+  
+}
+
+message StanceToward {
+  
+}
+message StanceTowardResult {
+  
+}
+
+message StartingAge {
+  
+}
+message StartingAgeResult {
+  
+}
+
+message StartingResources {
+  
+}
+message StartingResourcesResult {
+  
+}
+
+message StoneAmount {
+  
+}
+message StoneAmountResult {
+  
+}
+
+message StrategicNumber {
+  
+}
+message StrategicNumberResult {
+  
+}
+
+message TauntDetected {
+  
+}
+message TauntDetectedResult {
+  
+}
+
+message TimerTriggered {
+  
+}
+message TimerTriggeredResult {
+  
+}
+
+message TownUnderAttack {
+  
+}
+message TownUnderAttackResult {
+  
+}
+
+message TraceFact {
+  
+}
+message TraceFactResult {
+  
+}
+
+message True {
+  
+}
+message TrueResult {
+  
+}
+
+message UnitAvailable {
+  
+}
+message UnitAvailableResult {
+  
+}
+
+message UnitCount {
+  
+}
+message UnitCountResult {
+  
+}
+
+message UnitCountTotal {
+  
+}
+message UnitCountTotalResult {
+  
+}
+
+message UnitTypeCount {
+  
+}
+message UnitTypeCountResult {
+  
+}
+
+message UnitTypeCountTotal {
+  
+}
+message UnitTypeCountTotalResult {
+  
+}
+
+message UpAddObjectById {
+  
+}
+message UpAddObjectByIdResult {
+  
+}
+
+message UpAlliedGoal {
+  
+}
+message UpAlliedGoalResult {
+  
+}
+
+message UpAlliedResourceAmount {
+  
+}
+message UpAlliedResourceAmountResult {
+  
+}
+
+message UpAlliedResourcePercent {
+  
+}
+message UpAlliedResourcePercentResult {
+  
+}
+
+message UpAlliedSn {
+  
+}
+message UpAlliedSnResult {
+  
+}
+
+message UpAttackerClass {
+  
+}
+message UpAttackerClassResult {
+  
+}
+
+message UpBuildingTypeInTown {
+  
+}
+message UpBuildingTypeInTownResult {
+  
+}
+
+message UpCanBuild {
+  
+}
+message UpCanBuildResult {
+  
+}
+
+message UpCanBuildLine {
+  
+}
+message UpCanBuildLineResult {
+  
+}
+
+message UpCanResearch {
+  
+}
+message UpCanResearchResult {
+  
+}
+
+message UpCanSearch {
+  
+}
+message UpCanSearchResult {
+  
+}
+
+message UpCanTrain {
+  
+}
+message UpCanTrainResult {
+  
+}
+
+message UpCompareConst {
+  
+}
+message UpCompareConstResult {
+  
+}
+
+message UpCompareFlag {
+  
+}
+message UpCompareFlagResult {
+  
+}
+
+message UpCompareGoal {
+  
+}
+message UpCompareGoalResult {
+  
+}
+
+message UpCompareSn {
+  
+}
+message UpCompareSnResult {
+  
+}
+
+message UpCompareText {
+  
+}
+message UpCompareTextResult {
+  
+}
+
+message UpDefenderCount {
+  
+}
+message UpDefenderCountResult {
+  
+}
+
+message UpEnemyBuildingsInTown {
+  
+}
+message UpEnemyBuildingsInTownResult {
+  
+}
+
+message UpEnemyUnitsInTown {
+  
+}
+message UpEnemyUnitsInTownResult {
+  
+}
+
+message UpEnemyVillagersInTown {
+  
+}
+message UpEnemyVillagersInTownResult {
+  
+}
+
+message UpFindLocal {
+  
+}
+message UpFindLocalResult {
+  
+}
+
+message UpFindRemote {
+  
+}
+message UpFindRemoteResult {
+  
+}
+
+message UpFindResource {
+  
+}
+message UpFindResourceResult {
+  
+}
+
+message UpFindStatusLocal {
+  
+}
+message UpFindStatusLocalResult {
+  
+}
+
+message UpFindStatusRemote {
+  
+}
+message UpFindStatusRemoteResult {
+  
+}
+
+message UpGaiaTypeCount {
+  
+}
+message UpGaiaTypeCountResult {
+  
+}
+
+message UpGaiaTypeCountTotal {
+  
+}
+message UpGaiaTypeCountTotalResult {
+  
+}
+
 message UpGetFact {
   int32 factId = 1;
   int32 factParam = 2;
 }
 message UpGetFactResult {
   int32 factValue = 1;
+}
+
+message UpGetFactMax {
+  
+}
+message UpGetFactMaxResult {
+  
+}
+
+message UpGetFactMin {
+  
+}
+message UpGetFactMinResult {
+  
+}
+
+message UpGetFactSum {
+  
+}
+message UpGetFactSumResult {
+  
+}
+
+message UpGetFocusFact {
+  
+}
+message UpGetFocusFactResult {
+  
+}
+
+message UpGetObjectData {
+  
+}
+message UpGetObjectDataResult {
+  
+}
+
+message UpGetObjectTargetData {
+  
+}
+message UpGetObjectTargetDataResult {
+  
+}
+
+message UpGetObjectTypeData {
+  
+}
+message UpGetObjectTypeDataResult {
+  
+}
+
+message UpGetPlayerFact {
+  
+}
+message UpGetPlayerFactResult {
+  
+}
+
+message UpGetPointContains {
+  
+}
+message UpGetPointContainsResult {
+  
+}
+
+message UpGetTargetFact {
+  
+}
+message UpGetTargetFactResult {
+  
+}
+
+message UpGroupSize {
+  
+}
+message UpGroupSizeResult {
+  
+}
+
+message UpIdleUnitCount {
+  
+}
+message UpIdleUnitCountResult {
+  
+}
+
+message UpModifyGoal {
+  
+}
+message UpModifyGoalResult {
+  
+}
+
+message UpModifySn {
+  
+}
+message UpModifySnResult {
+  
+}
+
+message UpObjectData {
+  
+}
+message UpObjectDataResult {
+  
+}
+
+message UpObjectTargetData {
+  
+}
+message UpObjectTargetDataResult {
+  
+}
+
+message UpObjectTypeCount {
+  
+}
+message UpObjectTypeCountResult {
+  
+}
+
+message UpObjectTypeCountTotal {
+  
+}
+message UpObjectTypeCountTotalResult {
+  
+}
+
+message UpPathDistance {
+  
+}
+message UpPathDistanceResult {
+  
+}
+
+message UpPendingObjects {
+  
+}
+message UpPendingObjectsResult {
+  
+}
+
+message UpPendingPlacement {
+  
+}
+message UpPendingPlacementResult {
+  
+}
+
+message UpPlayerDistance {
+  
+}
+message UpPlayerDistanceResult {
+  
+}
+
+message UpPlayersInGame {
+  
+}
+message UpPlayersInGameResult {
+  
+}
+
+message UpPointContains {
+  
+}
+message UpPointContainsResult {
+  
+}
+
+message UpPointDistance {
+  
+}
+message UpPointDistanceResult {
+  
+}
+
+message UpPointElevation {
+  
+}
+message UpPointElevationResult {
+  
+}
+
+message UpPointExplored {
+  
+}
+message UpPointExploredResult {
+  
+}
+
+message UpPointTerrain {
+  
+}
+message UpPointTerrainResult {
+  
+}
+
+message UpPointZone {
+  
+}
+message UpPointZoneResult {
+  
+}
+
+message UpProjectileDetected {
+  
+}
+message UpProjectileDetectedResult {
+  
+}
+
+message UpProjectileTarget {
+  
+}
+message UpProjectileTargetResult {
+  
+}
+
+message UpRemainingBoarAmount {
+  
+}
+message UpRemainingBoarAmountResult {
+  
+}
+
+message UpResearchStatus {
+  
+}
+message UpResearchStatusResult {
+  
+}
+
+message UpResourceAmount {
+  
+}
+message UpResourceAmountResult {
+  
+}
+
+message UpResourcePercent {
+  
+}
+message UpResourcePercentResult {
+  
+}
+
+message UpSetTargetById {
+  
+}
+message UpSetTargetByIdResult {
+  
+}
+
+message UpSetTargetObject {
+  
+}
+message UpSetTargetObjectResult {
+  
+}
+
+message UpTimerStatus {
+  
+}
+message UpTimerStatusResult {
+  
+}
+
+message UpTrainSiteReady {
+  
+}
+message UpTrainSiteReadyResult {
+  
+}
+
+message UpUnitTypeInTown {
+  
+}
+message UpUnitTypeInTownResult {
+  
+}
+
+message UpVillagerTypeInTown {
+  
+}
+message UpVillagerTypeInTownResult {
+  
+}
+
+message VictoryCondition {
+  
+}
+message VictoryConditionResult {
+  
+}
+
+message WallCompletedPercentage {
+  
+}
+message WallCompletedPercentageResult {
+  
+}
+
+message WallInvisiblePercentage {
+  
+}
+message WallInvisiblePercentageResult {
+  
+}
+
+message WarboatCount {
+  
+}
+message WarboatCountResult {
+  
+}
+
+message WoodAmount {
+  
+}
+message WoodAmountResult {
+  
 }

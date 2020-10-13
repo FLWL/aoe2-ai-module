@@ -61,6 +61,21 @@ message BuyCommodityResult {
   
 }
 
+message CcAddResource {
+  int32 resourceType = 1;
+  int32 amount = 2;
+}
+message CcAddResourceResult {
+  
+}
+
+message ChatDebug {
+  string text = 1;
+}
+message ChatDebugResult {
+  
+}
+
 message ChatLocal {
   string text = 1;
 }
@@ -260,6 +275,16 @@ message EnableWallPlacementResult {
   
 }
 
+message FeBreakPoint {
+  int32 param1 = 1;
+  int32 param2 = 2;
+  int32 param3 = 3;
+  int32 param4 = 4;
+}
+message FeBreakPointResult {
+  
+}
+
 message GenerateRandomNumber {
   int32 range = 1;
 }
@@ -306,6 +331,27 @@ message SellCommodity {
   int32 commodityType = 1;
 }
 message SellCommodityResult {
+  
+}
+
+message SetAuthorName {
+  string name = 1;
+}
+message SetAuthorNameResult {
+  
+}
+
+message SetAuthorEmail {
+  string email = 1;
+}
+message SetAuthorEmailResult {
+  
+}
+
+message SetAuthorVersion {
+  string version = 1;
+}
+message SetAuthorVersionResult {
   
 }
 
@@ -368,6 +414,20 @@ message SetStrategicNumber {
   int32 value = 2;
 }
 message SetStrategicNumberResult {
+  
+}
+
+message SkyboxClearSignal {
+  int32 param = 1;
+}
+message SkyboxClearSignalResult {
+  
+}
+
+message SkyboxSetNameMode {
+  int32 param = 1;
+}
+message SkyboxSetNameModeResult {
   
 }
 
@@ -515,6 +575,23 @@ message UpBuyCommodityResult {
   
 }
 
+message UpCcAddResource {
+  int32 typeOp1 = 1;
+  int32 resourceAmount = 2;
+  int32 typeOp2 = 3;
+  int32 value = 4;
+}
+message UpCcAddResourceResult {
+  
+}
+
+message UpCcSendCheat {
+  string code = 1;
+}
+message UpCcSendCheatResult {
+  
+}
+
 message UpChangeName {
   string newName = 1;
 }
@@ -528,6 +605,25 @@ message UpChatDataToAll {
   int32 value = 3;
 }
 message UpChatDataToAllResult {
+  
+}
+
+message UpChatDataToAllUsingId {
+  int32 param1 = 1;
+  int32 stringId = 2;
+  int32 param3 = 3;
+}
+message UpChatDataToAllUsingIdResult {
+  
+}
+
+message UpChatDataToPlayerUsingId {
+  int32 stringId = 1;
+  int32 playerId = 2;
+  int32 param3 = 3;
+  int32 param4 = 4;
+}
+message UpChatDataToPlayerUsingIdResult {
   
 }
 
@@ -1073,6 +1169,13 @@ message UpGetTimerResult {
   
 }
 
+message UpGetTreatyData {
+  int32 param = 1;
+}
+message UpGetTreatyDataResult {
+  
+}
+
 message UpGetUpgradeId {
   int32 player = 1;
   int32 count = 2;
@@ -1575,6 +1678,25 @@ message UpTargetPoint {
   int32 attackStance = 4;
 }
 message UpTargetPointResult {
+  
+}
+
+message UpTestharnessReport {
+  int32 param1 = 1;
+  int32 param2 = 2;
+  int32 param3 = 3;
+}
+message UpTestharnessReportResult {
+  
+}
+
+message UpTestharnessTest {
+  int32 param1 = 1;
+  int32 param2 = 2;
+  int32 param3 = 3;
+  int32 param4 = 4;
+}
+message UpTestharnessTestResult {
   
 }
 

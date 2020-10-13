@@ -14,6 +14,8 @@ public:
 	static void BuildGate(int perimeter);
 	static void BuildWall(int perimeter, int wallType);
 	static void BuyCommodity(int commodityType);
+	static void CcAddResource(int resourceType, int amount);
+	static void ChatDebug(int text);
 	static void ChatLocal(int text);
 	static void ChatLocalUsingId(int stringId);
 	static void ChatLocalUsingRange(int stringIdStart, int stringIdRange);
@@ -41,6 +43,7 @@ public:
 	static void EnableRule(int groupId);
 	static void EnableTimer(int timerId, int timeInterval);
 	static void EnableWallPlacement(int perimeter);
+	static void FeBreakPoint(int param1, int param2, int param3, int param4);
 	static void GenerateRandomNumber(int range);
 	static void Log(int text);
 	static void LogTrace(int traceNumber);
@@ -48,6 +51,9 @@ public:
 	static void Research(int researchType);
 	static void Resign();
 	static void SellCommodity(int commodityType);
+	static void SetAuthorName(int name);
+	static void SetAuthorEmail(int email);
+	static void SetAuthorVersion(int version);
 	static void SetDifficultyParameter(int difficultyParameter, int value);
 	static void SetDoctrine(int doctrine);
 	static void SetEscrowPercentage(int resourceType, int percentage);
@@ -56,6 +62,8 @@ public:
 	static void SetSignal(int signalId);
 	static void SetStance(int playerNumber, int stance);
 	static void SetStrategicNumber(int strategicNumber, int value);
+	static void SkyboxClearSignal(int param);
+	static void SkyboxSetNameMode(int param);
 	static void Spy();
 	static void Taunt(int tauntNumber);
 	static void TauntUsingRange(int tauntIdStart, int tauntIdRange);
@@ -72,8 +80,12 @@ public:
 	static void UpBuild(int placementType, int escrowState, int typeOp, int buildingId);
 	static void UpBuildLine(int goalPoint1, int goalPoint2, int typeOp, int buildingId);
 	static void UpBuyCommodity(int typeOp1, int resourceAmount, int typeOp2, int value);
+	static void UpCcAddResource(int typeOp1, int resourceAmount, int typeOp2, int value);
+	static void UpCcSendCheat(int code);
 	static void UpChangeName(int newName);
 	static void UpChatDataToAll(int format, int typeOp, int value);
+	static void UpChatDataToAllUsingId(int param1, int stringId, int param3);
+	static void UpChatDataToPlayerUsingId(int stringId, int playerId, int param3, int param4);
 	static void UpChatDataToPlayer(int player, int format, int typeOp, int value);
 	static void UpChatDataToSelf(int format, int typeOp, int value);
 	static void UpCleanSearch(int searchSource, int objectData, int searchOrder);
@@ -116,7 +128,7 @@ public:
 	static void UpGetIndirectGoal(int typeOp1, int goalId, int goalValue);
 	static void UpGetObjectData(int objectData, int goalData);
 	static void UpGetObjectTargetData(int objectData, int goalData);
-	static void UpGetObjectTypeData(int typeOp, int typeId, int objectData, int goalData);
+	static void UpGetObjectTypeData(int typeOp, int objectTypeId, int objectData, int goalData);
 	static void UpGetPathDistance(int goalPoint, int strict, int goalData);
 	static void UpGetPlayerColor(int player, int goalColorId);
 	static void UpGetPlayerFact(int player, int factId, int param, int goalData);
@@ -135,6 +147,7 @@ public:
 	static void UpGetTargetFact(int factId, int param, int goalData);
 	static void UpGetThreatData(int goalElapsedTime, int goalPlayerId, int goalSourceClass, int goalTargetClass);
 	static void UpGetTimer(int typeOp, int timerId, int goalValue);
+	static void UpGetTreatyData(int param);
 	static void UpGetUpgradeId(int player, int count, int goalTypeId, int goalUpgradeId);
 	static void UpGetVictoryData(int goalPlayerId, int goalType, int goalTime);
 	static void UpGetVictoryLimit(int goalLimit);
@@ -191,9 +204,11 @@ public:
 	static void UpStorePlayerName(int player);
 	static void UpStoreTechName(int typeOp, int techId);
 	static void UpStoreText(int typeOp, int languageId);
-	static void UpStoreTypeName(int typeOp, int typeId);
+	static void UpStoreTypeName(int typeOp, int objectTypeId);
 	static void UpTargetObjects(int target, int action, int formation, int attackStance);
 	static void UpTargetPoint(int goalPoint, int action, int formation, int attackStance);
+	static void UpTestharnessReport(int param1, int param2, int param3);
+	static void UpTestharnessTest(int param1, int param2, int param3, int param4);
 	static void UpTrain(int escrowState, int typeOp, int unitId);
 	static void UpTributeToPlayer(int player, int resourceAmount, int typeOp, int value);
 	static void UpUngarrison(int typeOp, int objectId);
@@ -210,6 +225,8 @@ private:
 	inline static void(__fastcall* FuncBuildGate)(int perimeter) = 0;
 	inline static void(__fastcall* FuncBuildWall)(int perimeter, int wallType) = 0;
 	inline static void(__fastcall* FuncBuyCommodity)(int commodityType) = 0;
+	inline static void(__fastcall* FuncCcAddResource)(int resourceType, int amount) = 0;
+	inline static void(__fastcall* FuncChatDebug)(int text) = 0;
 	inline static void(__fastcall* FuncChatLocal)(int text) = 0;
 	inline static void(__fastcall* FuncChatLocalUsingId)(int stringId) = 0;
 	inline static void(__fastcall* FuncChatLocalUsingRange)(int stringIdStart, int stringIdRange) = 0;
@@ -237,6 +254,7 @@ private:
 	inline static void(__fastcall* FuncEnableRule)(int groupId) = 0;
 	inline static void(__fastcall* FuncEnableTimer)(int timerId, int timeInterval) = 0;
 	inline static void(__fastcall* FuncEnableWallPlacement)(int perimeter) = 0;
+	inline static void(__fastcall* FuncFeBreakPoint)(int param1, int param2, int param3, int param4) = 0;
 	inline static void(__fastcall* FuncGenerateRandomNumber)(int range) = 0;
 	inline static void(__fastcall* FuncLog)(int text) = 0;
 	inline static void(__fastcall* FuncLogTrace)(int traceNumber) = 0;
@@ -244,6 +262,9 @@ private:
 	inline static void(__fastcall* FuncResearch)(int researchType) = 0;
 	inline static void(__fastcall* FuncResign)() = 0;
 	inline static void(__fastcall* FuncSellCommodity)(int commodityType) = 0;
+	inline static void(__fastcall* FuncSetAuthorName)(int name) = 0;
+	inline static void(__fastcall* FuncSetAuthorEmail)(int email) = 0;
+	inline static void(__fastcall* FuncSetAuthorVersion)(int version) = 0;
 	inline static void(__fastcall* FuncSetDifficultyParameter)(int difficultyParameter, int value) = 0;
 	inline static void(__fastcall* FuncSetDoctrine)(int doctrine) = 0;
 	inline static void(__fastcall* FuncSetEscrowPercentage)(int resourceType, int percentage) = 0;
@@ -252,6 +273,8 @@ private:
 	inline static void(__fastcall* FuncSetSignal)(int signalId) = 0;
 	inline static void(__fastcall* FuncSetStance)(int playerNumber, int stance) = 0;
 	inline static void(__fastcall* FuncSetStrategicNumber)(int strategicNumber, int value) = 0;
+	inline static void(__fastcall* FuncSkyboxClearSignal)(int param) = 0;
+	inline static void(__fastcall* FuncSkyboxSetNameMode)(int param) = 0;
 	inline static void(__fastcall* FuncSpy)() = 0;
 	inline static void(__fastcall* FuncTaunt)(int tauntNumber) = 0;
 	inline static void(__fastcall* FuncTauntUsingRange)(int tauntIdStart, int tauntIdRange) = 0;
@@ -268,8 +291,12 @@ private:
 	inline static void(__fastcall* FuncUpBuild)(int placementType, int escrowState, int typeOp, int buildingId) = 0;
 	inline static void(__fastcall* FuncUpBuildLine)(int goalPoint1, int goalPoint2, int typeOp, int buildingId) = 0;
 	inline static void(__fastcall* FuncUpBuyCommodity)(int typeOp1, int resourceAmount, int typeOp2, int value) = 0;
+	inline static void(__fastcall* FuncUpCcAddResource)(int typeOp1, int resourceAmount, int typeOp2, int value) = 0;
+	inline static void(__fastcall* FuncUpCcSendCheat)(int code) = 0;
 	inline static void(__fastcall* FuncUpChangeName)(int newName) = 0;
 	inline static void(__fastcall* FuncUpChatDataToAll)(int format, int typeOp, int value) = 0;
+	inline static void(__fastcall* FuncUpChatDataToAllUsingId)(int param1, int stringId, int param3) = 0;
+	inline static void(__fastcall* FuncUpChatDataToPlayerUsingId)(int stringId, int playerId, int param3, int param4) = 0;
 	inline static void(__fastcall* FuncUpChatDataToPlayer)(int player, int format, int typeOp, int value) = 0;
 	inline static void(__fastcall* FuncUpChatDataToSelf)(int format, int typeOp, int value) = 0;
 	inline static void(__fastcall* FuncUpCleanSearch)(int searchSource, int objectData, int searchOrder) = 0;
@@ -312,7 +339,7 @@ private:
 	inline static void(__fastcall* FuncUpGetIndirectGoal)(int typeOp1, int goalId, int goalValue) = 0;
 	inline static void(__fastcall* FuncUpGetObjectData)(int objectData, int goalData) = 0;
 	inline static void(__fastcall* FuncUpGetObjectTargetData)(int objectData, int goalData) = 0;
-	inline static void(__fastcall* FuncUpGetObjectTypeData)(int typeOp, int typeId, int objectData, int goalData) = 0;
+	inline static void(__fastcall* FuncUpGetObjectTypeData)(int typeOp, int objectTypeId, int objectData, int goalData) = 0;
 	inline static void(__fastcall* FuncUpGetPathDistance)(int goalPoint, int strict, int goalData) = 0;
 	inline static void(__fastcall* FuncUpGetPlayerColor)(int player, int goalColorId) = 0;
 	inline static void(__fastcall* FuncUpGetPlayerFact)(int player, int factId, int param, int goalData) = 0;
@@ -331,6 +358,7 @@ private:
 	inline static void(__fastcall* FuncUpGetTargetFact)(int factId, int param, int goalData) = 0;
 	inline static void(__fastcall* FuncUpGetThreatData)(int goalElapsedTime, int goalPlayerId, int goalSourceClass, int goalTargetClass) = 0;
 	inline static void(__fastcall* FuncUpGetTimer)(int typeOp, int timerId, int goalValue) = 0;
+	inline static void(__fastcall* FuncUpGetTreatyData)(int param) = 0;
 	inline static void(__fastcall* FuncUpGetUpgradeId)(int player, int count, int goalTypeId, int goalUpgradeId) = 0;
 	inline static void(__fastcall* FuncUpGetVictoryData)(int goalPlayerId, int goalType, int goalTime) = 0;
 	inline static void(__fastcall* FuncUpGetVictoryLimit)(int goalLimit) = 0;
@@ -387,9 +415,11 @@ private:
 	inline static void(__fastcall* FuncUpStorePlayerName)(int player) = 0;
 	inline static void(__fastcall* FuncUpStoreTechName)(int typeOp, int techId) = 0;
 	inline static void(__fastcall* FuncUpStoreText)(int typeOp, int languageId) = 0;
-	inline static void(__fastcall* FuncUpStoreTypeName)(int typeOp, int typeId) = 0;
+	inline static void(__fastcall* FuncUpStoreTypeName)(int typeOp, int objectTypeId) = 0;
 	inline static void(__fastcall* FuncUpTargetObjects)(int target, int action, int formation, int attackStance) = 0;
 	inline static void(__fastcall* FuncUpTargetPoint)(int goalPoint, int action, int formation, int attackStance) = 0;
+	inline static void(__fastcall* FuncUpTestharnessReport)(int param1, int param2, int param3) = 0;
+	inline static void(__fastcall* FuncUpTestharnessTest)(int param1, int param2, int param3, int param4) = 0;
 	inline static void(__fastcall* FuncUpTrain)(int escrowState, int typeOp, int unitId) = 0;
 	inline static void(__fastcall* FuncUpTributeToPlayer)(int player, int resourceAmount, int typeOp, int value) = 0;
 	inline static void(__fastcall* FuncUpUngarrison)(int typeOp, int objectId) = 0;

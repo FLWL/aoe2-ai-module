@@ -13,6 +13,8 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncBuildGate, statics::TranslateAddr(expert_conf::ADDR_FUNC_BUILD_GATE));
 	statics::SetFuncAddr(FuncBuildWall, statics::TranslateAddr(expert_conf::ADDR_FUNC_BUILD_WALL));
 	statics::SetFuncAddr(FuncBuyCommodity, statics::TranslateAddr(expert_conf::ADDR_FUNC_BUY_COMMODITY));
+	statics::SetFuncAddr(FuncCcAddResource, statics::TranslateAddr(expert_conf::ADDR_FUNC_CC_ADD_RESOURCE));
+	statics::SetFuncAddr(FuncChatDebug, statics::TranslateAddr(expert_conf::ADDR_FUNC_CHAT_DEBUG));
 	statics::SetFuncAddr(FuncChatLocal, statics::TranslateAddr(expert_conf::ADDR_FUNC_CHAT_LOCAL));
 	statics::SetFuncAddr(FuncChatLocalUsingId, statics::TranslateAddr(expert_conf::ADDR_FUNC_CHAT_LOCAL_USING_ID));
 	statics::SetFuncAddr(FuncChatLocalUsingRange, statics::TranslateAddr(expert_conf::ADDR_FUNC_CHAT_LOCAL_USING_RANGE));
@@ -40,6 +42,7 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncEnableRule, statics::TranslateAddr(expert_conf::ADDR_FUNC_ENABLE_RULE));
 	statics::SetFuncAddr(FuncEnableTimer, statics::TranslateAddr(expert_conf::ADDR_FUNC_ENABLE_TIMER));
 	statics::SetFuncAddr(FuncEnableWallPlacement, statics::TranslateAddr(expert_conf::ADDR_FUNC_ENABLE_WALL_PLACEMENT));
+	statics::SetFuncAddr(FuncFeBreakPoint, statics::TranslateAddr(expert_conf::ADDR_FUNC_FE_BREAK_POINT));
 	statics::SetFuncAddr(FuncGenerateRandomNumber, statics::TranslateAddr(expert_conf::ADDR_FUNC_GENERATE_RANDOM_NUMBER));
 	statics::SetFuncAddr(FuncLog, statics::TranslateAddr(expert_conf::ADDR_FUNC_LOG));
 	statics::SetFuncAddr(FuncLogTrace, statics::TranslateAddr(expert_conf::ADDR_FUNC_LOG_TRACE));
@@ -47,6 +50,9 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncResearch, statics::TranslateAddr(expert_conf::ADDR_FUNC_RESEARCH));
 	statics::SetFuncAddr(FuncResign, statics::TranslateAddr(expert_conf::ADDR_FUNC_RESIGN));
 	statics::SetFuncAddr(FuncSellCommodity, statics::TranslateAddr(expert_conf::ADDR_FUNC_SELL_COMMODITY));
+	statics::SetFuncAddr(FuncSetAuthorName, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_AUTHOR_NAME));
+	statics::SetFuncAddr(FuncSetAuthorEmail, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_AUTHOR_EMAIL));
+	statics::SetFuncAddr(FuncSetAuthorVersion, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_AUTHOR_VERSION));
 	statics::SetFuncAddr(FuncSetDifficultyParameter, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_DIFFICULTY_PARAMETER));
 	statics::SetFuncAddr(FuncSetDoctrine, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_DOCTRINE));
 	statics::SetFuncAddr(FuncSetEscrowPercentage, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_ESCROW_PERCENTAGE));
@@ -55,6 +61,8 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncSetSignal, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_SIGNAL));
 	statics::SetFuncAddr(FuncSetStance, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_STANCE));
 	statics::SetFuncAddr(FuncSetStrategicNumber, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_STRATEGIC_NUMBER));
+	statics::SetFuncAddr(FuncSkyboxClearSignal, statics::TranslateAddr(expert_conf::ADDR_FUNC_SKYBOX_CLEAR_SIGNAL));
+	statics::SetFuncAddr(FuncSkyboxSetNameMode, statics::TranslateAddr(expert_conf::ADDR_FUNC_SKYBOX_SET_NAME_MODE));
 	statics::SetFuncAddr(FuncSpy, statics::TranslateAddr(expert_conf::ADDR_FUNC_SPY));
 	statics::SetFuncAddr(FuncTaunt, statics::TranslateAddr(expert_conf::ADDR_FUNC_TAUNT));
 	statics::SetFuncAddr(FuncTauntUsingRange, statics::TranslateAddr(expert_conf::ADDR_FUNC_TAUNT_USING_RANGE));
@@ -71,8 +79,12 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncUpBuild, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_BUILD));
 	statics::SetFuncAddr(FuncUpBuildLine, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_BUILD_LINE));
 	statics::SetFuncAddr(FuncUpBuyCommodity, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_BUY_COMMODITY));
+	statics::SetFuncAddr(FuncUpCcAddResource, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CC_ADD_RESOURCE));
+	statics::SetFuncAddr(FuncUpCcSendCheat, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CC_SEND_CHEAT));
 	statics::SetFuncAddr(FuncUpChangeName, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHANGE_NAME));
 	statics::SetFuncAddr(FuncUpChatDataToAll, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHAT_DATA_TO_ALL));
+	statics::SetFuncAddr(FuncUpChatDataToAllUsingId, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHAT_DATA_TO_ALL_USING_ID));
+	statics::SetFuncAddr(FuncUpChatDataToPlayerUsingId, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHAT_DATA_TO_PLAYER_USING_ID));
 	statics::SetFuncAddr(FuncUpChatDataToPlayer, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHAT_DATA_TO_PLAYER));
 	statics::SetFuncAddr(FuncUpChatDataToSelf, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHAT_DATA_TO_SELF));
 	statics::SetFuncAddr(FuncUpCleanSearch, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CLEAN_SEARCH));
@@ -134,6 +146,7 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncUpGetTargetFact, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_TARGET_FACT));
 	statics::SetFuncAddr(FuncUpGetThreatData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_THREAT_DATA));
 	statics::SetFuncAddr(FuncUpGetTimer, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_TIMER));
+	statics::SetFuncAddr(FuncUpGetTreatyData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_TREATY_DATA));
 	statics::SetFuncAddr(FuncUpGetUpgradeId, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_UPGRADE_ID));
 	statics::SetFuncAddr(FuncUpGetVictoryData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_VICTORY_DATA));
 	statics::SetFuncAddr(FuncUpGetVictoryLimit, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_VICTORY_LIMIT));
@@ -193,6 +206,8 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncUpStoreTypeName, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_STORE_TYPE_NAME));
 	statics::SetFuncAddr(FuncUpTargetObjects, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TARGET_OBJECTS));
 	statics::SetFuncAddr(FuncUpTargetPoint, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TARGET_POINT));
+	statics::SetFuncAddr(FuncUpTestharnessReport, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TESTHARNESS_REPORT));
+	statics::SetFuncAddr(FuncUpTestharnessTest, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TESTHARNESS_TEST));
 	statics::SetFuncAddr(FuncUpTrain, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TRAIN));
 	statics::SetFuncAddr(FuncUpTributeToPlayer, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TRIBUTE_TO_PLAYER));
 	statics::SetFuncAddr(FuncUpUngarrison, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_UNGARRISON));
@@ -237,6 +252,16 @@ void ExpertAction::BuildWall(int perimeter, int wallType)
 void ExpertAction::BuyCommodity(int commodityType)
 {
 	FuncBuyCommodity(commodityType);
+}
+
+void ExpertAction::CcAddResource(int resourceType, int amount)
+{
+	FuncCcAddResource(resourceType, amount);
+}
+
+void ExpertAction::ChatDebug(int text)
+{
+	FuncChatDebug(text);
 }
 
 void ExpertAction::ChatLocal(int text)
@@ -374,6 +399,11 @@ void ExpertAction::EnableWallPlacement(int perimeter)
 	FuncEnableWallPlacement(perimeter);
 }
 
+void ExpertAction::FeBreakPoint(int param1, int param2, int param3, int param4)
+{
+	FuncFeBreakPoint(param1, param2, param3, param4);
+}
+
 void ExpertAction::GenerateRandomNumber(int range)
 {
 	FuncGenerateRandomNumber(range);
@@ -407,6 +437,21 @@ void ExpertAction::Resign()
 void ExpertAction::SellCommodity(int commodityType)
 {
 	FuncSellCommodity(commodityType);
+}
+
+void ExpertAction::SetAuthorName(int name)
+{
+	FuncSetAuthorName(name);
+}
+
+void ExpertAction::SetAuthorEmail(int email)
+{
+	FuncSetAuthorEmail(email);
+}
+
+void ExpertAction::SetAuthorVersion(int version)
+{
+	FuncSetAuthorVersion(version);
 }
 
 void ExpertAction::SetDifficultyParameter(int difficultyParameter, int value)
@@ -447,6 +492,16 @@ void ExpertAction::SetStance(int playerNumber, int stance)
 void ExpertAction::SetStrategicNumber(int strategicNumber, int value)
 {
 	FuncSetStrategicNumber(strategicNumber, value);
+}
+
+void ExpertAction::SkyboxClearSignal(int param)
+{
+	FuncSkyboxClearSignal(param);
+}
+
+void ExpertAction::SkyboxSetNameMode(int param)
+{
+	FuncSkyboxSetNameMode(param);
 }
 
 void ExpertAction::Spy()
@@ -529,6 +584,16 @@ void ExpertAction::UpBuyCommodity(int typeOp1, int resourceAmount, int typeOp2, 
 	FuncUpBuyCommodity(typeOp1, resourceAmount, typeOp2, value);
 }
 
+void ExpertAction::UpCcAddResource(int typeOp1, int resourceAmount, int typeOp2, int value)
+{
+	FuncUpCcAddResource(typeOp1, resourceAmount, typeOp2, value);
+}
+
+void ExpertAction::UpCcSendCheat(int code)
+{
+	FuncUpCcSendCheat(code);
+}
+
 void ExpertAction::UpChangeName(int newName)
 {
 	FuncUpChangeName(newName);
@@ -537,6 +602,16 @@ void ExpertAction::UpChangeName(int newName)
 void ExpertAction::UpChatDataToAll(int format, int typeOp, int value)
 {
 	FuncUpChatDataToAll(format, typeOp, value);
+}
+
+void ExpertAction::UpChatDataToAllUsingId(int param1, int stringId, int param3)
+{
+	FuncUpChatDataToAllUsingId(param1, stringId, param3);
+}
+
+void ExpertAction::UpChatDataToPlayerUsingId(int stringId, int playerId, int param3, int param4)
+{
+	FuncUpChatDataToPlayerUsingId(stringId, playerId, param3, param4);
 }
 
 void ExpertAction::UpChatDataToPlayer(int player, int format, int typeOp, int value)
@@ -749,9 +824,9 @@ void ExpertAction::UpGetObjectTargetData(int objectData, int goalData)
 	FuncUpGetObjectTargetData(objectData, goalData);
 }
 
-void ExpertAction::UpGetObjectTypeData(int typeOp, int typeId, int objectData, int goalData)
+void ExpertAction::UpGetObjectTypeData(int typeOp, int objectTypeId, int objectData, int goalData)
 {
-	FuncUpGetObjectTypeData(typeOp, typeId, objectData, goalData);
+	FuncUpGetObjectTypeData(typeOp, objectTypeId, objectData, goalData);
 }
 
 void ExpertAction::UpGetPathDistance(int goalPoint, int strict, int goalData)
@@ -842,6 +917,11 @@ void ExpertAction::UpGetThreatData(int goalElapsedTime, int goalPlayerId, int go
 void ExpertAction::UpGetTimer(int typeOp, int timerId, int goalValue)
 {
 	FuncUpGetTimer(typeOp, timerId, goalValue);
+}
+
+void ExpertAction::UpGetTreatyData(int param)
+{
+	FuncUpGetTreatyData(param);
 }
 
 void ExpertAction::UpGetUpgradeId(int player, int count, int goalTypeId, int goalUpgradeId)
@@ -1124,9 +1204,9 @@ void ExpertAction::UpStoreText(int typeOp, int languageId)
 	FuncUpStoreText(typeOp, languageId);
 }
 
-void ExpertAction::UpStoreTypeName(int typeOp, int typeId)
+void ExpertAction::UpStoreTypeName(int typeOp, int objectTypeId)
 {
-	FuncUpStoreTypeName(typeOp, typeId);
+	FuncUpStoreTypeName(typeOp, objectTypeId);
 }
 
 void ExpertAction::UpTargetObjects(int target, int action, int formation, int attackStance)
@@ -1137,6 +1217,16 @@ void ExpertAction::UpTargetObjects(int target, int action, int formation, int at
 void ExpertAction::UpTargetPoint(int goalPoint, int action, int formation, int attackStance)
 {
 	FuncUpTargetPoint(goalPoint, action, formation, attackStance);
+}
+
+void ExpertAction::UpTestharnessReport(int param1, int param2, int param3)
+{
+	FuncUpTestharnessReport(param1, param2, param3);
+}
+
+void ExpertAction::UpTestharnessTest(int param1, int param2, int param3, int param4)
+{
+	FuncUpTestharnessTest(param1, param2, param3, param4);
 }
 
 void ExpertAction::UpTrain(int escrowState, int typeOp, int unitId)

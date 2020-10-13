@@ -12,6 +12,8 @@ public:
 	static void BuildGate(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void BuildWall(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void BuyCommodity(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void CcAddResource(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void ChatDebug(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void ChatLocal(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void ChatLocalUsingId(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void ChatLocalUsingRange(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
@@ -39,6 +41,7 @@ public:
 	static void EnableRule(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void EnableTimer(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void EnableWallPlacement(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void FeBreakPoint(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void GenerateRandomNumber(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void Log(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void LogTrace(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
@@ -46,6 +49,9 @@ public:
 	static void Research(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void Resign(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void SellCommodity(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void SetAuthorName(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void SetAuthorEmail(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void SetAuthorVersion(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void SetDifficultyParameter(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void SetDoctrine(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void SetEscrowPercentage(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
@@ -54,6 +60,8 @@ public:
 	static void SetSignal(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void SetStance(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void SetStrategicNumber(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void SkyboxClearSignal(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void SkyboxSetNameMode(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void Spy(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void Taunt(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void TauntUsingRange(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
@@ -70,8 +78,12 @@ public:
 	static void UpBuild(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpBuildLine(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpBuyCommodity(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void UpCcAddResource(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void UpCcSendCheat(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpChangeName(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpChatDataToAll(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void UpChatDataToAllUsingId(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void UpChatDataToPlayerUsingId(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpChatDataToPlayer(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpChatDataToSelf(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpCleanSearch(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
@@ -133,6 +145,7 @@ public:
 	static void UpGetTargetFact(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpGetThreatData(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpGetTimer(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void UpGetTreatyData(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpGetUpgradeId(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpGetVictoryData(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpGetVictoryLimit(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
@@ -192,6 +205,8 @@ public:
 	static void UpStoreTypeName(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpTargetObjects(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpTargetPoint(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void UpTestharnessReport(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void UpTestharnessTest(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpTrain(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpTributeToPlayer(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpUngarrison(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);

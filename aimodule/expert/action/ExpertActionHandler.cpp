@@ -91,6 +91,28 @@ void ExpertActionHandler::BuyCommodity(const google::protobuf::Any& anyCommand, 
 	anyResult->PackFrom(result);
 }
 
+void ExpertActionHandler::CcAddResource(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::CcAddResource command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::CcAddResource(command.resourcetype(), command.amount());
+
+	protos::expert::action::CcAddResourceResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::ChatDebug(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::ChatDebug command;
+	anyCommand.UnpackTo(&command);
+
+	//ExpertAction::ChatDebug(command.text());
+
+	protos::expert::action::ChatDebugResult result;
+	anyResult->PackFrom(result);
+}
+
 void ExpertActionHandler::ChatLocal(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
 {
 	protos::expert::action::ChatLocal command;
@@ -388,6 +410,17 @@ void ExpertActionHandler::EnableWallPlacement(const google::protobuf::Any& anyCo
 	anyResult->PackFrom(result);
 }
 
+void ExpertActionHandler::FeBreakPoint(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::FeBreakPoint command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::FeBreakPoint(command.param1(), command.param2(), command.param3(), command.param4());
+
+	protos::expert::action::FeBreakPointResult result;
+	anyResult->PackFrom(result);
+}
+
 void ExpertActionHandler::GenerateRandomNumber(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
 {
 	protos::expert::action::GenerateRandomNumber command;
@@ -462,6 +495,39 @@ void ExpertActionHandler::SellCommodity(const google::protobuf::Any& anyCommand,
 	ExpertAction::SellCommodity(command.commoditytype());
 
 	protos::expert::action::SellCommodityResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::SetAuthorName(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::SetAuthorName command;
+	anyCommand.UnpackTo(&command);
+
+	//ExpertAction::SetAuthorName(command.name());
+
+	protos::expert::action::SetAuthorNameResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::SetAuthorEmail(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::SetAuthorEmail command;
+	anyCommand.UnpackTo(&command);
+
+	//ExpertAction::SetAuthorEmail(command.email());
+
+	protos::expert::action::SetAuthorEmailResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::SetAuthorVersion(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::SetAuthorVersion command;
+	anyCommand.UnpackTo(&command);
+
+	//ExpertAction::SetAuthorVersion(command.version());
+
+	protos::expert::action::SetAuthorVersionResult result;
 	anyResult->PackFrom(result);
 }
 
@@ -550,6 +616,28 @@ void ExpertActionHandler::SetStrategicNumber(const google::protobuf::Any& anyCom
 	ExpertAction::SetStrategicNumber(command.strategicnumber(), command.value());
 
 	protos::expert::action::SetStrategicNumberResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::SkyboxClearSignal(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::SkyboxClearSignal command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::SkyboxClearSignal(command.param());
+
+	protos::expert::action::SkyboxClearSignalResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::SkyboxSetNameMode(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::SkyboxSetNameMode command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::SkyboxSetNameMode(command.param());
+
+	protos::expert::action::SkyboxSetNameModeResult result;
 	anyResult->PackFrom(result);
 }
 
@@ -729,6 +817,28 @@ void ExpertActionHandler::UpBuyCommodity(const google::protobuf::Any& anyCommand
 	anyResult->PackFrom(result);
 }
 
+void ExpertActionHandler::UpCcAddResource(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::UpCcAddResource command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::UpCcAddResource(command.typeop1(), command.resourceamount(), command.typeop2(), command.value());
+
+	protos::expert::action::UpCcAddResourceResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::UpCcSendCheat(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::UpCcSendCheat command;
+	anyCommand.UnpackTo(&command);
+
+	//ExpertAction::UpCcSendCheat(command.code());
+
+	protos::expert::action::UpCcSendCheatResult result;
+	anyResult->PackFrom(result);
+}
+
 void ExpertActionHandler::UpChangeName(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
 {
 	protos::expert::action::UpChangeName command;
@@ -748,6 +858,28 @@ void ExpertActionHandler::UpChatDataToAll(const google::protobuf::Any& anyComman
 	//ExpertAction::UpChatDataToAll(command.format(), command.typeop(), command.value());
 
 	protos::expert::action::UpChatDataToAllResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::UpChatDataToAllUsingId(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::UpChatDataToAllUsingId command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::UpChatDataToAllUsingId(command.param1(), command.stringid(), command.param3());
+
+	protos::expert::action::UpChatDataToAllUsingIdResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::UpChatDataToPlayerUsingId(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::UpChatDataToPlayerUsingId command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::UpChatDataToPlayerUsingId(command.stringid(), command.playerid(), command.param3(), command.param4());
+
+	protos::expert::action::UpChatDataToPlayerUsingIdResult result;
 	anyResult->PackFrom(result);
 }
 
@@ -1422,6 +1554,17 @@ void ExpertActionHandler::UpGetTimer(const google::protobuf::Any& anyCommand, go
 	anyResult->PackFrom(result);
 }
 
+void ExpertActionHandler::UpGetTreatyData(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::UpGetTreatyData command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::UpGetTreatyData(command.param());
+
+	protos::expert::action::UpGetTreatyDataResult result;
+	anyResult->PackFrom(result);
+}
+
 void ExpertActionHandler::UpGetUpgradeId(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
 {
 	protos::expert::action::UpGetUpgradeId command;
@@ -2068,6 +2211,28 @@ void ExpertActionHandler::UpTargetPoint(const google::protobuf::Any& anyCommand,
 	ExpertAction::UpTargetPoint(command.goalpoint(), command.action(), command.formation(), command.attackstance());
 
 	protos::expert::action::UpTargetPointResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::UpTestharnessReport(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::UpTestharnessReport command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::UpTestharnessReport(command.param1(), command.param2(), command.param3());
+
+	protos::expert::action::UpTestharnessReportResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::UpTestharnessTest(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::UpTestharnessTest command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::UpTestharnessTest(command.param1(), command.param2(), command.param3(), command.param4());
+
+	protos::expert::action::UpTestharnessTestResult result;
 	anyResult->PackFrom(result);
 }
 
