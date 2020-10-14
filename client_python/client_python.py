@@ -56,6 +56,8 @@ def run():
             action.UpSendFlare(goalPoint=100),
             #action.UpSendScout(groupType=101, positionType=1),
             #action.UpBuild(buildingId=50)
+            fact.DeathMatchGame(),
+            fact.UpCanTrain(unitId=83)
         ]))
 
         print(result_list)

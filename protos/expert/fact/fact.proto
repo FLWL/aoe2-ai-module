@@ -6,1301 +6,1168 @@ message AttackSoldierCount {
   
 }
 message AttackSoldierCountResult {
-  
+  int32 result = 1;
 }
 
 message AttackWarboatCount {
   
 }
 message AttackWarboatCountResult {
-  
+  int32 result = 1;
 }
 
 message BuildingAvailable {
-  
+  int32 buildingType = 1;
 }
 message BuildingAvailableResult {
-  
+  bool result = 1;
 }
 
 message BuildingCount {
   
 }
 message BuildingCountResult {
-  
+  int32 result = 1;
 }
 
 message BuildingCountTotal {
   
 }
 message BuildingCountTotalResult {
-  
+  int32 result = 1;
 }
 
 message BuildingTypeCount {
-  
+  int32 buildingType = 1;
 }
 message BuildingTypeCountResult {
-  
+  int32 result = 1;
 }
 
 message BuildingTypeCountTotal {
-  
+  int32 buildingType = 1;
 }
 message BuildingTypeCountTotalResult {
-  
+  int32 result = 1;
 }
 
 message CanAffordBuilding {
-  
+  int32 buildingType = 1;
 }
 message CanAffordBuildingResult {
-  
+  bool result = 1;
 }
 
 message CanAffordCompleteWall {
-  
+  int32 perimeter = 1;
+  int32 wallType = 2;
 }
 message CanAffordCompleteWallResult {
-  
+  bool result = 1;
 }
 
 message CanAffordResearch {
-  
+  int32 researchType = 1;
 }
 message CanAffordResearchResult {
-  
+  bool result = 1;
 }
 
 message CanAffordUnit {
-  
+  int32 unitType = 1;
 }
 message CanAffordUnitResult {
-  
+  bool result = 1;
 }
 
 message CanBuild {
-  
+  int32 buildingType = 1;
 }
 message CanBuildResult {
-  
+  bool result = 1;
 }
 
 message CanBuildGate {
-  
+  int32 perimeter = 1;
 }
 message CanBuildGateResult {
-  
+  bool result = 1;
 }
 
 message CanBuildGateWithEscrow {
-  
+  int32 perimeter = 1;
 }
 message CanBuildGateWithEscrowResult {
-  
+  bool result = 1;
 }
 
 message CanBuildWall {
-  
+  int32 perimeter = 1;
+  int32 wallType = 2;
+  int32 escrowFlag = 3;
 }
 message CanBuildWallResult {
-  
+  bool result = 1;
 }
 
 message CanBuildWallWithEscrow {
-  
+  int32 perimeter = 1;
+  int32 wallType = 2;
 }
 message CanBuildWallWithEscrowResult {
-  
+  bool result = 1;
 }
 
 message CanBuildWithEscrow {
-  
+  int32 buildingType = 1;
 }
 message CanBuildWithEscrowResult {
-  
+  bool result = 1;
 }
 
 message CanBuyCommodity {
-  
+  int32 commodityType = 1;
 }
 message CanBuyCommodityResult {
-  
+  bool result = 1;
 }
 
 message CanResearch {
-  
+  int32 researchType = 1;
 }
 message CanResearchResult {
-  
+  bool result = 1;
 }
 
 message CanResearchWithEscrow {
-  
+  int32 researchType = 1;
 }
 message CanResearchWithEscrowResult {
-  
+  bool result = 1;
 }
 
 message CanSellCommodity {
-  
+  int32 commodityType = 1;
 }
 message CanSellCommodityResult {
-  
+  bool result = 1;
 }
 
 message CanSpy {
   
 }
 message CanSpyResult {
-  
+  bool result = 1;
 }
 
 message CanSpyWithEscrow {
   
 }
 message CanSpyWithEscrowResult {
-  
+  bool result = 1;
 }
 
 message CanTrain {
-  
+  int32 unitType = 1;
 }
 message CanTrainResult {
-  
+  bool result = 1;
 }
 
 message CanTrainWithEscrow {
-  
+  int32 unitType = 1;
 }
 message CanTrainWithEscrowResult {
-  
+  bool result = 1;
 }
 
 message CcPlayersBuildingCount {
-  
+  int32 playerNumber = 1;
 }
 message CcPlayersBuildingCountResult {
-  
+  int32 result = 1;
 }
 
 message CcPlayersBuildingTypeCount {
-  
+  int32 playerNumber = 1;
+  int32 buildingType = 2;
 }
 message CcPlayersBuildingTypeCountResult {
-  
+  int32 result = 1;
 }
 
 message CcPlayersUnitCount {
-  
+  int32 playerNumber = 1;
 }
 message CcPlayersUnitCountResult {
-  
+  int32 result = 1;
 }
 
 message CcPlayersUnitTypeCount {
-  
+  int32 playerNumber = 1;
+  int32 unitType = 2;
 }
 message CcPlayersUnitTypeCountResult {
-  
+  int32 result = 1;
 }
 
 message CheatsEnabled {
   
 }
 message CheatsEnabledResult {
-  
+  bool result = 1;
 }
 
 message CivSelected {
-  
+  int32 civ = 1;
 }
 message CivSelectedResult {
-  
+  bool result = 1;
 }
 
 message CivilianPopulation {
   
 }
 message CivilianPopulationResult {
-  
+  int32 result = 1;
 }
 
 message CommodityBuyingPrice {
-  
+  int32 commodityType = 1;
 }
 message CommodityBuyingPriceResult {
-  
+  int32 result = 1;
 }
 
 message CommoditySellingPrice {
-  
+  int32 commodityType = 1;
 }
 message CommoditySellingPriceResult {
-  
+  int32 result = 1;
 }
 
 message CurrentAge {
   
 }
 message CurrentAgeResult {
-  
+  int32 result = 1;
 }
 
 message CurrentAgeTime {
   
 }
 message CurrentAgeTimeResult {
-  
+  int32 result = 1;
 }
 
 message CurrentScore {
   
 }
 message CurrentScoreResult {
-  
+  int32 result = 1;
 }
 
 message DeathMatchGame {
   
 }
 message DeathMatchGameResult {
-  
+  bool result = 1;
 }
 
 message DefendSoldierCount {
   
 }
 message DefendSoldierCountResult {
-  
+  int32 result = 1;
 }
 
 message DefendWarboatCount {
   
 }
 message DefendWarboatCountResult {
-  
+  int32 result = 1;
 }
 
 message Difficulty {
   
 }
 message DifficultyResult {
-  
+  int32 result = 1;
 }
 
 message Doctrine {
-  
+  int32 value = 1;
 }
 message DoctrineResult {
-  
+  bool result = 1;
 }
 
 message DropsiteMinDistance {
-  
+  int32 resourceType = 1;
 }
 message DropsiteMinDistanceResult {
-  
+  int32 result = 1;
 }
 
 message EndingAge {
   
 }
 message EndingAgeResult {
-  
+  int32 result = 1;
 }
 
 message EnemyBuildingsInTown {
   
 }
 message EnemyBuildingsInTownResult {
-  
+  bool result = 1;
 }
 
 message EnemyCapturedRelics {
   
 }
 message EnemyCapturedRelicsResult {
-  
+  bool result = 1;
 }
 
 message EscrowAmount {
-  
+  int32 resourceType = 1;
 }
 message EscrowAmountResult {
-  
+  int32 result = 1;
 }
 
 message EventDetected {
-  
+  int32 eventType = 1;
+  int32 id = 2;
 }
 message EventDetectedResult {
-  
+  bool result = 1;
 }
 
 message False {
   
 }
 message FalseResult {
-  
+  bool result = 1;
 }
 
 message FeCanBuildAtPoint {
-  
+  int32 param1 = 1;
+  int32 param2 = 2;
+  int32 param3 = 3;
+  int32 param4 = 4;
 }
 message FeCanBuildAtPointResult {
-  
+  bool result = 1;
 }
 
 message FoodAmount {
   
 }
 message FoodAmountResult {
-  
+  int32 result = 1;
 }
 
 message GameTime {
   
 }
 message GameTimeResult {
-  
+  int32 result = 1;
 }
 
 message GameType {
   
 }
 message GameTypeResult {
-  
+  int32 result = 1;
 }
 
 message GateCount {
-  
+  int32 perimeter = 1;
 }
 message GateCountResult {
-  
+  int32 result = 1;
 }
 
 message Goal {
   int32 goalId = 1;
 }
 message GoalResult {
-  int32 goalValue = 1;
+  int32 result = 1;
 }
 
 message Goals {
   
 }
 message GoalsResult {
-  repeated int32 goalValue = 1;
+  repeated int32 result = 1;
 }
 
 message GoldAmount {
   
 }
 message GoldAmountResult {
-  
+  int32 result = 1;
 }
 
 message HoldKohRuin {
   
 }
 message HoldKohRuinResult {
-  
+  bool result = 1;
 }
 
 message HoldRelics {
   
 }
 message HoldRelicsResult {
-  
+  bool result = 1;
 }
 
 message HousingHeadroom {
   
 }
 message HousingHeadroomResult {
-  
+  int32 result = 1;
 }
 
 message IdleFarmCount {
   
 }
 message IdleFarmCountResult {
-  
+  int32 result = 1;
 }
 
 message MapSize {
-  
+  int32 mapSize = 1;
 }
 message MapSizeResult {
-  
+  bool result = 1;
 }
 
 message MapType {
-  
+  int32 mapType = 1;
 }
 message MapTypeResult {
-  
+  bool result = 1;
 }
 
 message MilitaryPopulation {
   
 }
 message MilitaryPopulationResult {
-  
+  int32 result = 1;
 }
 
 message PlayerComputer {
-  
+  int32 playerNumber = 1;
 }
 message PlayerComputerResult {
-  
+  bool result = 1;
 }
 
 message PlayerHuman {
-  
+  int32 playerNumber = 1;
 }
 message PlayerHumanResult {
-  
+  bool result = 1;
 }
 
 message PlayerInGame {
-  
+  int32 playerNumber = 1;
 }
 message PlayerInGameResult {
-  
+  bool result = 1;
 }
 
 message PlayerNumber {
-  
+  int32 playerNumber = 1;
 }
 message PlayerNumberResult {
-  
+  bool result = 1;
 }
 
 message PlayerResigned {
-  
+  int32 playerNumber = 1;
 }
 message PlayerResignedResult {
-  
+  bool result = 1;
 }
 
 message PlayerValid {
-  
+  int32 playerNumber = 1;
 }
 message PlayerValidResult {
-  
+  bool result = 1;
 }
 
 message PlayersAchievements {
-  
+  int32 param1 = 1;
+  int32 param2 = 2;
+  int32 param3 = 3;
+  int32 param4 = 4;
 }
 message PlayersAchievementsResult {
-  
+  bool result = 1;
 }
 
 message PlayersBuildingCount {
-  
+  int32 playerNumber = 1;
 }
 message PlayersBuildingCountResult {
-  
+  int32 result = 1;
 }
 
 message PlayersBuildingTypeCount {
-  
+  int32 playerNumber = 1;
+  int32 buildingType = 2;
 }
 message PlayersBuildingTypeCountResult {
-  
+  int32 result = 1;
 }
 
 message PlayersCiv {
-  
+  int32 playerNumber = 1;
 }
 message PlayersCivResult {
-  
+  bool result = 1;
 }
 
 message PlayersCivilianPopulation {
-  
+  int32 playerNumber = 1;
 }
 message PlayersCivilianPopulationResult {
-  
+  int32 result = 1;
 }
 
 message PlayersCurrentAge {
-  
+  int32 playerNumber = 1;
 }
 message PlayersCurrentAgeResult {
-  
+  int32 result = 1;
 }
 
 message PlayersCurrentAgeTime {
-  
+  int32 playerNumber = 1;
 }
 message PlayersCurrentAgeTimeResult {
-  
+  int32 result = 1;
 }
 
 message PlayersMilitaryPopulation {
-  
+  int32 playerNumber = 1;
 }
 message PlayersMilitaryPopulationResult {
-  
+  int32 result = 1;
 }
 
 message PlayersPopulation {
-  
+  int32 playerNumber = 1;
 }
 message PlayersPopulationResult {
-  
+  int32 result = 1;
 }
 
 message PlayersScore {
-  
+  int32 playerNumber = 1;
 }
 message PlayersScoreResult {
-  
+  int32 result = 1;
 }
 
 message PlayersStance {
-  
+  int32 playerNumber = 1;
+  int32 stance = 2;
 }
 message PlayersStanceResult {
-  
+  bool result = 1;
 }
 
 message PlayersTribute {
-  
+  int32 playerNumber = 1;
+  int32 resourceType = 2;
 }
 message PlayersTributeResult {
-  
+  int32 result = 1;
 }
 
 message PlayersTributeMemory {
-  
+  int32 playerNumber = 1;
+  int32 resourceType = 2;
 }
 message PlayersTributeMemoryResult {
-  
+  int32 result = 1;
 }
 
 message PlayersUnitCount {
-  
+  int32 playerNumber = 1;
 }
 message PlayersUnitCountResult {
-  
+  int32 result = 1;
 }
 
 message PlayersUnitTypeCount {
-  
+  int32 playerNumber = 1;
+  int32 unitType = 2;
 }
 message PlayersUnitTypeCountResult {
-  
+  int32 result = 1;
 }
 
 message Population {
   
 }
 message PopulationResult {
-  
+  int32 result = 1;
 }
 
 message PopulationCap {
   
 }
 message PopulationCapResult {
-  
+  int32 result = 1;
 }
 
 message PopulationHeadroom {
   
 }
 message PopulationHeadroomResult {
-  
+  int32 result = 1;
 }
 
 message RandomNumber {
   
 }
 message RandomNumberResult {
-  
+  int32 result = 1;
 }
 
 message RegicideGame {
   
 }
 message RegicideGameResult {
-  
+  bool result = 1;
 }
 
 message ResearchAvailable {
-  
+  int32 researchType = 1;
 }
 message ResearchAvailableResult {
-  
+  bool result = 1;
 }
 
 message ResearchCompleted {
-  
+  int32 researchType = 1;
 }
 message ResearchCompletedResult {
-  
+  bool result = 1;
 }
 
 message ResourceFound {
-  
+  int32 resourceType = 1;
 }
 message ResourceFoundResult {
-  
+  bool result = 1;
 }
 
 message SharedGoal {
-  
+  int32 goalId = 1;
+  int32 value = 2;
 }
 message SharedGoalResult {
-  
+  bool result = 1;
 }
 
 message SheepAndForageTooFar {
   
 }
 message SheepAndForageTooFarResult {
-  
+  bool result = 1;
 }
 
 message SoldierCount {
   
 }
 message SoldierCountResult {
-  
+  int32 result = 1;
 }
 
 message StanceToward {
-  
+  int32 playerNumber = 1;
+  int32 stance = 2;
 }
 message StanceTowardResult {
-  
+  bool result = 1;
 }
 
 message StartingAge {
   
 }
 message StartingAgeResult {
-  
+  int32 result = 1;
 }
 
 message StartingResources {
   
 }
 message StartingResourcesResult {
-  
+  int32 result = 1;
 }
 
 message StoneAmount {
   
 }
 message StoneAmountResult {
-  
+  int32 result = 1;
 }
 
 message StrategicNumber {
-  
+  int32 strategicNumber = 1;
 }
 message StrategicNumberResult {
-  
+  int32 result = 1;
 }
 
 message TauntDetected {
-  
+  int32 playerNumber = 1;
+  int32 tauntId = 2;
 }
 message TauntDetectedResult {
-  
+  bool result = 1;
 }
 
 message TimerTriggered {
-  
+  int32 timerId = 1;
 }
 message TimerTriggeredResult {
-  
+  bool result = 1;
 }
 
 message TownUnderAttack {
   
 }
 message TownUnderAttackResult {
-  
+  bool result = 1;
 }
 
 message TraceFact {
-  
+  int32 param = 1;
 }
 message TraceFactResult {
-  
+  bool result = 1;
 }
 
 message True {
   
 }
 message TrueResult {
-  
+  bool result = 1;
 }
 
 message UnitAvailable {
-  
+  int32 unitType = 1;
 }
 message UnitAvailableResult {
-  
+  bool result = 1;
 }
 
 message UnitCount {
   
 }
 message UnitCountResult {
-  
+  int32 result = 1;
 }
 
 message UnitCountTotal {
   
 }
 message UnitCountTotalResult {
-  
+  int32 result = 1;
 }
 
 message UnitTypeCount {
-  
+  int32 unitType = 1;
 }
 message UnitTypeCountResult {
-  
+  int32 result = 1;
 }
 
 message UnitTypeCountTotal {
-  
+  int32 unitType = 1;
 }
 message UnitTypeCountTotalResult {
-  
-}
-
-message UpAddObjectById {
-  
-}
-message UpAddObjectByIdResult {
-  
+  int32 result = 1;
 }
 
 message UpAlliedGoal {
-  
+  int32 computerAlly = 1;
+  int32 goalId = 2;
 }
 message UpAlliedGoalResult {
-  
+  int32 result = 1;
 }
 
 message UpAlliedResourceAmount {
-  
+  int32 ally = 1;
+  int32 resourceAmount = 2;
 }
 message UpAlliedResourceAmountResult {
-  
+  int32 result = 1;
 }
 
 message UpAlliedResourcePercent {
-  
+  int32 ally = 1;
+  int32 resourceAmount = 2;
 }
 message UpAlliedResourcePercentResult {
-  
+  int32 result = 1;
 }
 
 message UpAlliedSn {
-  
+  int32 computerAlly = 1;
+  int32 snId = 2;
 }
 message UpAlliedSnResult {
-  
+  int32 result = 1;
 }
 
 message UpAttackerClass {
   
 }
 message UpAttackerClassResult {
-  
+  int32 result = 1;
 }
 
 message UpBuildingTypeInTown {
-  
+  int32 typeOp = 1;
+  int32 buildingId = 2;
 }
 message UpBuildingTypeInTownResult {
-  
+  int32 result = 1;
 }
 
 message UpCanBuild {
-  
+  int32 escrowState = 1;
+  int32 typeOp = 2;
+  int32 buildingId = 3;
 }
 message UpCanBuildResult {
-  
+  bool result = 1;
 }
 
 message UpCanBuildLine {
-  
+  int32 escrowState = 1;
+  int32 goalPoint = 2;
+  int32 typeOp = 3;
+  int32 buildingId = 4;
 }
 message UpCanBuildLineResult {
-  
+  bool result = 1;
 }
 
 message UpCanResearch {
-  
+  int32 escrowState = 1;
+  int32 typeOp = 2;
+  int32 techId = 3;
 }
 message UpCanResearchResult {
-  
+  bool result = 1;
 }
 
 message UpCanSearch {
-  
+  int32 searchSource = 1;
 }
 message UpCanSearchResult {
-  
+  bool result = 1;
 }
 
 message UpCanTrain {
-  
+  int32 escrowState = 1;
+  int32 typeOp = 2;
+  int32 unitId = 3;
 }
 message UpCanTrainResult {
-  
-}
-
-message UpCompareConst {
-  
-}
-message UpCompareConstResult {
-  
-}
-
-message UpCompareFlag {
-  
-}
-message UpCompareFlagResult {
-  
-}
-
-message UpCompareGoal {
-  
-}
-message UpCompareGoalResult {
-  
-}
-
-message UpCompareSn {
-  
-}
-message UpCompareSnResult {
-  
-}
-
-message UpCompareText {
-  
-}
-message UpCompareTextResult {
-  
+  bool result = 1;
 }
 
 message UpDefenderCount {
   
 }
 message UpDefenderCountResult {
-  
+  int32 result = 1;
 }
 
 message UpEnemyBuildingsInTown {
   
 }
 message UpEnemyBuildingsInTownResult {
-  
+  int32 result = 1;
 }
 
 message UpEnemyUnitsInTown {
   
 }
 message UpEnemyUnitsInTownResult {
-  
+  int32 result = 1;
 }
 
 message UpEnemyVillagersInTown {
   
 }
 message UpEnemyVillagersInTownResult {
-  
-}
-
-message UpFindLocal {
-  
-}
-message UpFindLocalResult {
-  
-}
-
-message UpFindRemote {
-  
-}
-message UpFindRemoteResult {
-  
-}
-
-message UpFindResource {
-  
-}
-message UpFindResourceResult {
-  
-}
-
-message UpFindStatusLocal {
-  
-}
-message UpFindStatusLocalResult {
-  
-}
-
-message UpFindStatusRemote {
-  
-}
-message UpFindStatusRemoteResult {
-  
+  int32 result = 1;
 }
 
 message UpGaiaTypeCount {
-  
+  int32 typeOp = 1;
+  int32 resource = 2;
 }
 message UpGaiaTypeCountResult {
-  
+  int32 result = 1;
 }
 
 message UpGaiaTypeCountTotal {
-  
+  int32 typeOp = 1;
+  int32 resource = 2;
 }
 message UpGaiaTypeCountTotalResult {
-  
-}
-
-message UpGetFact {
-  int32 factId = 1;
-  int32 factParam = 2;
-}
-message UpGetFactResult {
-  int32 factValue = 1;
-}
-
-message UpGetFactMax {
-  
-}
-message UpGetFactMaxResult {
-  
-}
-
-message UpGetFactMin {
-  
-}
-message UpGetFactMinResult {
-  
-}
-
-message UpGetFactSum {
-  
-}
-message UpGetFactSumResult {
-  
-}
-
-message UpGetFocusFact {
-  
-}
-message UpGetFocusFactResult {
-  
-}
-
-message UpGetObjectData {
-  
-}
-message UpGetObjectDataResult {
-  
-}
-
-message UpGetObjectTargetData {
-  
-}
-message UpGetObjectTargetDataResult {
-  
-}
-
-message UpGetObjectTypeData {
-  
-}
-message UpGetObjectTypeDataResult {
-  
-}
-
-message UpGetPlayerFact {
-  
-}
-message UpGetPlayerFactResult {
-  
-}
-
-message UpGetPointContains {
-  
-}
-message UpGetPointContainsResult {
-  
-}
-
-message UpGetTargetFact {
-  
-}
-message UpGetTargetFactResult {
-  
+  int32 result = 1;
 }
 
 message UpGroupSize {
-  
+  int32 typeOp = 1;
+  int32 groupId = 2;
 }
 message UpGroupSizeResult {
-  
+  int32 result = 1;
 }
 
 message UpIdleUnitCount {
-  
+  int32 idleType = 1;
 }
 message UpIdleUnitCountResult {
-  
-}
-
-message UpModifyGoal {
-  
-}
-message UpModifyGoalResult {
-  
-}
-
-message UpModifySn {
-  
-}
-message UpModifySnResult {
-  
+  int32 result = 1;
 }
 
 message UpObjectData {
-  
+  int32 objectData = 1;
 }
 message UpObjectDataResult {
-  
+  int32 result = 1;
 }
 
 message UpObjectTargetData {
-  
+  int32 objectData = 1;
 }
 message UpObjectTargetDataResult {
-  
+  int32 result = 1;
 }
 
 message UpObjectTypeCount {
-  
+  int32 typeOp = 1;
+  int32 objectId = 2;
 }
 message UpObjectTypeCountResult {
-  
+  int32 result = 1;
 }
 
 message UpObjectTypeCountTotal {
-  
+  int32 typeOp = 1;
+  int32 objectId = 2;
 }
 message UpObjectTypeCountTotalResult {
-  
+  int32 result = 1;
 }
 
 message UpPathDistance {
-  
+  int32 goalPoint = 1;
+  int32 strict = 2;
 }
 message UpPathDistanceResult {
-  
+  int32 result = 1;
 }
 
 message UpPendingObjects {
-  
+  int32 typeOp = 1;
+  int32 objectId = 2;
 }
 message UpPendingObjectsResult {
-  
+  int32 result = 1;
 }
 
 message UpPendingPlacement {
-  
+  int32 typeOp = 1;
+  int32 buildingId = 2;
 }
 message UpPendingPlacementResult {
-  
+  bool result = 1;
 }
 
 message UpPlayerDistance {
-  
+  int32 player = 1;
 }
 message UpPlayerDistanceResult {
-  
+  int32 result = 1;
 }
 
 message UpPlayersInGame {
-  
+  int32 playerStance = 1;
 }
 message UpPlayersInGameResult {
-  
+  int32 result = 1;
 }
 
 message UpPointContains {
-  
+  int32 goalPoint = 1;
+  int32 typeOp = 2;
+  int32 objectId = 3;
 }
 message UpPointContainsResult {
-  
+  bool result = 1;
 }
 
 message UpPointDistance {
-  
+  int32 goalPoint1 = 1;
+  int32 goalPoint2 = 2;
 }
 message UpPointDistanceResult {
-  
+  int32 result = 1;
 }
 
 message UpPointElevation {
-  
+  int32 goalPoint = 1;
 }
 message UpPointElevationResult {
-  
+  int32 result = 1;
 }
 
 message UpPointExplored {
-  
+  int32 goalPoint = 1;
 }
 message UpPointExploredResult {
-  
+  bool result = 1;
 }
 
 message UpPointTerrain {
-  
+  int32 goalPoint = 1;
 }
 message UpPointTerrainResult {
-  
+  int32 result = 1;
 }
 
 message UpPointZone {
-  
+  int32 goalPoint = 1;
 }
 message UpPointZoneResult {
-  
+  int32 result = 1;
 }
 
 message UpProjectileDetected {
-  
+  int32 projectileType = 1;
 }
 message UpProjectileDetectedResult {
-  
+  int32 result = 1;
 }
 
 message UpProjectileTarget {
-  
+  int32 projectileType = 1;
 }
 message UpProjectileTargetResult {
-  
+  int32 result = 1;
 }
 
 message UpRemainingBoarAmount {
   
 }
 message UpRemainingBoarAmountResult {
-  
+  int32 result = 1;
 }
 
 message UpResearchStatus {
-  
+  int32 typeOp = 1;
+  int32 techId = 2;
 }
 message UpResearchStatusResult {
-  
+  int32 result = 1;
 }
 
 message UpResourceAmount {
-  
+  int32 resourceAmount = 1;
 }
 message UpResourceAmountResult {
-  
+  int32 result = 1;
 }
 
 message UpResourcePercent {
-  
+  int32 resourceAmount = 1;
 }
 message UpResourcePercentResult {
-  
-}
-
-message UpSetTargetById {
-  
-}
-message UpSetTargetByIdResult {
-  
-}
-
-message UpSetTargetObject {
-  
-}
-message UpSetTargetObjectResult {
-  
+  int32 result = 1;
 }
 
 message UpTimerStatus {
-  
+  int32 timerId = 1;
 }
 message UpTimerStatusResult {
-  
+  int32 result = 1;
 }
 
 message UpTrainSiteReady {
-  
+  int32 typeOp = 1;
+  int32 unitId = 2;
 }
 message UpTrainSiteReadyResult {
-  
+  bool result = 1;
 }
 
 message UpUnitTypeInTown {
-  
+  int32 typeOp = 1;
+  int32 unitId = 2;
 }
 message UpUnitTypeInTownResult {
-  
+  int32 result = 1;
 }
 
 message UpVillagerTypeInTown {
-  
+  int32 typeOp = 1;
+  int32 unitId = 2;
 }
 message UpVillagerTypeInTownResult {
-  
+  int32 result = 1;
 }
 
 message VictoryCondition {
-  
+  int32 victoryCondition = 1;
 }
 message VictoryConditionResult {
-  
+  bool result = 1;
 }
 
 message WallCompletedPercentage {
-  
+  int32 perimeter = 1;
 }
 message WallCompletedPercentageResult {
-  
+  int32 result = 1;
 }
 
 message WallInvisiblePercentage {
-  
+  int32 perimeter = 1;
 }
 message WallInvisiblePercentageResult {
-  
+  int32 result = 1;
 }
 
 message WarboatCount {
   
 }
 message WarboatCountResult {
-  
+  int32 result = 1;
 }
 
 message WoodAmount {
   
 }
 message WoodAmountResult {
-  
+  int32 result = 1;
 }
