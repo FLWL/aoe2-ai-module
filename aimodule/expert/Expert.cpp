@@ -29,6 +29,7 @@ void Expert::UpdateAddresses()
 {
 	statics::SetFuncAddr(FuncRunList, statics::TranslateAddr(expert_conf::ADDR_FUNC_RUN_LIST));
 	statics::SetFuncAddr(FuncEvaluateRelOp, statics::TranslateAddr(expert_conf::ADDR_FUNC_EVALUATE_REL_OP));
+	statics::SetFuncAddr(FuncFindSymbol, statics::TranslateAddr(expert_conf::ADDR_FUNC_FIND_SYMBOL));
 #ifdef DEBUG_MODE
 	statics::SetFuncAddr(FuncDefAction, statics::TranslateAddr(expert_conf::ADDR_FUNC_DEF_ACTION));
 	statics::SetFuncAddr(FuncDefFact, statics::TranslateAddr(expert_conf::ADDR_FUNC_DEF_FACT));
@@ -520,6 +521,12 @@ int Expert::ProcessCommandList(const protos::expert::CommandList* commandList, p
 	}
 
 	return numCommandsProcessed;
+}
+
+int Expert::ResolveConst(const std::string& constToResolve)
+{
+	// TODO
+	return -1;
 }
 
 void Expert::PreUnload()

@@ -19,9 +19,16 @@ public:
 	int ProcessCommands();
 	ExpertService* GetService() { return &expertService; };
 	ExpertCommandQueue* GetCommandQueue() { return &commandQueue; };
+	int ResolveConst(const std::string& constToResolve);
 	void PreUnload();
 
 private:
+	struct SymbolData
+	{
+		char type;
+		int16_t id;
+	};
+
 	void UpdateAddresses();
 	void PopulateCommandMap();
 	void EnableDetours();
@@ -44,6 +51,7 @@ private:
 #endif
 	inline static intptr_t(__fastcall* FuncRunList)(void* aiExpertEngine, int listId, void* statsOutput) = 0;
 	inline static intptr_t(__fastcall* FuncEvaluateRelOp)(int relOp, int arg1, int arg2, char a4, char a5) = 0;
+	inline static SymbolData*(__fastcall* FuncFindSymbol)(void* symbolTable, char* symbol, char dataType) = 0;
 #ifdef DEBUG_MODE
 	inline static intptr_t(__fastcall* FuncDefAction)(void* aiExpert, char *name, char argCount, void* function) = 0;
 	inline static intptr_t(__fastcall* FuncDefFact)(void* aiExpert, char *name, int factType, char argCount, void* function) = 0;

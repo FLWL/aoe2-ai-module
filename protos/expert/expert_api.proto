@@ -6,12 +6,19 @@ import "google/protobuf/any.proto";
 
 service ExpertAPI {
   rpc ExecuteCommandList(CommandList) returns (CommandResultList) {}
+  rpc ResolveConst(ResolveConstRequest) returns (ResolveConstResponse) {}
 }
 
 message CommandList {
   repeated google.protobuf.Any commands = 1;
 }
-
 message CommandResultList {
   repeated google.protobuf.Any results = 1;
+}
+
+message ResolveConstRequest {
+  string constToResolve = 1;
+}
+message ResolveConstResponse {
+  int32 constValue = 1;
 }

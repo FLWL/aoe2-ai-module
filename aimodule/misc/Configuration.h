@@ -23,6 +23,7 @@ namespace expert_conf
 	// addresses related to expert engine in general
 	static const int64_t ADDR_FUNC_RUN_LIST = 0x7FF7C7CAD310;
 	static const int64_t ADDR_FUNC_EVALUATE_REL_OP = 0x7FF7C7CBE740;
+	static const int64_t ADDR_FUNC_FIND_SYMBOL = 0x7FF7C83661E0;
 #ifdef DEBUG_MODE
 	static const int64_t ADDR_FUNC_DEF_ACTION = 0x7FF7C7CB1260;
 	static const int64_t ADDR_FUNC_DEF_FACT = 0x7FF7C7CB1730;
