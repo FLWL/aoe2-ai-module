@@ -3,7 +3,7 @@
 #include <stdint.h>
 
 #define GAME_DE
-//#define DEBUG_MODE
+#define DEBUG_MODE
 
 namespace aimodule_conf
 {

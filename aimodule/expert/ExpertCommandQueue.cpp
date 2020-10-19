@@ -46,11 +46,16 @@ std::mutex* ExpertCommandQueue::GetMutex()
 	return &commandQueueMutex;
 }
 
+std::deque<ExpertCommandQueue::Item*>* ExpertCommandQueue::GetInternalQueue()
+{
+	return &commandQueue;
+}
+
 ExpertCommandQueue::Item* ExpertCommandQueue::Pop()
 {
 	Item* item = commandQueue.front();
 	commandQueue.pop_front();
-
+	
 	return item;
 }
 

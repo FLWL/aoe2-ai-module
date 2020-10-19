@@ -9,8 +9,9 @@ import protos.expert.fact.fact_pb2 as fact
 import protos.expert.action.action_pb2 as action
 
 
-def pack_commands(commands):
+def pack_commands(playerNumber, commands):
     command_list = expert.CommandList()
+    command_list.playerNumber = playerNumber
     any_command = Any()
     for command in commands:
         any_command.Pack(command)
@@ -31,7 +32,7 @@ def run():
         module_api = protos.ai_module_api_pb2_grpc.AIModuleAPIStub(channel)
         expert_api = protos.expert.expert_api_pb2_grpc.ExpertAPIStub(channel)
 
-        result_list = expert_api.ExecuteCommandList(pack_commands([
+        result_list = expert_api.ExecuteCommandList(pack_commands(2, [
             #action.Train(unitType=83), # train villager
             #action.Build(buildingType=70), # build house
             #action.UpGetFact(factId=25, factParam=83, goalId=99), # up-get-fact unit-type-count 83 99
@@ -51,13 +52,19 @@ def run():
             #action.UpBuild(buildingId=12)
             #action.UpGarrison(objectId=109, typeOp=0, unitId=83)
             #action.UpDeleteIdleUnits(idleType=0)
-            action.SetGoal(goalId=100, goalValue = 100),
-            action.SetGoal(goalId=101, goalValue = 100),
-            action.UpSendFlare(goalPoint=100),
+            #action.SetGoal(goalId=100, goalValue = 100),
+            #action.SetGoal(goalId=101, goalValue = 100),
+            #action.UpSendFlare(goalPoint=100),
             #action.UpSendScout(groupType=101, positionType=1),
             #action.UpBuild(buildingId=50)
-            fact.DeathMatchGame(),
-            fact.UpCanTrain(unitId=83)
+            #fact.DeathMatchGame(),
+            #fact.UpCanTrain(unitId=83),
+            #action.Build(buildingType=103),
+            #fact.PlayerNumber(playerNumber=1),
+            #action.Train(unitType=125),
+            #action.AttackNow(),
+            #action.BuildForward(buildingType=49),
+            #action.Train(unitType=-289),
         ]))
 
         print(result_list)

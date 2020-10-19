@@ -24,6 +24,7 @@ public:
 
 	grpc::Status PushAndWaitForCompletion(const protos::expert::CommandList* commandList, protos::expert::CommandResultList* commandResultList);
 	std::mutex* GetMutex();
+	std::deque<Item *>* GetInternalQueue();
 	Item* Pop();
 	void Clear();
 	bool IsEmpty();

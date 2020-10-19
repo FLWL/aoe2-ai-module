@@ -10,10 +10,12 @@ service ExpertAPI {
 }
 
 message CommandList {
-  repeated google.protobuf.Any commands = 1;
+  int32 playerNumber = 1;
+  repeated google.protobuf.Any commands = 2;
 }
 message CommandResultList {
-  repeated google.protobuf.Any results = 1;
+  int32 playerNumber = 1;
+  repeated google.protobuf.Any results = 2;
 }
 
 message ResolveConstRequest {

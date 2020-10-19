@@ -3,6 +3,7 @@
 #include <mutex>
 #include <condition_variable>
 
+#include "misc/Configuration.h"
 #include "misc/DebugConsole.h"
 #include "misc/RPCServer.h"
 #include "AIModuleService.h"
@@ -24,7 +25,9 @@ private:
 	void WaitUntilUnload();
 
 	// submodules initialized in this order
+#ifdef DEBUG_MODE
 	DebugConsole debugConsole;
+#endif
 	Expert expert;
 	AIModuleService aiModuleService;
 	RPCServer rpcServer;

@@ -446,12 +446,14 @@ intptr_t __fastcall Expert::DetouredRunList(void* aiExpertEngine, int listId, vo
 	auto t1 = std::chrono::high_resolution_clock::now();
 	int numCommandsProcessed = Expert::instance->ProcessCommands();
 	auto t2 = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
 
+#ifdef DEBUG_MODE
 	if (numCommandsProcessed)
 	{
+		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
 		std::cout << "Processed " << numCommandsProcessed  << " command(s) in " << duration << " us"<< std::endl;
 	}
+#endif
 
 	return result;
 }
@@ -487,17 +489,30 @@ int Expert::ProcessCommands()
 {
 	int numCommandsProcessed = 0;
 	std::lock_guard<std::mutex> lguard(*commandQueue.GetMutex());
-	while (!commandQueue.IsEmpty())
+
+	auto internalCommandQueue = commandQueue.GetInternalQueue();
+	for (auto i = internalCommandQueue->begin(); i != internalCommandQueue->end();  )
 	{
-		// work to do
-		ExpertCommandQueue::Item* item = commandQueue.Pop();
+		ExpertCommandQueue::Item* item = *i;
+		int playerNumber = item->commandList->playernumber();
 
-		// process
-		numCommandsProcessed += ProcessCommandList(item->commandList, item->commandResultList);
+		if (ExpertFact::PlayerNumber(playerNumber))
+		{
+			// process
+			numCommandsProcessed += ProcessCommandList(item->commandList, item->commandResultList);
 
-		// mark as processed and wake up the corresponding rpc thread
-		*item->isProcessed = true;
-		item->conditionVar->notify_one();
+			// remove from queue
+			i = internalCommandQueue->erase(i);
+
+			// mark as processed, notify rpc thread to send back response to client
+			*item->isProcessed = true;
+			item->conditionVar->notify_one();
+		}
+		else
+		{
+			// skip execution of this command for now as its not for the current player
+			i++;
+		}
 	}
 
 	return numCommandsProcessed;

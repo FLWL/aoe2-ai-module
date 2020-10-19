@@ -3,7 +3,9 @@
 #include <iostream>
 
 AIModule::AIModule(HMODULE currentModuleHandle) :
+#ifdef DEBUG_MODE
 	debugConsole(this),
+#endif
 	expert(this),
 	unloadRequested(false),
 	aiModuleService(this),
