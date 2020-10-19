@@ -3,7 +3,7 @@
 # Introduction
 This project is aimed at extending the possibilities of AI scripting in Age of Empires 2 beyond the built-in rule-based system. This is mainly accomplished by exposing the fact and action functions that the game uses internally to an outside scripting environment chosen by the user.
 
-The AI module consists of a DLL file that has to be loaded into the Age of Empires process, after which it starts a gRPC server on port 37412 by default.
+The AI module consists of a DLL file that has to be loaded into the Age of Empires process, after which it starts a gRPC server on port 37412 by default. Available gRPC definitions can be seen in the `protos` folder. These can be used from virtually any scripting environment the gRPC framework is available on. A Python example has been provided in the `client_python` folder.
 
 # Compiling
 * Install Microsoft Visual Studio 2017 or later with support for components "Desktop development with C++" and "Windows 10 SDK"
