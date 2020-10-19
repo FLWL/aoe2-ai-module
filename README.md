@@ -5,7 +5,7 @@ This project is aimed at extending the possibilities of AI scripting in Age of E
 
 The AI module consists of a DLL file that has to be loaded into the Age of Empires process, after which it starts a gRPC server on port 37412 by default. Available gRPC definitions can be seen in the `protos` folder. These can be used from virtually any scripting environment the gRPC framework is available on. A Python example has been provided in the `client_python` folder.
 
-Currently the only supported version of the game is Definitive Edition Update 40874. If there is interest in using this library with older releases then backporting to AoC+Userpatch or HD Edition should not be too difficult considering the similarities of AI systems in all these versions.
+Currently the only supported version of the game is Definitive Edition Update 40874. If there is interest in using this library with older releases then backporting to AoC+Userpatch or HD Edition should not be too difficult considering the similarities of AI systems in all these versions and might be taken into consideration.
 
 # Compiling
 * Install Microsoft Visual Studio 2017 or later with support for components "Desktop development with C++" and "Windows 10 SDK"
