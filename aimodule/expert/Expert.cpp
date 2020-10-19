@@ -499,6 +499,7 @@ int Expert::ProcessCommands()
 		if (ExpertFact::PlayerNumber(playerNumber))
 		{
 			// process
+			item->commandResultList->set_playernumber(playerNumber);
 			numCommandsProcessed += ProcessCommandList(item->commandList, item->commandResultList);
 
 			// remove from queue

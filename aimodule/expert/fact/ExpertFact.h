@@ -299,6 +299,7 @@ private:
 	inline static intptr_t(__fastcall* FuncUpCanResearch)(int escrowState, int typeOp, int techId) = 0;
 	inline static intptr_t(__fastcall* FuncUpCanSearch)(int searchSource) = 0;
 	inline static intptr_t(__fastcall* FuncUpCanTrain)(int escrowState, int typeOp, int unitId) = 0;
+	inline static intptr_t(__fastcall* FuncUpCompareGoal)(int goalId, int compareOp, int value) = 0;
 	inline static intptr_t(__fastcall* FuncUpDefenderCount)(int relOp, int value) = 0;
 	inline static intptr_t(__fastcall* FuncUpEnemyBuildingsInTown)(int relOp, int value) = 0;
 	inline static intptr_t(__fastcall* FuncUpEnemyUnitsInTown)(int relOp, int value) = 0;
