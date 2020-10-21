@@ -1,4 +1,5 @@
 #pragma once
+#include <set>
 #include <string>
 #include <unordered_map>
 
@@ -21,6 +22,10 @@ public:
 	ExpertCommandQueue* GetCommandQueue() { return &commandQueue; };
 	int ResolveConst(const std::string& constToResolve);
 	void PreUnload();
+
+#ifdef DEBUG_MODE
+	void PrintFuncs();
+#endif
 
 private:
 	struct SymbolData
@@ -46,6 +51,8 @@ private:
 	static int64_t __fastcall DetouredEvaluateRelOp(int relOp, int arg1, int arg2, char a4, char a5);
 #endif
 #ifdef DEBUG_MODE
+	inline static std::set<std::string> actionFuncs;
+	inline static std::set<std::string> factFuncs;
 	static intptr_t __fastcall DetouredDefAction(void* aiExpert, char *name, char argCount, void* function);
 	static intptr_t __fastcall DetouredDefFact(void* aiExpert, char *name, int factType, char argCount, void* function);
 #endif

@@ -59,6 +59,10 @@ void DebugConsole::ProcessUserCommand(std::string const& command)
 			aiModule->RequestUnload();
 			std::cout << "Requested unload." << std::endl;
 		}
+		else if (command == "printfuncs")
+		{
+			aiModule->GetExpert()->PrintFuncs();
+		}
 	}
 }
 

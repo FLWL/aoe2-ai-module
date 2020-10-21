@@ -124,7 +124,7 @@ public:
 	static void UpGetFactSum(int player, int factId, int param, int goalData);
 	static void UpGetFocusFact(int factId, int param, int goalData);
 	static void UpGetGroupSize(int typeOp, int groupId, int goalSize);
-	static void UpGetGuardState(int goalState);
+	//static void UpGetGuardState(int goalState);
 	static void UpGetIndirectGoal(int typeOp1, int goalId, int goalValue);
 	static void UpGetObjectData(int objectData, int goalData);
 	static void UpGetObjectTargetData(int objectData, int goalData);
@@ -148,7 +148,7 @@ public:
 	static void UpGetThreatData(int goalElapsedTime, int goalPlayerId, int goalSourceClass, int goalTargetClass);
 	static void UpGetTimer(int typeOp, int timerId, int goalValue);
 	static void UpGetTreatyData(int param);
-	static void UpGetUpgradeId(int player, int count, int goalTypeId, int goalUpgradeId);
+	//static void UpGetUpgradeId(int player, int count, int goalTypeId, int goalUpgradeId);
 	static void UpGetVictoryData(int goalPlayerId, int goalType, int goalTime);
 	static void UpGetVictoryLimit(int goalLimit);
 	static void UpGuardUnit(int objectId, int typeOp, int unitId);

@@ -1,6 +1,8 @@
 #include "Expert.h"
 
+#include <algorithm>
 #include <iostream>
+#include <sstream>
 #include <chrono>
 
 #include <Windows.h>
@@ -468,20 +470,46 @@ int64_t __fastcall Expert::DetouredEvaluateRelOp(int relOp, int arg1, int arg2, 
 #endif
 
 #ifdef DEBUG_MODE
+
+std::string FormatFuncName(std::string input, uintptr_t funcAddr)
+{
+	std::replace(input.begin(), input.end(), '-', '_');
+	std::transform(input.begin(), input.end(), input.begin(), ::toupper);
+
+	std::ostringstream oss;
+	oss << "static const int64_t ADDR_FUNC_" << input << " = 0x" << std::hex << std::uppercase << funcAddr << std::nouppercase << std::dec << ";";
+
+	return oss.str();
+}
+
 intptr_t __fastcall Expert::DetouredDefAction(void* aiExpert, char *name, char argCount, void* function)
 {
 	uintptr_t reverseTranslatedFunctionPtr = (uintptr_t) function - statics::GetGameModuleBaseAddr() + aimodule_conf::REFERENCE_BASE_ADDR;
-	std::cout << "DefAction(): function pointer for " << name << " = 0x" << std::hex << std::uppercase << reverseTranslatedFunctionPtr << std::nouppercase << std::dec << std::endl;
-
+	actionFuncs.insert(FormatFuncName(name, reverseTranslatedFunctionPtr));
 	return FuncDefAction(aiExpert, name, argCount, function);
 }
 
 intptr_t __fastcall Expert::DetouredDefFact(void* aiExpert, char* name, int factType, char argCount, void* function)
 {
 	uintptr_t reverseTranslatedFunctionPtr = (uintptr_t) function - statics::GetGameModuleBaseAddr() + aimodule_conf::REFERENCE_BASE_ADDR;
-	std::cout << "DefFact(): function pointer for " << name << " = 0x" << std::hex << std::uppercase << reverseTranslatedFunctionPtr << std::nouppercase << std::dec << std::endl;
-
+	factFuncs.insert(FormatFuncName(name, reverseTranslatedFunctionPtr));
 	return FuncDefFact(aiExpert, name, factType, argCount, function);
+}
+
+void Expert::PrintFuncs()
+{
+	std::cout << "// Funcs related to actions" << std::endl;
+	for (auto it = actionFuncs.begin(); it != actionFuncs.end(); ++it)
+	{
+		std::cout << *it << std::endl;
+	}
+
+	std::cout << std::endl << "// Funcs related to facts" << std::endl;
+	for (auto it = factFuncs.begin(); it != factFuncs.end(); ++it)
+	{
+		if (actionFuncs.find(*it) == actionFuncs.end())
+			std::cout << *it << std::endl;
+	}
 }
 #endif
 

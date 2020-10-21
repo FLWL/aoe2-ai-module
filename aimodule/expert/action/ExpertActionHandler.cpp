@@ -1303,13 +1303,13 @@ void ExpertActionHandler::UpGetGroupSize(const google::protobuf::Any& anyCommand
 
 void ExpertActionHandler::UpGetGuardState(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
 {
-	protos::expert::action::UpGetGuardState command;
+	/*protos::expert::action::UpGetGuardState command;
 	anyCommand.UnpackTo(&command);
 
 	ExpertAction::UpGetGuardState(command.goalstate());
 
 	protos::expert::action::UpGetGuardStateResult result;
-	anyResult->PackFrom(result);
+	anyResult->PackFrom(result);*/
 }
 
 void ExpertActionHandler::UpGetIndirectGoal(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
@@ -1567,13 +1567,13 @@ void ExpertActionHandler::UpGetTreatyData(const google::protobuf::Any& anyComman
 
 void ExpertActionHandler::UpGetUpgradeId(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
 {
-	protos::expert::action::UpGetUpgradeId command;
+	/*protos::expert::action::UpGetUpgradeId command;
 	anyCommand.UnpackTo(&command);
 
 	ExpertAction::UpGetUpgradeId(command.player(), command.count(), command.goaltypeid(), command.goalupgradeid());
 
 	protos::expert::action::UpGetUpgradeIdResult result;
-	anyResult->PackFrom(result);
+	anyResult->PackFrom(result);*/
 }
 
 void ExpertActionHandler::UpGetVictoryData(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)

@@ -1,4 +1,5 @@
 #include "ExpertAction.h"
+#include "misc/Configuration.h"
 #include "misc/Statics.h"
 
 #include <iostream>
@@ -123,7 +124,7 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncUpGetFactSum, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_FACT_SUM));
 	statics::SetFuncAddr(FuncUpGetFocusFact, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_FOCUS_FACT));
 	statics::SetFuncAddr(FuncUpGetGroupSize, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_GROUP_SIZE));
-	statics::SetFuncAddr(FuncUpGetGuardState, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_GUARD_STATE));
+	//statics::SetFuncAddr(FuncUpGetGuardState, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_GUARD_STATE));
 	statics::SetFuncAddr(FuncUpGetIndirectGoal, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_INDIRECT_GOAL));
 	statics::SetFuncAddr(FuncUpGetObjectData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_OBJECT_DATA));
 	statics::SetFuncAddr(FuncUpGetObjectTargetData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_OBJECT_TARGET_DATA));
@@ -147,7 +148,7 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncUpGetThreatData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_THREAT_DATA));
 	statics::SetFuncAddr(FuncUpGetTimer, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_TIMER));
 	statics::SetFuncAddr(FuncUpGetTreatyData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_TREATY_DATA));
-	statics::SetFuncAddr(FuncUpGetUpgradeId, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_UPGRADE_ID));
+	//statics::SetFuncAddr(FuncUpGetUpgradeId, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_UPGRADE_ID));
 	statics::SetFuncAddr(FuncUpGetVictoryData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_VICTORY_DATA));
 	statics::SetFuncAddr(FuncUpGetVictoryLimit, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_VICTORY_LIMIT));
 	statics::SetFuncAddr(FuncUpGuardUnit, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GUARD_UNIT));
@@ -804,10 +805,10 @@ void ExpertAction::UpGetGroupSize(int typeOp, int groupId, int goalSize)
 	FuncUpGetGroupSize(typeOp, groupId, goalSize);
 }
 
-void ExpertAction::UpGetGuardState(int goalState)
+/*void ExpertAction::UpGetGuardState(int goalState)
 {
 	FuncUpGetGuardState(goalState);
-}
+}*/
 
 void ExpertAction::UpGetIndirectGoal(int typeOp1, int goalId, int goalValue)
 {
@@ -924,10 +925,10 @@ void ExpertAction::UpGetTreatyData(int param)
 	FuncUpGetTreatyData(param);
 }
 
-void ExpertAction::UpGetUpgradeId(int player, int count, int goalTypeId, int goalUpgradeId)
+/*void ExpertAction::UpGetUpgradeId(int player, int count, int goalTypeId, int goalUpgradeId)
 {
 	FuncUpGetUpgradeId(player, count, goalTypeId, goalUpgradeId);
-}
+}*/
 
 void ExpertAction::UpGetVictoryData(int goalPlayerId, int goalType, int goalTime)
 {
