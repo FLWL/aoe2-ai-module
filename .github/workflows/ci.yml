@@ -17,7 +17,7 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
+      # Runs a single command
       - name: "Run a one-line script"
         run: echo Hello, world! $GITHUB_WORKSPACE
         shell: cmd
