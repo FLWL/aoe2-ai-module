@@ -1,9 +1,9 @@
 @echo off
-cd ..
-set protoc_path=%cd%/vcpkg/installed/x64-windows/tools/protobuf/protoc.exe
-set grpc_cpp_path=%cd%/vcpkg/installed/x64-windows/tools/grpc/grpc_cpp_plugin.exe
-set grpc_python_path=%cd%/vcpkg/installed/x64-windows/tools/grpc/grpc_python_plugin.exe
-set standard_include_path=%cd%/vcpkg/installed/x64-windows-static/include
+set vcpkg_path=%VCPKG_ROOT%/vcpkg
+set protoc_path=%VCPKG_ROOT%/installed/x64-windows-static/tools/protobuf/protoc.exe
+set grpc_cpp_path=%VCPKG_ROOT%/installed/x64-windows-static/tools/grpc/grpc_cpp_plugin.exe
+set grpc_python_path=%VCPKG_ROOT%/installed/x64-windows-static/tools/grpc/grpc_python_plugin.exe
+set standard_include_path=%VCPKG_ROOT%/installed/x64-windows-static/include
 
 :: cpp protobuf files
 %protoc_path% -I . -I %standard_include_path% --cpp_out aimodule/ protos/ai_module_api.proto
@@ -24,4 +24,3 @@ set standard_include_path=%cd%/vcpkg/installed/x64-windows-static/include
 %protoc_path% -I . -I %standard_include_path% --grpc_out client_python/ --plugin=protoc-gen-grpc=%grpc_python_path% protos/expert/expert_api.proto
 
 echo All done
-pause
