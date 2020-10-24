@@ -11,16 +11,18 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: windows-2019
+    env:
+      PreferredToolArchitecture: x64
+      VCPKG_RESPONSE_FILE: ${{ github.workspace }}/aimodule/vcpkg_dependencies.txt
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: "Checkout"
+      # Checks-out the branch of this repository from where this workflow was called from under $GITHUB_WORKSPACE
+      - name: Checkout
         uses: actions/checkout@v2
 
       # Runs a single command
-      - name: "Run a one-line script"
-        run: echo Hello, world! %GITHUB_WORKSPACE%
+      - name: Run a one-line script
+        run: echo Hello, world! %VCPKG_RESPONSE_FILE% %PreferredToolArchitecture%
         shell: cmd
