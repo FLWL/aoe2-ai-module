@@ -24,7 +24,9 @@ jobs:
 
       # Runs a single command
       - name: Run a one-line script
-        run: echo Hello, world! %VCPKG_RESPONSE_FILE% %PreferredToolArchitecture%
+        run: |
+          echo Hello, world! %VCPKG_RESPONSE_FILE% %PreferredToolArchitecture%
+          dir
         shell: cmd
 
       - name: Restore from cache and run vcpkg
