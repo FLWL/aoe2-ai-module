@@ -14,15 +14,36 @@ jobs:
     runs-on: windows-2019
     env:
       PreferredToolArchitecture: x64
-      VCPKG_RESPONSE_FILE: ${{ github.workspace }}/aimodule/vcpkg_dependencies.txt
+      VCPKG_RESPONSE_FILE: ${{ github.workspace }}\aimodule\vcpkg_dependencies.txt
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out the branch of this repository from where this workflow was called from under $GITHUB_WORKSPACE
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@a81bbbf8298c0fa03ea29cdc473d45769f953675
 
       # Runs a single command
       - name: Run a one-line script
         run: echo Hello, world! %VCPKG_RESPONSE_FILE% %PreferredToolArchitecture%
         shell: cmd
+
+      - name: Restore from cache and run vcpkg
+        uses: lukka/run-vcpkg@fc243fce3040cd0f085c9704118f849ebacbe9d3
+        with:
+          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+          vcpkgGitCommitId: 8fe1851e1eb51a971b2b7cfdb8161ac03bbbd6d5
+          vcpkgArguments: '@${{ env.VCPKG_RESPONSE_FILE }}'
+          vcpkgTriplet: 'x64-windows-static'
+          appendedCacheKey: ${{ hashFiles(env.VCPKG_RESPONSE_FILE) }}
+
+
+
+
+
+
+
+
+
+
+
+
