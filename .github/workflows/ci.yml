@@ -32,10 +32,9 @@ jobs:
           appendedCacheKey: ${{ hashFiles(env.VCPKG_RESPONSE_FILE) }}
 
       # Runs a single command
-      - name: Run a one-line script
+      - name: Generate protobuf+grpc include files
         run: |
-          echo Hello, world! %VCPKG_RESPONSE_FILE% %PreferredToolArchitecture%
-          %VCPKG_ROOT%\installed\x64-windows-static\tools\protobuf\protoc.exe --version
+          %GITHUB_WORKSPACE%\protos\make-protos.bat
         shell: cmd
 
 
