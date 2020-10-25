@@ -16,14 +16,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@a81bbbf8298c0fa03ea29cdc473d45769f953675
 
-      - name: Restore from cache and run vcpkg
-        uses: lukka/run-vcpkg@fc243fce3040cd0f085c9704118f849ebacbe9d3
-        with:
-          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-          vcpkgGitCommitId: 8fe1851e1eb51a971b2b7cfdb8161ac03bbbd6d5
-          vcpkgArguments: '@${{ env.VCPKG_RESPONSE_FILE }}'
-          vcpkgTriplet: 'x64-windows-static'
-          appendedCacheKey: ${{ hashFiles(env.VCPKG_RESPONSE_FILE) }}
+      #- name: Restore from cache and run vcpkg
+      #  uses: lukka/run-vcpkg@fc243fce3040cd0f085c9704118f849ebacbe9d3
+      #  with:
+      #    vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+      #    vcpkgGitCommitId: 8fe1851e1eb51a971b2b7cfdb8161ac03bbbd6d5
+      #    vcpkgArguments: '@${{ env.VCPKG_RESPONSE_FILE }}'
+      #    vcpkgTriplet: 'x64-windows-static'
+      #    appendedCacheKey: ${{ hashFiles(env.VCPKG_RESPONSE_FILE) }}
 
       - name: Generate protobuf+grpc include files
         run: '%GITHUB_WORKSPACE%\protos\make-protos.bat'
@@ -36,16 +36,18 @@ jobs:
         run: '%VCPKG_ROOT%/vcpkg integrate install'
         shell: cmd
 
-      - name: Build AIModule
-        run: 'msbuild %GITHUB_WORKSPACE%\aimodule\aimodule.vcxproj /p:Configuration=Release /p:Platform=x64'
-        shell: cmd
+      #- name: Build AIModule
+      #  run: 'msbuild %GITHUB_WORKSPACE%\aimodule\aimodule.vcxproj /p:Configuration=Release /p:Platform=x64'
+      #  shell: cmd
 
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@e74ff71f7d8a4c4745b560a485cc5fdb9b5b999d
         with:
-          repo_token: ${{ secrets.RELEASE_TOKEN }}
-          file: '%GITHUB_WORKSPACE%\aimodule\x64\Release\aimodule.dll'
-          asset_name: 'aimodule.dll'
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          #file: '${{ env.GITHUB_WORKSPACE }}\aimodule\x64\Release\aimodule.dll'
+          file: '${{ env.GITHUB_WORKSPACE }}\LICENSE'
+          #asset_name: 'aimodule.dll'
+          asset_name: 'LICENSE'
           tag: ${{ github.ref }}
           overwrite: true
           release_name: 'latest-development'
