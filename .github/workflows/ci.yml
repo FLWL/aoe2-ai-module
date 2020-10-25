@@ -1,24 +1,18 @@
-# This is a basic workflow to help you get started with Actions
 name: CI
 
-# Controls when the action will run.
 on:
   push:
     branches:
       - dev
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
     runs-on: windows-2019
     env:
       PreferredToolArchitecture: x64
       VCPKG_RESPONSE_FILE: ${{ github.workspace }}\aimodule\vcpkg_dependencies.txt
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out the branch of this repository from where this workflow was called from under $GITHUB_WORKSPACE
       - name: Checkout
         uses: actions/checkout@a81bbbf8298c0fa03ea29cdc473d45769f953675
 
@@ -31,7 +25,6 @@ jobs:
           vcpkgTriplet: 'x64-windows-static'
           appendedCacheKey: ${{ hashFiles(env.VCPKG_RESPONSE_FILE) }}
 
-      # Runs a single command
       - name: Generate protobuf+grpc include files
         run: '%GITHUB_WORKSPACE%\protos\make-protos.bat'
         shell: cmd
@@ -46,6 +39,27 @@ jobs:
       - name: Build AIModule
         run: 'msbuild %GITHUB_WORKSPACE%\aimodule\aimodule.vcxproj /p:Configuration=Release /p:Platform=x64'
         shell: cmd
+
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@e74ff71f7d8a4c4745b560a485cc5fdb9b5b999d
+        with:
+          repo_token: ${{ secrets.RELEASE_TOKEN }}
+          file: '%GITHUB_WORKSPACE%\aimodule\x64\Release\aimodule.dll'
+          asset_name: 'aimodule.dll'
+          tag: ${{ github.ref }}
+          overwrite: true
+          release_name: 'latest-development'
+          body: 'Latest development release.'
+          prerelease: true
+
+
+
+
+
+
+
+
+
 
 
 
