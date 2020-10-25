@@ -46,8 +46,7 @@ jobs:
           automatic_release_tag: "latest-dev"
           prerelease: true
           title: "Development Build"
-          files: |
-            ${{ github.workspace }}\LICENSE
+          files: LICENSE
 
 
 
