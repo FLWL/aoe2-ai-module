@@ -25,16 +25,16 @@ jobs:
       #    vcpkgTriplet: 'x64-windows-static'
       #    appendedCacheKey: ${{ hashFiles(env.VCPKG_RESPONSE_FILE) }}
 
-      - name: Generate protobuf+grpc include files
-        run: '%GITHUB_WORKSPACE%\protos\make-protos.bat'
-        shell: cmd
+      #- name: Generate protobuf+grpc include files
+      #  run: '%GITHUB_WORKSPACE%\protos\make-protos.bat'
+      #  shell: cmd
 
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@c26a08ba26249b81327e26f6ef381897b6a8754d
+      #- name: Add msbuild to PATH
+      #  uses: microsoft/setup-msbuild@c26a08ba26249b81327e26f6ef381897b6a8754d
 
-      - name: Integrate MSBuild
-        run: '%VCPKG_ROOT%/vcpkg integrate install'
-        shell: cmd
+      #- name: Integrate MSBuild
+      #  run: '%VCPKG_ROOT%/vcpkg integrate install'
+      #  shell: cmd
 
       #- name: Build AIModule
       #  run: 'msbuild %GITHUB_WORKSPACE%\aimodule\aimodule.vcxproj /p:Configuration=Release /p:Platform=x64'
