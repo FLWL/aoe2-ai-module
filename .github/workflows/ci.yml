@@ -16,37 +16,38 @@ jobs:
       - name: Checkout
         uses: actions/checkout@a81bbbf8298c0fa03ea29cdc473d45769f953675
 
-      #- name: Restore from cache and run vcpkg
-      #  uses: lukka/run-vcpkg@fc243fce3040cd0f085c9704118f849ebacbe9d3
-      #  with:
-      #    vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-      #    vcpkgGitCommitId: 8fe1851e1eb51a971b2b7cfdb8161ac03bbbd6d5
-      #    vcpkgArguments: '@${{ env.VCPKG_RESPONSE_FILE }}'
-      #    vcpkgTriplet: 'x64-windows-static'
-      #    appendedCacheKey: ${{ hashFiles(env.VCPKG_RESPONSE_FILE) }}
+      - name: Restore from cache and run vcpkg
+        uses: lukka/run-vcpkg@fc243fce3040cd0f085c9704118f849ebacbe9d3
+        with:
+          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+          vcpkgGitCommitId: 8fe1851e1eb51a971b2b7cfdb8161ac03bbbd6d5
+          vcpkgArguments: '@${{ env.VCPKG_RESPONSE_FILE }}'
+          vcpkgTriplet: 'x64-windows-static'
+          appendedCacheKey: ${{ hashFiles(env.VCPKG_RESPONSE_FILE) }}
 
-      #- name: Generate protobuf+grpc include files
-      #  run: '%GITHUB_WORKSPACE%\protos\make-protos.bat'
-      #  shell: cmd
+      - name: Generate protobuf+grpc include files
+        run: '%GITHUB_WORKSPACE%\protos\make-protos.bat'
+        shell: cmd
 
-      #- name: Add msbuild to PATH
-      #  uses: microsoft/setup-msbuild@c26a08ba26249b81327e26f6ef381897b6a8754d
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@c26a08ba26249b81327e26f6ef381897b6a8754d
 
-      #- name: Integrate MSBuild
-      #  run: '%VCPKG_ROOT%/vcpkg integrate install'
-      #  shell: cmd
+      - name: Integrate MSBuild
+        run: '%VCPKG_ROOT%/vcpkg integrate install'
+        shell: cmd
 
-      #- name: Build AIModule
-      #  run: 'msbuild %GITHUB_WORKSPACE%\aimodule\aimodule.vcxproj /p:Configuration=Release /p:Platform=x64'
-      #  shell: cmd
+      - name: Build AIModule
+        run: 'msbuild %GITHUB_WORKSPACE%\aimodule\aimodule.vcxproj /p:Configuration=Release /p:Platform=x64'
+        shell: cmd
       
-      - uses: marvinpinto/action-automatic-releases@1d058ab0dc4a6b2d9df93b696615cad6ee6d1537
+      - name: Upload binaries to release
+        uses: marvinpinto/action-automatic-releases@1d058ab0dc4a6b2d9df93b696615cad6ee6d1537
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: "latest-dev"
           prerelease: true
           title: "Development Build"
-          files: aimodule/vcpkg_dependencies.txt
+          files: aimodule/x64/Release/aimodule.dll
 
 
 
