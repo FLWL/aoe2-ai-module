@@ -40,17 +40,22 @@ jobs:
         run: 'msbuild %GITHUB_WORKSPACE%\aimodule\aimodule.vcxproj /p:Configuration=Release /p:Platform=x64'
         shell: cmd
       
-      - name: Upload binaries to release
+      - name: Update release data
         uses: marvinpinto/action-automatic-releases@1d058ab0dc4a6b2d9df93b696615cad6ee6d1537
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: "latest-dev"
+          automatic_release_tag: 'latest-dev'
           prerelease: true
           title: "Development Build"
-          files: aimodule/x64/Release/aimodule.dll
+          files:
 
-
-
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@e74ff71f7d8a4c4745b560a485cc5fdb9b5b999d
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: 'aimodule/x64/Release/aimodule.dll'
+          asset_name: 'aimodule.dll'
+          tag: 'latest-dev'
 
 
 
