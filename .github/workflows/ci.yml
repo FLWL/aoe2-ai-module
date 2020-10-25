@@ -46,7 +46,7 @@ jobs:
           automatic_release_tag: "latest-dev"
           prerelease: true
           title: "Development Build"
-          files: aimodule\aimodule.sln
+          files: aimodule/aimodule.sln
 
 
 
