@@ -45,7 +45,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           #file: '${{ env.GITHUB_WORKSPACE }}\aimodule\x64\Release\aimodule.dll'
-          file: '${{ env.GITHUB_WORKSPACE }}\LICENSE'
+          file: '${{ github.workspace }}\LICENSE'
           #asset_name: 'aimodule.dll'
           asset_name: 'LICENSE'
           tag: ${{ github.ref }}
