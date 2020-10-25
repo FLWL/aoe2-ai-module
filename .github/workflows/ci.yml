@@ -33,11 +33,11 @@ jobs:
 
       # Runs a single command
       - name: Generate protobuf+grpc include files
-        run: %GITHUB_WORKSPACE%\protos\make-protos.bat
+        run: '%GITHUB_WORKSPACE%\protos\make-protos.bat'
         shell: cmd
 
       - name: Build AIModule
-        run: msbuild %GITHUB_WORKSPACE%\aimodule\aimodule.vcxproj /p:Configuration=Release /p:Platform=x64
+        run: 'msbuild %GITHUB_WORKSPACE%\aimodule\aimodule.vcxproj /p:Configuration=Release /p:Platform=x64'
         shell: cmd
 
 
