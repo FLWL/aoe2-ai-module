@@ -23,7 +23,7 @@
     <ProjectGuid>{426B8A03-23FC-4CC6-B872-F857F12D0826}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>aimodule</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
