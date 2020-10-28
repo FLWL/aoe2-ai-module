@@ -43,7 +43,8 @@ jobs:
           %VCPKG_ROOT%\installed\x64-windows-static\tools\protobuf\protoc.exe -I %GITHUB_WORKSPACE% -I %VCPKG_ROOT%\installed\x64-windows-static\include --doc_out %GITHUB_WORKSPACE%\documentation\ --plugin=protoc-gen-doc=%GITHUB_WORKSPACE%\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,Dev-Branch-Documentation#-Expert-API.md protos/expert/expert_api.proto
           %VCPKG_ROOT%\installed\x64-windows-static\tools\protobuf\protoc.exe -I %GITHUB_WORKSPACE% -I %VCPKG_ROOT%\installed\x64-windows-static\include --doc_out %GITHUB_WORKSPACE%\documentation\ --plugin=protoc-gen-doc=%GITHUB_WORKSPACE%\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,Dev-Branch-Documentation#-Expert-Actions.md protos/expert/action/action.proto
           %VCPKG_ROOT%\installed\x64-windows-static\tools\protobuf\protoc.exe -I %GITHUB_WORKSPACE% -I %VCPKG_ROOT%\installed\x64-windows-static\include --doc_out %GITHUB_WORKSPACE%\documentation\ --plugin=protoc-gen-doc=%GITHUB_WORKSPACE%\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,Dev-Branch-Documentation#-Expert-Facts.md protos/expert/fact/fact.proto
-
+        shell: cmd
+      
       - name: Upload Documentation to Wiki
         uses: SwiftDocOrg/github-wiki-publish-action@f46300875fd4ffbfbea32ca71a038d024cd3338e
         with:
