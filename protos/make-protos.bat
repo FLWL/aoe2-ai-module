@@ -24,4 +24,4 @@ echo Generating AIModule Python grpc includes
 %protoc_path% -I %workspace_path% -I %standard_include_path% --grpc_out %workspace_path%\client_python\ --plugin=protoc-gen-grpc=%grpc_python_path% protos/ai_module_api.proto
 %protoc_path% -I %workspace_path% -I %standard_include_path% --grpc_out %workspace_path%\client_python\ --plugin=protoc-gen-grpc=%grpc_python_path% protos/expert/expert_api.proto
 
-echo All protobuf+grpc includes generated
+echo Protobuf+grpc file generation finished
