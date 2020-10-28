@@ -38,11 +38,18 @@ jobs:
 
       - name: Generate protobuf documentation
         run: |
-          mkdir %GITHUB_WORKSPACE%\protos\documentation
-          echo %GEN_DOC_CMD%
-          %GEN_DOC_CMD% --doc_opt=markdown,Dev-Branch-Documentation#-AI-Module-API.md protos/ai_module_api.proto
+          mkdir %GITHUB_WORKSPACE%\documentation
+          %VCPKG_ROOT%\installed\x64-windows-static\tools\protobuf\protoc.exe -I %GITHUB_WORKSPACE% -I %VCPKG_ROOT%\installed\x64-windows-static\include --doc_out %GITHUB_WORKSPACE%\documentation\ --plugin=protoc-gen-doc=%GITHUB_WORKSPACE%\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,Dev-Branch-Documentation#-AI-Module-API.md protos/ai_module_api.proto
+          %VCPKG_ROOT%\installed\x64-windows-static\tools\protobuf\protoc.exe -I %GITHUB_WORKSPACE% -I %VCPKG_ROOT%\installed\x64-windows-static\include --doc_out %GITHUB_WORKSPACE%\documentation\ --plugin=protoc-gen-doc=%GITHUB_WORKSPACE%\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,Dev-Branch-Documentation#-Expert-API.md protos/expert/expert_api.proto
+          %VCPKG_ROOT%\installed\x64-windows-static\tools\protobuf\protoc.exe -I %GITHUB_WORKSPACE% -I %VCPKG_ROOT%\installed\x64-windows-static\include --doc_out %GITHUB_WORKSPACE%\documentation\ --plugin=protoc-gen-doc=%GITHUB_WORKSPACE%\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,Dev-Branch-Documentation#-Expert-Actions.md protos/expert/action/action.proto
+          %VCPKG_ROOT%\installed\x64-windows-static\tools\protobuf\protoc.exe -I %GITHUB_WORKSPACE% -I %VCPKG_ROOT%\installed\x64-windows-static\include --doc_out %GITHUB_WORKSPACE%\documentation\ --plugin=protoc-gen-doc=%GITHUB_WORKSPACE%\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,Dev-Branch-Documentation#-Expert-Facts.md protos/expert/fact/fact.proto
+
+      - name: Upload Documentation to Wiki
+        uses: SwiftDocOrg/github-wiki-publish-action@f46300875fd4ffbfbea32ca71a038d024cd3338e
+        with:
+          path: '${{ github.workspace }}\documentation'
         env:
-          GEN_DOC_CMD: '%VCPKG_ROOT%\installed\x64-windows-static\tools\protobuf\protoc.exe -I %GITHUB_WORKSPACE% -I %VCPKG_ROOT%\installed\x64-windows-static\include --doc_out %GITHUB_WORKSPACE%\protos\documentation\ --plugin=protoc-gen-doc=%GITHUB_WORKSPACE%\protoc-gen-doc\protoc-gen-doc.exe'
+          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
       #- name: Generate protobuf+grpc include files
       #  run: '%GITHUB_WORKSPACE%\protos\make-protos.bat'
