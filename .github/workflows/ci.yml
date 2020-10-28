@@ -27,14 +27,22 @@ jobs:
         run: 'cd protoc-gen-doc && go build ./cmd/... & cd ..'
         shell: cmd
       
-      #- name: Restore from cache and run vcpkg
-      #  uses: lukka/run-vcpkg@fc243fce3040cd0f085c9704118f849ebacbe9d3
-      #  with:
-      #    vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-      #    vcpkgGitCommitId: 8fe1851e1eb51a971b2b7cfdb8161ac03bbbd6d5
-      #    vcpkgArguments: '@${{ env.VCPKG_RESPONSE_FILE }}'
-      #    vcpkgTriplet: 'x64-windows-static'
-      #    appendedCacheKey: ${{ hashFiles(env.VCPKG_RESPONSE_FILE) }}
+      - name: Restore from cache and run vcpkg
+        uses: lukka/run-vcpkg@fc243fce3040cd0f085c9704118f849ebacbe9d3
+        with:
+          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+          vcpkgGitCommitId: 8fe1851e1eb51a971b2b7cfdb8161ac03bbbd6d5
+          vcpkgArguments: '@${{ env.VCPKG_RESPONSE_FILE }}'
+          vcpkgTriplet: 'x64-windows-static'
+          appendedCacheKey: ${{ hashFiles(env.VCPKG_RESPONSE_FILE) }}
+
+      - name: Generate protobuf documentation
+        run: |
+          mkdir %GITHUB_WORKSPACE%\protos\documentation
+          echo %GEN_DOC_CMD%
+          %GEN_DOC_CMD% --doc_opt=markdown,Dev-Branch-Documentation#-AI-Module-API.md protos/ai_module_api.proto
+        env:
+          GEN_DOC_CMD: '%VCPKG_ROOT%\installed\x64-windows-static\tools\protobuf\protoc.exe -I %GITHUB_WORKSPACE% -I %VCPKG_ROOT%\installed\x64-windows-static\include --doc_out %GITHUB_WORKSPACE%\protos\documentation\ --plugin=protoc-gen-doc=%GITHUB_WORKSPACE%\protoc-gen-doc\protoc-gen-doc.exe'
 
       #- name: Generate protobuf+grpc include files
       #  run: '%GITHUB_WORKSPACE%\protos\make-protos.bat'
