@@ -12,9 +12,8 @@ Currently the only supported version of the game is the Definitive Edition. If t
 * Install Microsoft Visual Studio 2019 with support for "Desktop development with C++" component.
 * Install Microsoft vcpkg package manager (https://github.com/microsoft/vcpkg#quick-start-windows). By default the build scripts assume that it is installed in `aoe2-ai-module/vcpkg`, where `aoe2-ai-module` is the top level directory of this repository.
 * Install necessary C++ libraries with the command `vcpkg install grpc detours --triplet x64-windows-static`.
-* (optional) Acquire or build `protoc-gen-doc.exe` (https://github.com/pseudomuto/protoc-gen-doc) and ensure that `protoc_gen_doc_path` in `protos/make-protos.bat` points to it. This step can be skipped if generating documentation is not required. The same auto-generated documentation is available in the project's wiki.
 * Edit `vcpkg_path` in `protos/make-protos.bat` if necessary to point to the directory where vcpkg was installed.
-* Run `protos/make-protos.bat` to convert .proto files in the `protos` directory to useful C++ and Python includes into folders `aimodule/protos` and `client_python/protos` respectively. If `protoc_gen_doc_path` path is correct then markdown documentation of proto files will also be generated.
+* Run `protos/make-protos.bat` to convert .proto files in the `protos` directory to useful C++ and Python includes into folders `aimodule/protos` and `client_python/protos` respectively.
 * Open `aimodule/aimodule.sln` with Visual Studio.
 * Build an x64 Release build for the `aimodule` project.
 * DLL will be available in `aimodule/x64/Release/aimodule.dll`.
@@ -25,7 +24,6 @@ There are also automated builds by GitHub Actions available under the Releases s
 * gRPC C++ framework
 * Google Protocol Buffers
 * Microsoft Detours
-* protoc-gen-doc (optional)
 
 # Disclaimer
 * This library interfaces with Age of Empires 2: Definitive Edition in ways that are not officially supported by the developers of the game. While the authors of this library try to minimize its impact on the normal operation of the game, it cannot be guaranteed due to the nature of the design. It is therefore recommendeed to use this software only in offline mode in local single player matches. The authors of this library do not provide any kind of warranty nor take liability for the consequences of (mis)using this software. See the license document for further details.
