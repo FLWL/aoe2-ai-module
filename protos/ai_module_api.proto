@@ -1,15 +1,27 @@
 syntax = "proto3";
+/**
+ * RPC calls that are general to the AI Module and do not belong to any subsystem.
+ */
 
 package protos;
 
 service AIModuleAPI {
+  /**
+   * Cancel any pending RPC calls, close the RPC server, remove detours and detach the AI Module from the game process.
+   */
   rpc Unload(UnloadRequest) returns (UnloadReply) { }
 }
 
+/**
+ * `Unload` call parameters. Currently empty.
+ */
 message UnloadRequest {
   
 }
 
+/**
+ * `Unload` call reply. Currently empty.
+ */
 message UnloadReply {
   
 }

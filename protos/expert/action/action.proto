@@ -1,11 +1,20 @@
 syntax = "proto3";
+/**
+ * Action message and reply definitions for use with Expert API subsystem `ExecuteCommandList` call.
+ */
 
 package protos.expert.action;
 
+/**
+ * Reset a flag associated with an event such as a trigger so it could be used again.
+ */
 message AcknowledgeEvent {
-  int32 eventType = 1;
-  int32 id = 2;
+  int32 eventType = 1; // type of event, such as a trigger
+  int32 id = 2; // id of the event whose flag to reset
 }
+/**
+ * Reply for the `AcknowledgeEvent` action. No information is returned.
+ */
 message AcknowledgeEventResult {
   
 }

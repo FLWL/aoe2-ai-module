@@ -1,26 +1,47 @@
 syntax = "proto3";
+/**
+ * RPC calls provided by the Expert API subsystem.
+ */
 
 package protos.expert;
 
 import "google/protobuf/any.proto";
 
 service ExpertAPI {
+  /**
+   * Send a list of expert actions and facts (commands) to the AI Module. The list will be processed during the next AI tick for the specified player. If that does not occur in 5 seconds, an error code will be returned.
+   */
   rpc ExecuteCommandList(CommandList) returns (CommandResultList) {}
+  /**
+   * Experimental. Currently unsupported.
+   */
   rpc ResolveConst(ResolveConstRequest) returns (ResolveConstResponse) {}
 }
 
+/**
+ * `ExecuteCommandList` call parameters.
+ */
 message CommandList {
-  int32 playerNumber = 1;
-  repeated google.protobuf.Any commands = 2;
+  int32 playerNumber = 1; // player number from 1-8 on which to execute the commands, must be an AI player
+  repeated google.protobuf.Any commands = 2; // list of commands to execute on behalf of that player
 }
+/**
+ * `ExecuteCommandList` call reply.
+ */
 message CommandResultList {
-  int32 playerNumber = 1;
-  repeated google.protobuf.Any results = 2;
+  int32 playerNumber = 1; // player number from 1-8 on which the commands were executed on
+  repeated google.protobuf.Any results = 2; // list of results for each command in the same order as the originally sent in the command list
 }
 
+/**
+ * Experimental. Currently unsupported.
+ */
 message ResolveConstRequest {
   string constToResolve = 1;
 }
+/**
+ * Experimental. Currently unsupported.
+ */
 message ResolveConstResponse {
   int32 constValue = 1;
 }

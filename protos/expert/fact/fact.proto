@@ -1,12 +1,21 @@
 syntax = "proto3";
+/**
+ * Fact message and reply definitions for use with Expert API subsystem `ExecuteCommandList` call.
+ */
 
 package protos.expert.fact;
 
+/**
+ * Retrieve the amount of player's land military units designated as attackers
+ */
 message AttackSoldierCount {
   
 }
+/**
+ * Reply for the `AttackSoldierCount` fact.
+ */
 message AttackSoldierCountResult {
-  int32 result = 1;
+  int32 result = 1; // number of player's land military units designated as attackers
 }
 
 message AttackWarboatCount {
