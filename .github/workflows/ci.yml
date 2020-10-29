@@ -16,6 +16,12 @@ jobs:
       - name: Checkout aoe2-ai-module
         uses: actions/checkout@a81bbbf8298c0fa03ea29cdc473d45769f953675
       
+      - name: Checkout ${{ github.repository }}.wiki
+        uses: actions/checkout@a81bbbf8298c0fa03ea29cdc473d45769f953675
+        with:
+          repository: ${{ github.repository }}.wiki
+          path: documentation
+      
       - name: Checkout protoc-gen-doc
         uses: actions/checkout@a81bbbf8298c0fa03ea29cdc473d45769f953675
         with:
@@ -38,19 +44,21 @@ jobs:
 
       - name: Generate protobuf documentation
         run: |
-          mkdir %GITHUB_WORKSPACE%\documentation
           %VCPKG_ROOT%\installed\x64-windows-static\tools\protobuf\protoc.exe -I %GITHUB_WORKSPACE% -I %VCPKG_ROOT%\installed\x64-windows-static\include --doc_out %GITHUB_WORKSPACE%\documentation\ --plugin=protoc-gen-doc=%GITHUB_WORKSPACE%\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,Dev-Branch-Documentation#-AI-Module-API.md protos/ai_module_api.proto
           %VCPKG_ROOT%\installed\x64-windows-static\tools\protobuf\protoc.exe -I %GITHUB_WORKSPACE% -I %VCPKG_ROOT%\installed\x64-windows-static\include --doc_out %GITHUB_WORKSPACE%\documentation\ --plugin=protoc-gen-doc=%GITHUB_WORKSPACE%\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,Dev-Branch-Documentation#-Expert-API.md protos/expert/expert_api.proto
           %VCPKG_ROOT%\installed\x64-windows-static\tools\protobuf\protoc.exe -I %GITHUB_WORKSPACE% -I %VCPKG_ROOT%\installed\x64-windows-static\include --doc_out %GITHUB_WORKSPACE%\documentation\ --plugin=protoc-gen-doc=%GITHUB_WORKSPACE%\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,Dev-Branch-Documentation#-Expert-Actions.md protos/expert/action/action.proto
           %VCPKG_ROOT%\installed\x64-windows-static\tools\protobuf\protoc.exe -I %GITHUB_WORKSPACE% -I %VCPKG_ROOT%\installed\x64-windows-static\include --doc_out %GITHUB_WORKSPACE%\documentation\ --plugin=protoc-gen-doc=%GITHUB_WORKSPACE%\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,Dev-Branch-Documentation#-Expert-Facts.md protos/expert/fact/fact.proto
         shell: cmd
-      
-      - name: Upload Documentation to Wiki
-        uses: SwiftDocOrg/github-wiki-publish-action@f46300875fd4ffbfbea32ca71a038d024cd3338e
-        with:
-          path: '${{ github.workspace }}\documentation'
-        env:
-          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+
+      - name: Commit and push wiki files
+        run: |
+          cd documentation
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Add changes" && git push
+          cd ..
+        shell: cmd
 
       #- name: Generate protobuf+grpc include files
       #  run: '%GITHUB_WORKSPACE%\protos\make-protos.bat'
