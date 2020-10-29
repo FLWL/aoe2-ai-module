@@ -22,17 +22,6 @@ jobs:
           repository: ${{ github.repository }}.wiki
           path: documentation
       
-      - name: Checkout protoc-gen-doc
-        uses: actions/checkout@a81bbbf8298c0fa03ea29cdc473d45769f953675
-        with:
-          repository: pseudomuto/protoc-gen-doc
-          ref: f06de7ac0ef41acabeac9ac02f6f30ef15f6405f
-          path: protoc-gen-doc
-      
-      - name: Compile protoc-gen-doc
-        run: 'cd protoc-gen-doc && go build ./cmd/... & cd ..'
-        shell: cmd
-      
       - name: Restore from cache and run vcpkg
         uses: lukka/run-vcpkg@fc243fce3040cd0f085c9704118f849ebacbe9d3
         with:
@@ -41,24 +30,6 @@ jobs:
           vcpkgArguments: '@${{ env.VCPKG_RESPONSE_FILE }}'
           vcpkgTriplet: 'x64-windows-static'
           appendedCacheKey: ${{ hashFiles(env.VCPKG_RESPONSE_FILE) }}
-
-      - name: Generate protobuf documentation
-        run: |
-          %VCPKG_ROOT%\installed\x64-windows-static\tools\protobuf\protoc.exe -I %GITHUB_WORKSPACE% -I %VCPKG_ROOT%\installed\x64-windows-static\include --doc_out %GITHUB_WORKSPACE%\documentation\ --plugin=protoc-gen-doc=%GITHUB_WORKSPACE%\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,Dev-Branch-Documentation#-AI-Module-API.md protos/ai_module_api.proto
-          %VCPKG_ROOT%\installed\x64-windows-static\tools\protobuf\protoc.exe -I %GITHUB_WORKSPACE% -I %VCPKG_ROOT%\installed\x64-windows-static\include --doc_out %GITHUB_WORKSPACE%\documentation\ --plugin=protoc-gen-doc=%GITHUB_WORKSPACE%\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,Dev-Branch-Documentation#-Expert-API.md protos/expert/expert_api.proto
-          %VCPKG_ROOT%\installed\x64-windows-static\tools\protobuf\protoc.exe -I %GITHUB_WORKSPACE% -I %VCPKG_ROOT%\installed\x64-windows-static\include --doc_out %GITHUB_WORKSPACE%\documentation\ --plugin=protoc-gen-doc=%GITHUB_WORKSPACE%\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,Dev-Branch-Documentation#-Expert-Actions.md protos/expert/action/action.proto
-          %VCPKG_ROOT%\installed\x64-windows-static\tools\protobuf\protoc.exe -I %GITHUB_WORKSPACE% -I %VCPKG_ROOT%\installed\x64-windows-static\include --doc_out %GITHUB_WORKSPACE%\documentation\ --plugin=protoc-gen-doc=%GITHUB_WORKSPACE%\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,Dev-Branch-Documentation#-Expert-Facts.md protos/expert/fact/fact.proto
-        shell: cmd
-
-      - name: Commit and push wiki files
-        run: |
-          cd documentation
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .
-          git diff-index --quiet HEAD || git commit -m "Add changes" && git push
-          cd ..
-        shell: cmd
 
       #- name: Generate protobuf+grpc include files
       #  run: '%GITHUB_WORKSPACE%\protos\make-protos.bat'
