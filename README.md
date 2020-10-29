@@ -1,4 +1,7 @@
 # AoE2 AI Module
+![Build](https://github.com/FLWL/aoe2-ai-module/workflows/Build/badge.svg?branch=main) ![Build Documentation](https://github.com/FLWL/aoe2-ai-module/workflows/Build%20Documentation/badge.svg?branch=main) (main)
+
+![Build](https://github.com/FLWL/aoe2-ai-module/workflows/Build/badge.svg?branch=dev) ![Build Documentation](https://github.com/FLWL/aoe2-ai-module/workflows/Build%20Documentation/badge.svg?branch=dev) (dev)
 
 # Introduction
 This project is aimed at extending the possibilities of AI scripting in Age of Empires 2 beyond the built-in rule-based system. This is mainly accomplished by exposing the fact and action functions that the game uses internally to an outside scripting environment chosen by the user.
