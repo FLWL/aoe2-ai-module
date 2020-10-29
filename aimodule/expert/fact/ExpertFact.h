@@ -151,7 +151,7 @@ public:
 	static bool UpPointContains(int goalPoint, int typeOp, int objectId);
 	static int UpPointDistance(int goalPoint1, int goalPoint2);
 	static int UpPointElevation(int goalPoint);
-	static bool UpPointExplored(int goalPoint);
+	static int UpPointExplored(int goalPoint);
 	static int UpPointTerrain(int goalPoint);
 	static int UpPointZone(int goalPoint);
 	static int UpProjectileDetected(int projectileType);
@@ -320,7 +320,7 @@ private:
 	inline static intptr_t(__fastcall* FuncUpPointContains)(int goalPoint, int typeOp, int objectId) = 0;
 	inline static intptr_t(__fastcall* FuncUpPointDistance)(int goalPoint1, int goalPoint2, int relOp, int value) = 0;
 	inline static intptr_t(__fastcall* FuncUpPointElevation)(int goalPoint, int relOp, int value) = 0;
-	inline static intptr_t(__fastcall* FuncUpPointExplored)(int goalPoint) = 0;
+	inline static intptr_t(__fastcall* FuncUpPointExplored)(int goalPoint, int relOp, int value) = 0;
 	inline static intptr_t(__fastcall* FuncUpPointTerrain)(int goalPoint, int relOp, int value) = 0;
 	inline static intptr_t(__fastcall* FuncUpPointZone)(int goalPoint, int relOp, int value) = 0;
 	inline static intptr_t(__fastcall* FuncUpProjectileDetected)(int projectileType, int relOp, int value) = 0;

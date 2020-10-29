@@ -971,9 +971,10 @@ int ExpertFact::UpPointElevation(int goalPoint)
 	return lastRelOpValue;
 }
 
-bool ExpertFact::UpPointExplored(int goalPoint)
+int ExpertFact::UpPointExplored(int goalPoint)
 {
-	return FuncUpPointExplored(goalPoint);
+	FuncUpPointExplored(goalPoint, 0, 0);
+	return lastRelOpValue;
 }
 
 int ExpertFact::UpPointTerrain(int goalPoint)

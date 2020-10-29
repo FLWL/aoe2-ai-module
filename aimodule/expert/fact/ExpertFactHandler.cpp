@@ -1713,7 +1713,7 @@ void ExpertFactHandler::UpPointExplored(const google::protobuf::Any& anyCommand,
 	protos::expert::fact::UpPointExplored command;
 	anyCommand.UnpackTo(&command);
 
-	bool factValue = ExpertFact::UpPointExplored(command.goalpoint());
+	int factValue = ExpertFact::UpPointExplored(command.goalpoint());
 
 	protos::expert::fact::UpPointExploredResult result;
 	result.set_result(factValue);
