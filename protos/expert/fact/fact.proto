@@ -1,6 +1,6 @@
 syntax = "proto3";
 /**
- * Fact message and reply definitions for use with Expert API subsystem `ExecuteCommandList` call.
+ * Fact request and response definitions for use with Expert API subsystem `ExecuteCommandList` call.
  */
 
 package protos.expert.fact;
@@ -12,24 +12,36 @@ message AttackSoldierCount {
   
 }
 /**
- * Reply for the `AttackSoldierCount` fact.
+ * Response for the `AttackSoldierCount` fact
  */
 message AttackSoldierCountResult {
   int32 result = 1; // number of player's land military units designated as attackers
 }
 
+/**
+ * Retrieve the amount of player's naval military units designated as attackers
+ */
 message AttackWarboatCount {
   
 }
+/**
+ * Response for the `AttackWarboatCount` fact
+ */
 message AttackWarboatCountResult {
-  int32 result = 1;
+  int32 result = 1; // number of player's naval military units designated as attackers
 }
 
+/**
+ * Check whether a building of certain type is available. This does not check if the player has the resources to build it
+ */
 message BuildingAvailable {
-  int32 buildingType = 1;
+  int32 buildingType = 1; // building type to check
 }
+/**
+ * Response for the `BuildingAvailable` fact
+ */
 message BuildingAvailableResult {
-  bool result = 1;
+  bool result = 1; // whether the given building type is available
 }
 
 message BuildingCount {
