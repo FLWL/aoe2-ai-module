@@ -78,9 +78,15 @@ message CcAddResourceResult {
   
 }
 
+/**
+ * Only available in DE.
+ */
 message ChatDebug {
   string text = 1;
 }
+/**
+ * Only available in DE.
+ */
 message ChatDebugResult {
   
 }
@@ -284,12 +290,18 @@ message EnableWallPlacementResult {
   
 }
 
+/**
+ * Only available in DE.
+ */
 message FeBreakPoint {
   int32 param1 = 1;
   int32 param2 = 2;
   int32 param3 = 3;
   int32 param4 = 4;
 }
+/**
+ * Only available in DE.
+ */
 message FeBreakPointResult {
   
 }
@@ -426,16 +438,28 @@ message SetStrategicNumberResult {
   
 }
 
+/**
+ * Only available in DE.
+ */
 message SkyboxClearSignal {
   int32 param = 1;
 }
+/**
+ * Only available in DE.
+ */
 message SkyboxClearSignalResult {
   
 }
 
+/**
+ * Only available in DE.
+ */
 message SkyboxSetNameMode {
   int32 param = 1;
 }
+/**
+ * Only available in DE.
+ */
 message SkyboxSetNameModeResult {
   
 }
@@ -617,21 +641,33 @@ message UpChatDataToAllResult {
   
 }
 
+/**
+ * Only available in DE.
+ */
 message UpChatDataToAllUsingId {
   int32 param1 = 1;
   int32 stringId = 2;
   int32 param3 = 3;
 }
+/**
+ * Only available in DE.
+ */
 message UpChatDataToAllUsingIdResult {
   
 }
 
+/**
+ * Only available in DE.
+ */
 message UpChatDataToPlayerUsingId {
   int32 stringId = 1;
   int32 playerId = 2;
   int32 param3 = 3;
   int32 param4 = 4;
 }
+/**
+ * Only available in DE.
+ */
 message UpChatDataToPlayerUsingIdResult {
   
 }
@@ -902,6 +938,20 @@ message UpGatherInsideResult {
   
 }
 
+/**
+ * Only available in AoC.
+ */
+message UpGetAlliedTarget {
+  int32 param1 = 1;
+  int32 param2 = 2;
+}
+/**
+ * Only available in AoC.
+ */
+message UpGetAlliedTargetResult {
+  
+}
+
 message UpGetAttackerClass {
   int32 goalSourceClass = 1;
 }
@@ -982,9 +1032,15 @@ message UpGetGroupSizeResult {
   
 }
 
+/**
+ * Only available in AoC.
+ */
 message UpGetGuardState {
   int32 goalState = 1;
 }
+/**
+ * Only available in AoC.
+ */
 message UpGetGuardStateResult {
   
 }
@@ -1178,19 +1234,31 @@ message UpGetTimerResult {
   
 }
 
+/**
+ * Only available in DE.
+ */
 message UpGetTreatyData {
   int32 param = 1;
 }
+/**
+ * Only available in DE.
+ */
 message UpGetTreatyDataResult {
   
 }
 
+/**
+ * Only available in AoC.
+ */
 message UpGetUpgradeId {
   int32 player = 1;
   int32 count = 2;
   int32 goalTypeId = 3;
   int32 goalUpgradeId = 4;
 }
+/**
+ * Only available in AoC.
+ */
 message UpGetUpgradeIdResult {
   
 }
@@ -1315,6 +1383,19 @@ message UpModifySn {
   int32 value = 3;
 }
 message UpModifySnResult {
+  
+}
+
+/**
+ * Only available in AoC.
+ */
+message UpOutOfSync {
+  
+}
+/**
+ * Only available in AoC.
+ */
+message UpOutOfSyncResult {
   
 }
 
@@ -1690,21 +1771,33 @@ message UpTargetPointResult {
   
 }
 
+/**
+ * Only available in DE.
+ */
 message UpTestharnessReport {
   int32 param1 = 1;
   int32 param2 = 2;
   int32 param3 = 3;
 }
+/**
+ * Only available in DE.
+ */
 message UpTestharnessReportResult {
   
 }
 
+/**
+ * Only available in DE.
+ */
 message UpTestharnessTest {
   int32 param1 = 1;
   int32 param2 = 2;
   int32 param3 = 3;
   int32 param4 = 4;
 }
+/**
+ * Only available in DE.
+ */
 message UpTestharnessTestResult {
   
 }

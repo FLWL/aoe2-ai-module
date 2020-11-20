@@ -125,7 +125,6 @@ message CanBuildGateWithEscrowResult {
 message CanBuildWall {
   int32 perimeter = 1;
   int32 wallType = 2;
-  int32 escrowFlag = 3;
 }
 message CanBuildWallResult {
   bool result = 1;
@@ -202,32 +201,56 @@ message CanTrainWithEscrowResult {
   bool result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message CcPlayersBuildingCount {
   int32 playerNumber = 1;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message CcPlayersBuildingCountResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message CcPlayersBuildingTypeCount {
   int32 playerNumber = 1;
   int32 buildingType = 2;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message CcPlayersBuildingTypeCountResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message CcPlayersUnitCount {
   int32 playerNumber = 1;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message CcPlayersUnitCountResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message CcPlayersUnitTypeCount {
   int32 playerNumber = 1;
   int32 unitType = 2;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message CcPlayersUnitTypeCountResult {
   int32 result = 1;
 }
@@ -330,9 +353,15 @@ message DropsiteMinDistanceResult {
   int32 result = 1;
 }
 
+/**
+ * Only available in DE.
+ */
 message EndingAge {
   
 }
+/**
+ * Only available in DE.
+ */
 message EndingAgeResult {
   int32 result = 1;
 }
@@ -373,14 +402,33 @@ message FalseResult {
   bool result = 1;
 }
 
+/**
+ * Only available in DE.
+ */
 message FeCanBuildAtPoint {
   int32 param1 = 1;
   int32 param2 = 2;
   int32 param3 = 3;
   int32 param4 = 4;
 }
+/**
+ * Only available in DE.
+ */
 message FeCanBuildAtPointResult {
   bool result = 1;
+}
+
+/**
+ * Only available in DE.
+ */
+message FeSubGameType {
+  
+}
+/**
+ * Only available in DE.
+ */
+message FeSubGameTypeResult {
+  int32 result = 1;
 }
 
 message FoodAmount {
@@ -860,6 +908,9 @@ message UpAttackerClassResult {
   int32 result = 1;
 }
 
+/**
+ * Type operator parameter is currently ignored in AoC version.
+ */
 message UpBuildingTypeInTown {
   int32 typeOp = 1;
   int32 buildingId = 2;
@@ -940,6 +991,9 @@ message UpEnemyVillagersInTownResult {
   int32 result = 1;
 }
 
+/**
+ * Type operator parameter is currently ignored in AoC version.
+ */
 message UpGaiaTypeCount {
   int32 typeOp = 1;
   int32 resource = 2;
@@ -948,6 +1002,9 @@ message UpGaiaTypeCountResult {
   int32 result = 1;
 }
 
+/**
+ * Type operator parameter is currently ignored in AoC version.
+ */
 message UpGaiaTypeCountTotal {
   int32 typeOp = 1;
   int32 resource = 2;
@@ -956,63 +1013,111 @@ message UpGaiaTypeCountTotalResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpGroupSize {
   int32 typeOp = 1;
   int32 groupId = 2;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpGroupSizeResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpIdleUnitCount {
   int32 idleType = 1;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpIdleUnitCountResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpObjectData {
   int32 objectData = 1;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpObjectDataResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpObjectTargetData {
   int32 objectData = 1;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpObjectTargetDataResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpObjectTypeCount {
   int32 typeOp = 1;
   int32 objectId = 2;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpObjectTypeCountResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpObjectTypeCountTotal {
   int32 typeOp = 1;
   int32 objectId = 2;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpObjectTypeCountTotalResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpPathDistance {
   int32 goalPoint = 1;
   int32 strict = 2;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpPathDistanceResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpPendingObjects {
   int32 typeOp = 1;
   int32 objectId = 2;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpPendingObjectsResult {
   int32 result = 1;
 }
@@ -1048,67 +1153,121 @@ message UpPointContainsResult {
   bool result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpPointDistance {
   int32 goalPoint1 = 1;
   int32 goalPoint2 = 2;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpPointDistanceResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpPointElevation {
   int32 goalPoint = 1;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpPointElevationResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpPointExplored {
   int32 goalPoint = 1;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpPointExploredResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpPointTerrain {
   int32 goalPoint = 1;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpPointTerrainResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpPointZone {
   int32 goalPoint = 1;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpPointZoneResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpProjectileDetected {
   int32 projectileType = 1;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpProjectileDetectedResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpProjectileTarget {
   int32 projectileType = 1;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpProjectileTargetResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpRemainingBoarAmount {
   
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpRemainingBoarAmountResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpResearchStatus {
   int32 typeOp = 1;
   int32 techId = 2;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpResearchStatusResult {
   int32 result = 1;
 }
@@ -1142,18 +1301,30 @@ message UpTrainSiteReadyResult {
   bool result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpUnitTypeInTown {
   int32 typeOp = 1;
   int32 unitId = 2;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpUnitTypeInTownResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpVillagerTypeInTown {
   int32 typeOp = 1;
   int32 unitId = 2;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message UpVillagerTypeInTownResult {
   int32 result = 1;
 }
@@ -1165,16 +1336,28 @@ message VictoryConditionResult {
   bool result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message WallCompletedPercentage {
   int32 perimeter = 1;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message WallCompletedPercentageResult {
   int32 result = 1;
 }
 
+/**
+ * Currently unimplemented in AoC version.
+ */
 message WallInvisiblePercentage {
   int32 perimeter = 1;
 }
+/**
+ * Currently unimplemented in AoC version.
+ */
 message WallInvisiblePercentageResult {
   int32 result = 1;
 }
