@@ -17,12 +17,6 @@ jobs:
       - name: Checkout aoe2-ai-module
         uses: actions/checkout@a81bbbf8298c0fa03ea29cdc473d45769f953675
       
-      - name: Checkout ${{ github.repository }}.wiki
-        uses: actions/checkout@a81bbbf8298c0fa03ea29cdc473d45769f953675
-        with:
-          repository: ${{ github.repository }}.wiki
-          path: documentation
-      
       - name: Restore from cache and run vcpkg
         uses: lukka/run-vcpkg@fc243fce3040cd0f085c9704118f849ebacbe9d3
         with:
@@ -44,8 +38,12 @@ jobs:
         run: '%VCPKG_ROOT%/vcpkg integrate install'
         shell: cmd
 
-      - name: Build AIModule
+      - name: Build AIModule x64
         run: 'msbuild %GITHUB_WORKSPACE%\aimodule\aimodule.vcxproj /p:Configuration=Release /p:Platform=x64'
+        shell: cmd
+      
+      - name: Build AIModule x86
+        run: 'msbuild %GITHUB_WORKSPACE%\aimodule\aimodule.vcxproj /p:Configuration=Release /p:Platform=x86'
         shell: cmd
       
       - name: Update latest-dev release metadata
@@ -57,12 +55,21 @@ jobs:
           prerelease: true
           title: 'Latest Development Build ${{ github.run_number }}'
 
-      - name: Upload latest-dev release binaries
+      - name: Upload x64 build to release latest-dev
         if: endsWith(github.ref, 'dev')
         uses: svenstaro/upload-release-action@e74ff71f7d8a4c4745b560a485cc5fdb9b5b999d
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: 'aimodule/x64/Release/aimodule.dll'
           asset_name: 'aimodule-de.dll'
+          tag: 'latest-dev'
+      
+      - name: Upload x86 build to release latest-dev
+        if: endsWith(github.ref, 'dev')
+        uses: svenstaro/upload-release-action@e74ff71f7d8a4c4745b560a485cc5fdb9b5b999d
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: 'aimodule/Release/aimodule.dll'
+          asset_name: 'aimodule-aoc.dll'
           tag: 'latest-dev'
 
