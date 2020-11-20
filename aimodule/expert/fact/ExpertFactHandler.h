@@ -1,6 +1,8 @@
 #pragma once
 #include "google/protobuf/any.pb.h"
 
+#include "misc/Configuration.h"
+
 class ExpertFactHandler
 {
 public:
@@ -47,13 +49,11 @@ public:
 	static void Difficulty(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void Doctrine(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void DropsiteMinDistance(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
-	static void EndingAge(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void EnemyBuildingsInTown(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void EnemyCapturedRelics(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void EscrowAmount(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void EventDetected(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void False(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
-	static void FeCanBuildAtPoint(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void FoodAmount(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void GameTime(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void GameType(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
@@ -164,6 +164,13 @@ public:
 	static void WallInvisiblePercentage(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void WarboatCount(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void WoodAmount(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+#if defined GAME_DE
+	static void EndingAge(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void FeCanBuildAtPoint(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void FeSubGameType(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+#elif defined GAME_AOC
+
+#endif
 
 private:
 	ExpertFactHandler() {};

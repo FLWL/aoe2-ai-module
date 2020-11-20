@@ -3,6 +3,8 @@
 #include <iostream>
 #include <io.h>
 
+#include "../misc/Statics.h"
+
 #include "AIModule.h"
 
 
@@ -58,10 +60,6 @@ void DebugConsole::ProcessUserCommand(std::string const& command)
 		{
 			aiModule->RequestUnload();
 			std::cout << "Requested unload." << std::endl;
-		}
-		else if (command == "printfuncs")
-		{
-			aiModule->GetExpert()->PrintFuncs();
 		}
 	}
 }

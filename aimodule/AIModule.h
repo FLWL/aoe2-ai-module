@@ -17,6 +17,7 @@ public:
 
 	void RequestUnload();
 	bool IsUnloadRequested();
+	bool IsMatchInProgress();
 
 	AIModuleService* GetService() { return &aiModuleService; };
 	Expert* GetExpert() { return &expert; };

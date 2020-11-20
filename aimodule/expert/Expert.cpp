@@ -30,11 +30,8 @@ Expert::Expert(AIModule* aiModule) :
 void Expert::UpdateAddresses()
 {
 	statics::SetFuncAddr(FuncRunList, statics::TranslateAddr(expert_conf::ADDR_FUNC_RUN_LIST));
+#if defined GAME_DE
 	statics::SetFuncAddr(FuncEvaluateRelOp, statics::TranslateAddr(expert_conf::ADDR_FUNC_EVALUATE_REL_OP));
-	statics::SetFuncAddr(FuncFindSymbol, statics::TranslateAddr(expert_conf::ADDR_FUNC_FIND_SYMBOL));
-#ifdef DEBUG_MODE
-	statics::SetFuncAddr(FuncDefAction, statics::TranslateAddr(expert_conf::ADDR_FUNC_DEF_ACTION));
-	statics::SetFuncAddr(FuncDefFact, statics::TranslateAddr(expert_conf::ADDR_FUNC_DEF_FACT));
 #endif
 
 	ExpertAction::UpdateAddresses();
@@ -53,7 +50,6 @@ void Expert::PopulateCommandMap()
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.BuildWall", &ExpertActionHandler::BuildWall });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.BuyCommodity", &ExpertActionHandler::BuyCommodity });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.CcAddResource", &ExpertActionHandler::CcAddResource });
-	commandMap.insert({ "type.googleapis.com/protos.expert.action.ChatDebug", &ExpertActionHandler::ChatDebug });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.ChatLocal", &ExpertActionHandler::ChatLocal });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.ChatLocalUsingId", &ExpertActionHandler::ChatLocalUsingId });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.ChatLocalUsingRange", &ExpertActionHandler::ChatLocalUsingRange });
@@ -81,7 +77,6 @@ void Expert::PopulateCommandMap()
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.EnableRule", &ExpertActionHandler::EnableRule });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.EnableTimer", &ExpertActionHandler::EnableTimer });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.EnableWallPlacement", &ExpertActionHandler::EnableWallPlacement });
-	commandMap.insert({ "type.googleapis.com/protos.expert.action.FeBreakPoint", &ExpertActionHandler::FeBreakPoint });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.GenerateRandomNumber", &ExpertActionHandler::GenerateRandomNumber });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.Log", &ExpertActionHandler::Log });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.LogTrace", &ExpertActionHandler::LogTrace });
@@ -100,8 +95,6 @@ void Expert::PopulateCommandMap()
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.SetSignal", &ExpertActionHandler::SetSignal });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.SetStance", &ExpertActionHandler::SetStance });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.SetStrategicNumber", &ExpertActionHandler::SetStrategicNumber });
-	commandMap.insert({ "type.googleapis.com/protos.expert.action.SkyboxClearSignal", &ExpertActionHandler::SkyboxClearSignal });
-	commandMap.insert({ "type.googleapis.com/protos.expert.action.SkyboxSetNameMode", &ExpertActionHandler::SkyboxSetNameMode });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.Spy", &ExpertActionHandler::Spy });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.Taunt", &ExpertActionHandler::Taunt });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.TauntUsingRange", &ExpertActionHandler::TauntUsingRange });
@@ -122,8 +115,6 @@ void Expert::PopulateCommandMap()
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpCcSendCheat", &ExpertActionHandler::UpCcSendCheat });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpChangeName", &ExpertActionHandler::UpChangeName });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpChatDataToAll", &ExpertActionHandler::UpChatDataToAll });
-	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpChatDataToAllUsingId", &ExpertActionHandler::UpChatDataToAllUsingId });
-	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpChatDataToPlayerUsingId", &ExpertActionHandler::UpChatDataToPlayerUsingId });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpChatDataToPlayer", &ExpertActionHandler::UpChatDataToPlayer });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpChatDataToSelf", &ExpertActionHandler::UpChatDataToSelf });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpCleanSearch", &ExpertActionHandler::UpCleanSearch });
@@ -162,7 +153,6 @@ void Expert::PopulateCommandMap()
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetFactSum", &ExpertActionHandler::UpGetFactSum });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetFocusFact", &ExpertActionHandler::UpGetFocusFact });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetGroupSize", &ExpertActionHandler::UpGetGroupSize });
-	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetGuardState", &ExpertActionHandler::UpGetGuardState });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetIndirectGoal", &ExpertActionHandler::UpGetIndirectGoal });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetObjectData", &ExpertActionHandler::UpGetObjectData });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetObjectTargetData", &ExpertActionHandler::UpGetObjectTargetData });
@@ -185,8 +175,6 @@ void Expert::PopulateCommandMap()
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetTargetFact", &ExpertActionHandler::UpGetTargetFact });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetThreatData", &ExpertActionHandler::UpGetThreatData });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetTimer", &ExpertActionHandler::UpGetTimer });
-	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetTreatyData", &ExpertActionHandler::UpGetTreatyData });
-	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetUpgradeId", &ExpertActionHandler::UpGetUpgradeId });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetVictoryData", &ExpertActionHandler::UpGetVictoryData });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetVictoryLimit", &ExpertActionHandler::UpGetVictoryLimit });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGuardUnit", &ExpertActionHandler::UpGuardUnit });
@@ -245,12 +233,26 @@ void Expert::PopulateCommandMap()
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpStoreTypeName", &ExpertActionHandler::UpStoreTypeName });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpTargetObjects", &ExpertActionHandler::UpTargetObjects });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpTargetPoint", &ExpertActionHandler::UpTargetPoint });
-	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpTestharnessReport", &ExpertActionHandler::UpTestharnessReport });
-	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpTestharnessTest", &ExpertActionHandler::UpTestharnessTest });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpTrain", &ExpertActionHandler::UpTrain });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpTributeToPlayer", &ExpertActionHandler::UpTributeToPlayer });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpUngarrison", &ExpertActionHandler::UpUngarrison });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpUpdateTargets", &ExpertActionHandler::UpUpdateTargets });
+#if defined GAME_DE
+	commandMap.insert({ "type.googleapis.com/protos.expert.action.ChatDebug", &ExpertActionHandler::ChatDebug });
+	commandMap.insert({ "type.googleapis.com/protos.expert.action.FeBreakPoint", &ExpertActionHandler::FeBreakPoint });
+	commandMap.insert({ "type.googleapis.com/protos.expert.action.SkyboxClearSignal", &ExpertActionHandler::SkyboxClearSignal });
+	commandMap.insert({ "type.googleapis.com/protos.expert.action.SkyboxSetNameMode", &ExpertActionHandler::SkyboxSetNameMode });
+	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpChatDataToAllUsingId", &ExpertActionHandler::UpChatDataToAllUsingId });
+	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpChatDataToPlayerUsingId", &ExpertActionHandler::UpChatDataToPlayerUsingId });
+	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetTreatyData", &ExpertActionHandler::UpGetTreatyData });
+	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpTestharnessReport", &ExpertActionHandler::UpTestharnessReport });
+	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpTestharnessTest", &ExpertActionHandler::UpTestharnessTest });
+#elif defined GAME_AOC
+	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetAlliedTarget", &ExpertActionHandler::UpGetAlliedTarget });
+	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetGuardState", &ExpertActionHandler::UpGetGuardState });
+	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetUpgradeId", &ExpertActionHandler::UpGetUpgradeId });
+	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpOutOfSync", &ExpertActionHandler::UpOutOfSync });
+#endif
 
 	// facts
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.AttackSoldierCount", &ExpertFactHandler::AttackSoldierCount });
@@ -296,13 +298,11 @@ void Expert::PopulateCommandMap()
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.Difficulty", &ExpertFactHandler::Difficulty });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.Doctrine", &ExpertFactHandler::Doctrine });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.DropsiteMinDistance", &ExpertFactHandler::DropsiteMinDistance });
-	commandMap.insert({ "type.googleapis.com/protos.expert.fact.EndingAge", &ExpertFactHandler::EndingAge });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.EnemyBuildingsInTown", &ExpertFactHandler::EnemyBuildingsInTown });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.EnemyCapturedRelics", &ExpertFactHandler::EnemyCapturedRelics });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.EscrowAmount", &ExpertFactHandler::EscrowAmount });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.EventDetected", &ExpertFactHandler::EventDetected });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.False", &ExpertFactHandler::False });
-	commandMap.insert({ "type.googleapis.com/protos.expert.fact.FeCanBuildAtPoint", &ExpertFactHandler::FeCanBuildAtPoint });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.FoodAmount", &ExpertFactHandler::FoodAmount });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.GameTime", &ExpertFactHandler::GameTime });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.GameType", &ExpertFactHandler::GameType });
@@ -413,6 +413,13 @@ void Expert::PopulateCommandMap()
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.WallInvisiblePercentage", &ExpertFactHandler::WallInvisiblePercentage });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.WarboatCount", &ExpertFactHandler::WarboatCount });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.WoodAmount", &ExpertFactHandler::WoodAmount });
+#if defined GAME_DE
+	commandMap.insert({ "type.googleapis.com/protos.expert.fact.EndingAge", &ExpertFactHandler::EndingAge });
+	commandMap.insert({ "type.googleapis.com/protos.expert.fact.FeCanBuildAtPoint", &ExpertFactHandler::FeCanBuildAtPoint });
+	commandMap.insert({ "type.googleapis.com/protos.expert.fact.FeSubGameType", &ExpertFactHandler::FeSubGameType });
+#elif defined GAME_AOC
+
+#endif
 }
 
 void Expert::EnableDetours()
@@ -420,10 +427,8 @@ void Expert::EnableDetours()
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());
 	DetourAttach(&(PVOID&)FuncRunList, DetouredRunList);
+#if defined GAME_DE
 	DetourAttach(&(PVOID&)FuncEvaluateRelOp, DetouredEvaluateRelOp);
-#ifdef DEBUG_MODE
-	DetourAttach(&(PVOID&)FuncDefAction, DetouredDefAction);
-	DetourAttach(&(PVOID&)FuncDefFact, DetouredDefFact);
 #endif
 	DetourTransactionCommit();
 }
@@ -433,17 +438,19 @@ void Expert::DisableDetours()
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());
 	DetourDetach(&(PVOID&)FuncRunList, DetouredRunList);
+#if defined GAME_DE
 	DetourDetach(&(PVOID&)FuncEvaluateRelOp, DetouredEvaluateRelOp);
-#ifdef DEBUG_MODE
-	DetourDetach(&(PVOID&)FuncDefAction, DetouredDefAction);
-	DetourDetach(&(PVOID&)FuncDefFact, DetouredDefFact);
 #endif
 	DetourTransactionCommit();
 }
 
-intptr_t __fastcall Expert::DetouredRunList(void* aiExpertEngine, int listId, void* statsOutput)
+#if defined GAME_DE
+int64_t Expert::DetouredRunList(void* aiExpertEngine, int listId, void* statsOutput)
+#elif defined GAME_AOC
+int32_t __fastcall Expert::DetouredRunList(void* aiExpertEngine, void* unused, int listId, void* statsOutput)
+#endif
 {
-	intptr_t result = FuncRunList(aiExpertEngine, listId, statsOutput);
+	auto result = FuncRunList(aiExpertEngine, listId, statsOutput);
 
 	auto t1 = std::chrono::high_resolution_clock::now();
 	int numCommandsProcessed = Expert::instance->ProcessCommands();
@@ -460,56 +467,12 @@ intptr_t __fastcall Expert::DetouredRunList(void* aiExpertEngine, int listId, vo
 	return result;
 }
 
-#ifdef GAME_DE
-int64_t __fastcall Expert::DetouredEvaluateRelOp(int relOp, int arg1, int arg2, char a4, char a5)
+#if defined GAME_DE
+int64_t Expert::DetouredEvaluateRelOp(int relOp, int arg1, int arg2, char a4, char a5)
 {
 	ExpertFact::EvaluateRelOpCalled(arg1);
 
 	return FuncEvaluateRelOp(relOp, arg1, arg2, a4, a5);
-}
-#endif
-
-#ifdef DEBUG_MODE
-
-std::string FormatFuncName(std::string input, uintptr_t funcAddr)
-{
-	std::replace(input.begin(), input.end(), '-', '_');
-	std::transform(input.begin(), input.end(), input.begin(), ::toupper);
-
-	std::ostringstream oss;
-	oss << "static const int64_t ADDR_FUNC_" << input << " = 0x" << std::hex << std::uppercase << funcAddr << std::nouppercase << std::dec << ";";
-
-	return oss.str();
-}
-
-intptr_t __fastcall Expert::DetouredDefAction(void* aiExpert, char *name, char argCount, void* function)
-{
-	uintptr_t reverseTranslatedFunctionPtr = (uintptr_t) function - statics::GetGameModuleBaseAddr() + aimodule_conf::REFERENCE_BASE_ADDR;
-	actionFuncs.insert(FormatFuncName(name, reverseTranslatedFunctionPtr));
-	return FuncDefAction(aiExpert, name, argCount, function);
-}
-
-intptr_t __fastcall Expert::DetouredDefFact(void* aiExpert, char* name, int factType, char argCount, void* function)
-{
-	uintptr_t reverseTranslatedFunctionPtr = (uintptr_t) function - statics::GetGameModuleBaseAddr() + aimodule_conf::REFERENCE_BASE_ADDR;
-	factFuncs.insert(FormatFuncName(name, reverseTranslatedFunctionPtr));
-	return FuncDefFact(aiExpert, name, factType, argCount, function);
-}
-
-void Expert::PrintFuncs()
-{
-	std::cout << "// Funcs related to actions" << std::endl;
-	for (auto it = actionFuncs.begin(); it != actionFuncs.end(); ++it)
-	{
-		std::cout << *it << std::endl;
-	}
-
-	std::cout << std::endl << "// Funcs related to facts" << std::endl;
-	for (auto it = factFuncs.begin(); it != factFuncs.end(); ++it)
-	{
-		if (actionFuncs.find(*it) == actionFuncs.end())
-			std::cout << *it << std::endl;
-	}
 }
 #endif
 

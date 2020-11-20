@@ -1,8 +1,10 @@
 #include "ExpertAction.h"
-#include "misc/Configuration.h"
-#include "misc/Statics.h"
 
 #include <iostream>
+
+#include "misc/Statics.h"
+#include "expert/fact/ExpertFact.h"
+
 
 void ExpertAction::UpdateAddresses()
 {
@@ -15,7 +17,6 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncBuildWall, statics::TranslateAddr(expert_conf::ADDR_FUNC_BUILD_WALL));
 	statics::SetFuncAddr(FuncBuyCommodity, statics::TranslateAddr(expert_conf::ADDR_FUNC_BUY_COMMODITY));
 	statics::SetFuncAddr(FuncCcAddResource, statics::TranslateAddr(expert_conf::ADDR_FUNC_CC_ADD_RESOURCE));
-	statics::SetFuncAddr(FuncChatDebug, statics::TranslateAddr(expert_conf::ADDR_FUNC_CHAT_DEBUG));
 	statics::SetFuncAddr(FuncChatLocal, statics::TranslateAddr(expert_conf::ADDR_FUNC_CHAT_LOCAL));
 	statics::SetFuncAddr(FuncChatLocalUsingId, statics::TranslateAddr(expert_conf::ADDR_FUNC_CHAT_LOCAL_USING_ID));
 	statics::SetFuncAddr(FuncChatLocalUsingRange, statics::TranslateAddr(expert_conf::ADDR_FUNC_CHAT_LOCAL_USING_RANGE));
@@ -43,7 +44,6 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncEnableRule, statics::TranslateAddr(expert_conf::ADDR_FUNC_ENABLE_RULE));
 	statics::SetFuncAddr(FuncEnableTimer, statics::TranslateAddr(expert_conf::ADDR_FUNC_ENABLE_TIMER));
 	statics::SetFuncAddr(FuncEnableWallPlacement, statics::TranslateAddr(expert_conf::ADDR_FUNC_ENABLE_WALL_PLACEMENT));
-	statics::SetFuncAddr(FuncFeBreakPoint, statics::TranslateAddr(expert_conf::ADDR_FUNC_FE_BREAK_POINT));
 	statics::SetFuncAddr(FuncGenerateRandomNumber, statics::TranslateAddr(expert_conf::ADDR_FUNC_GENERATE_RANDOM_NUMBER));
 	statics::SetFuncAddr(FuncLog, statics::TranslateAddr(expert_conf::ADDR_FUNC_LOG));
 	statics::SetFuncAddr(FuncLogTrace, statics::TranslateAddr(expert_conf::ADDR_FUNC_LOG_TRACE));
@@ -62,8 +62,6 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncSetSignal, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_SIGNAL));
 	statics::SetFuncAddr(FuncSetStance, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_STANCE));
 	statics::SetFuncAddr(FuncSetStrategicNumber, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_STRATEGIC_NUMBER));
-	statics::SetFuncAddr(FuncSkyboxClearSignal, statics::TranslateAddr(expert_conf::ADDR_FUNC_SKYBOX_CLEAR_SIGNAL));
-	statics::SetFuncAddr(FuncSkyboxSetNameMode, statics::TranslateAddr(expert_conf::ADDR_FUNC_SKYBOX_SET_NAME_MODE));
 	statics::SetFuncAddr(FuncSpy, statics::TranslateAddr(expert_conf::ADDR_FUNC_SPY));
 	statics::SetFuncAddr(FuncTaunt, statics::TranslateAddr(expert_conf::ADDR_FUNC_TAUNT));
 	statics::SetFuncAddr(FuncTauntUsingRange, statics::TranslateAddr(expert_conf::ADDR_FUNC_TAUNT_USING_RANGE));
@@ -84,8 +82,6 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncUpCcSendCheat, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CC_SEND_CHEAT));
 	statics::SetFuncAddr(FuncUpChangeName, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHANGE_NAME));
 	statics::SetFuncAddr(FuncUpChatDataToAll, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHAT_DATA_TO_ALL));
-	statics::SetFuncAddr(FuncUpChatDataToAllUsingId, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHAT_DATA_TO_ALL_USING_ID));
-	statics::SetFuncAddr(FuncUpChatDataToPlayerUsingId, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHAT_DATA_TO_PLAYER_USING_ID));
 	statics::SetFuncAddr(FuncUpChatDataToPlayer, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHAT_DATA_TO_PLAYER));
 	statics::SetFuncAddr(FuncUpChatDataToSelf, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHAT_DATA_TO_SELF));
 	statics::SetFuncAddr(FuncUpCleanSearch, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CLEAN_SEARCH));
@@ -124,7 +120,6 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncUpGetFactSum, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_FACT_SUM));
 	statics::SetFuncAddr(FuncUpGetFocusFact, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_FOCUS_FACT));
 	statics::SetFuncAddr(FuncUpGetGroupSize, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_GROUP_SIZE));
-	//statics::SetFuncAddr(FuncUpGetGuardState, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_GUARD_STATE));
 	statics::SetFuncAddr(FuncUpGetIndirectGoal, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_INDIRECT_GOAL));
 	statics::SetFuncAddr(FuncUpGetObjectData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_OBJECT_DATA));
 	statics::SetFuncAddr(FuncUpGetObjectTargetData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_OBJECT_TARGET_DATA));
@@ -147,8 +142,6 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncUpGetTargetFact, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_TARGET_FACT));
 	statics::SetFuncAddr(FuncUpGetThreatData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_THREAT_DATA));
 	statics::SetFuncAddr(FuncUpGetTimer, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_TIMER));
-	statics::SetFuncAddr(FuncUpGetTreatyData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_TREATY_DATA));
-	//statics::SetFuncAddr(FuncUpGetUpgradeId, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_UPGRADE_ID));
 	statics::SetFuncAddr(FuncUpGetVictoryData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_VICTORY_DATA));
 	statics::SetFuncAddr(FuncUpGetVictoryLimit, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_VICTORY_LIMIT));
 	statics::SetFuncAddr(FuncUpGuardUnit, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GUARD_UNIT));
@@ -207,12 +200,26 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncUpStoreTypeName, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_STORE_TYPE_NAME));
 	statics::SetFuncAddr(FuncUpTargetObjects, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TARGET_OBJECTS));
 	statics::SetFuncAddr(FuncUpTargetPoint, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TARGET_POINT));
-	statics::SetFuncAddr(FuncUpTestharnessReport, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TESTHARNESS_REPORT));
-	statics::SetFuncAddr(FuncUpTestharnessTest, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TESTHARNESS_TEST));
 	statics::SetFuncAddr(FuncUpTrain, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TRAIN));
 	statics::SetFuncAddr(FuncUpTributeToPlayer, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TRIBUTE_TO_PLAYER));
 	statics::SetFuncAddr(FuncUpUngarrison, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_UNGARRISON));
 	statics::SetFuncAddr(FuncUpUpdateTargets, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_UPDATE_TARGETS));
+#if defined GAME_DE
+	statics::SetFuncAddr(FuncChatDebug, statics::TranslateAddr(expert_conf::ADDR_FUNC_CHAT_DEBUG));
+	statics::SetFuncAddr(FuncFeBreakPoint, statics::TranslateAddr(expert_conf::ADDR_FUNC_FE_BREAK_POINT));
+	statics::SetFuncAddr(FuncSkyboxClearSignal, statics::TranslateAddr(expert_conf::ADDR_FUNC_SKYBOX_CLEAR_SIGNAL));
+	statics::SetFuncAddr(FuncSkyboxSetNameMode, statics::TranslateAddr(expert_conf::ADDR_FUNC_SKYBOX_SET_NAME_MODE));
+	statics::SetFuncAddr(FuncUpChatDataToAllUsingId, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHAT_DATA_TO_ALL_USING_ID));
+	statics::SetFuncAddr(FuncUpChatDataToPlayerUsingId, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHAT_DATA_TO_PLAYER_USING_ID));
+	statics::SetFuncAddr(FuncUpGetTreatyData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_TREATY_DATA));
+	statics::SetFuncAddr(FuncUpTestharnessReport, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TESTHARNESS_REPORT));
+	statics::SetFuncAddr(FuncUpTestharnessTest, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TESTHARNESS_TEST));
+#elif defined GAME_AOC
+	statics::SetFuncAddr(FuncUpGetAlliedTarget, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_ALLIED_TARGET));
+	statics::SetFuncAddr(FuncUpGetGuardState, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_GUARD_STATE));
+	statics::SetFuncAddr(FuncUpGetUpgradeId, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_UPGRADE_ID));
+	statics::SetFuncAddr(FuncUpOutOfSync, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_OUT_OF_SYNC));
+#endif
 }
 
 void ExpertAction::AcknowledgeEvent(int eventType, int id)
@@ -232,37 +239,47 @@ void ExpertAction::AttackNow()
 
 void ExpertAction::Build(int buildingType)
 {
-	FuncBuild(buildingType);
+	if (ExpertFact::CanBuildWithEscrow(buildingType))
+	{
+		FuncBuild(buildingType);
+	}
 }
 
 void ExpertAction::BuildForward(int buildingType)
 {
-	FuncBuildForward(buildingType);
+	if (ExpertFact::CanBuildWithEscrow(buildingType))
+	{
+		FuncBuildForward(buildingType);
+	}
 }
 
 void ExpertAction::BuildGate(int perimeter)
 {
-	FuncBuildGate(perimeter);
+	if (ExpertFact::CanBuildGateWithEscrow(perimeter))
+	{
+		FuncBuildGate(perimeter);
+	}
 }
 
 void ExpertAction::BuildWall(int perimeter, int wallType)
 {
-	FuncBuildWall(perimeter, wallType);
+	if (ExpertFact::CanBuildWallWithEscrow(perimeter, wallType))
+	{
+		FuncBuildWall(perimeter, wallType);
+	}
 }
 
 void ExpertAction::BuyCommodity(int commodityType)
 {
-	FuncBuyCommodity(commodityType);
+	if (ExpertFact::CanBuyCommodity(commodityType))
+	{
+		FuncBuyCommodity(commodityType);
+	}
 }
 
 void ExpertAction::CcAddResource(int resourceType, int amount)
 {
 	FuncCcAddResource(resourceType, amount);
-}
-
-void ExpertAction::ChatDebug(int text)
-{
-	FuncChatDebug(text);
 }
 
 void ExpertAction::ChatLocal(int text)
@@ -277,7 +294,10 @@ void ExpertAction::ChatLocalUsingId(int stringId)
 
 void ExpertAction::ChatLocalUsingRange(int stringIdStart, int stringIdRange)
 {
-	FuncChatLocalUsingRange(stringIdStart, stringIdRange);
+	if (stringIdRange != 0) // crashes otherwise
+	{
+		FuncChatLocalUsingRange(stringIdStart, stringIdRange);
+	}
 }
 
 void ExpertAction::ChatLocalToSelf(int text)
@@ -297,7 +317,10 @@ void ExpertAction::ChatToAllUsingId(int stringId)
 
 void ExpertAction::ChatToAllUsingRange(int stringIdStart, int stringIdRange)
 {
-	FuncChatToAllUsingRange(stringIdStart, stringIdRange);
+	if (stringIdRange != 0) // crashes otherwise
+	{
+		FuncChatToAllUsingRange(stringIdStart, stringIdRange);
+	}
 }
 
 void ExpertAction::ChatToAllies(int text)
@@ -312,7 +335,10 @@ void ExpertAction::ChatToAlliesUsingId(int stringId)
 
 void ExpertAction::ChatToAlliesUsingRange(int stringIdStart, int stringIdRange)
 {
-	FuncChatToAlliesUsingRange(stringIdStart, stringIdRange);
+	if (stringIdRange != 0) // crashes otherwise
+	{
+		FuncChatToAlliesUsingRange(stringIdStart, stringIdRange);
+	}
 }
 
 void ExpertAction::ChatToEnemies(int text)
@@ -327,7 +353,10 @@ void ExpertAction::ChatToEnemiesUsingId(int stringId)
 
 void ExpertAction::ChatToEnemiesUsingRange(int stringIdStart, int stringIdRange)
 {
-	FuncChatToEnemiesUsingRange(stringIdStart, stringIdRange);
+	if (stringIdRange != 0) // crashes otherwise
+	{
+		FuncChatToEnemiesUsingRange(stringIdStart, stringIdRange);
+	}
 }
 
 void ExpertAction::ChatToPlayer(int playerNumber, int text)
@@ -342,7 +371,10 @@ void ExpertAction::ChatToPlayerUsingId(int playerNumber, int stringId)
 
 void ExpertAction::ChatToPlayerUsingRange(int playerNumber, int stringIdStart, int stringIdRange)
 {
-	FuncChatToPlayerUsingRange(playerNumber, stringIdStart, stringIdRange);
+	if (stringIdRange != 0) // crashes otherwise
+	{
+		FuncChatToPlayerUsingRange(playerNumber, stringIdStart, stringIdRange);
+	}
 }
 
 void ExpertAction::ChatTrace(int traceNumber)
@@ -392,7 +424,12 @@ void ExpertAction::EnableRule(int groupId)
 
 void ExpertAction::EnableTimer(int timerId, int timeInterval)
 {
-	FuncEnableTimer(timerId, timeInterval);
+#if defined GAME_AOC
+	if (timeInterval != 0) // crashes otherwise
+#endif
+	{
+		FuncEnableTimer(timerId, timeInterval);
+	}
 }
 
 void ExpertAction::EnableWallPlacement(int perimeter)
@@ -400,14 +437,12 @@ void ExpertAction::EnableWallPlacement(int perimeter)
 	FuncEnableWallPlacement(perimeter);
 }
 
-void ExpertAction::FeBreakPoint(int param1, int param2, int param3, int param4)
-{
-	FuncFeBreakPoint(param1, param2, param3, param4);
-}
-
 void ExpertAction::GenerateRandomNumber(int range)
 {
-	FuncGenerateRandomNumber(range);
+	if (range != 0) // crashes otherwise
+	{
+		FuncGenerateRandomNumber(range);
+	}
 }
 
 void ExpertAction::Log(int text)
@@ -427,7 +462,10 @@ void ExpertAction::ReleaseEscrow(int resourceType)
 
 void ExpertAction::Research(int researchType)
 {
-	FuncResearch(researchType);
+	if (ExpertFact::CanResearchWithEscrow(researchType)) // fixes a potential crash, at least in aoc
+	{
+		FuncResearch(researchType);
+	}
 }
 
 void ExpertAction::Resign()
@@ -437,7 +475,10 @@ void ExpertAction::Resign()
 
 void ExpertAction::SellCommodity(int commodityType)
 {
-	FuncSellCommodity(commodityType);
+	if (ExpertFact::CanSellCommodity(commodityType))
+	{
+		FuncSellCommodity(commodityType);
+	}
 }
 
 void ExpertAction::SetAuthorName(int name)
@@ -495,19 +536,12 @@ void ExpertAction::SetStrategicNumber(int strategicNumber, int value)
 	FuncSetStrategicNumber(strategicNumber, value);
 }
 
-void ExpertAction::SkyboxClearSignal(int param)
-{
-	FuncSkyboxClearSignal(param);
-}
-
-void ExpertAction::SkyboxSetNameMode(int param)
-{
-	FuncSkyboxSetNameMode(param);
-}
-
 void ExpertAction::Spy()
 {
-	FuncSpy();
+	if (ExpertFact::CanSpyWithEscrow())
+	{
+		FuncSpy();
+	}
 }
 
 void ExpertAction::Taunt(int tauntNumber)
@@ -517,12 +551,18 @@ void ExpertAction::Taunt(int tauntNumber)
 
 void ExpertAction::TauntUsingRange(int tauntIdStart, int tauntIdRange)
 {
-	FuncTauntUsingRange(tauntIdStart, tauntIdRange);
+	if (tauntIdRange != 0) // crashes otherwise
+	{
+		FuncTauntUsingRange(tauntIdStart, tauntIdRange);
+	}
 }
 
 void ExpertAction::Train(int unitType)
 {
-	FuncTrain(unitType);
+	if (ExpertFact::CanTrainWithEscrow(unitType))
+	{
+		FuncTrain(unitType);
+	}
 }
 
 void ExpertAction::TributeToPlayer(int playerNumber, int resourceType, int tributeAmount)
@@ -572,12 +612,25 @@ void ExpertAction::UpBoundPrecisePoint(int goalPoint, int precise, int typeOp, i
 
 void ExpertAction::UpBuild(int placementType, int escrowState, int typeOp, int buildingId)
 {
-	FuncUpBuild(placementType, escrowState, typeOp, buildingId);
+	if (ExpertFact::UpCanBuild(escrowState, typeOp, buildingId))
+	{
+		FuncUpBuild(placementType, escrowState, typeOp, buildingId);
+	}
 }
 
 void ExpertAction::UpBuildLine(int goalPoint1, int goalPoint2, int typeOp, int buildingId)
 {
-	FuncUpBuildLine(goalPoint1, goalPoint2, typeOp, buildingId);
+	int cachedGoal = ExpertFact::Goal(512);
+	ExpertAction::SetGoal(512, 0); // with-escrow
+
+	if (ExpertFact::UpCanBuildLine(512, goalPoint1, typeOp, buildingId))
+	{
+		ExpertAction::SetGoal(512, cachedGoal);
+		FuncUpBuildLine(goalPoint1, goalPoint2, typeOp, buildingId);
+		return;
+	}
+
+	ExpertAction::SetGoal(512, cachedGoal);
 }
 
 void ExpertAction::UpBuyCommodity(int typeOp1, int resourceAmount, int typeOp2, int value)
@@ -605,16 +658,6 @@ void ExpertAction::UpChatDataToAll(int format, int typeOp, int value)
 	FuncUpChatDataToAll(format, typeOp, value);
 }
 
-void ExpertAction::UpChatDataToAllUsingId(int param1, int stringId, int param3)
-{
-	FuncUpChatDataToAllUsingId(param1, stringId, param3);
-}
-
-void ExpertAction::UpChatDataToPlayerUsingId(int stringId, int playerId, int param3, int param4)
-{
-	FuncUpChatDataToPlayerUsingId(stringId, playerId, param3, param4);
-}
-
 void ExpertAction::UpChatDataToPlayer(int player, int format, int typeOp, int value)
 {
 	FuncUpChatDataToPlayer(player, format, typeOp, value);
@@ -627,7 +670,12 @@ void ExpertAction::UpChatDataToSelf(int format, int typeOp, int value)
 
 void ExpertAction::UpCleanSearch(int searchSource, int objectData, int searchOrder)
 {
-	FuncUpCleanSearch(searchSource, objectData, searchOrder);
+#if defined GAME_DE
+	if (searchSource != 0) // crashes otherwise
+#endif
+	{
+		FuncUpCleanSearch(searchSource, objectData, searchOrder);
+	}
 }
 
 void ExpertAction::UpCopyPoint(int goalPoint1, int goalPoint2)
@@ -722,7 +770,12 @@ void ExpertAction::UpFindPlayer(int playerStance, int findPlayerMethod, int goal
 
 void ExpertAction::UpFindPlayerFlare(int player, int goalPoint)
 {
-	FuncUpFindPlayerFlare(player, goalPoint);
+#if defined GAME_AOC
+	if (goalPoint >= 40 && goalPoint <= 510) // crashes otherwise
+#endif
+	{
+		FuncUpFindPlayerFlare(player, goalPoint);
+	}
 }
 
 void ExpertAction::UpFindRemote(int typeOp1, int unitId, int typeOp2, int count)
@@ -804,11 +857,6 @@ void ExpertAction::UpGetGroupSize(int typeOp, int groupId, int goalSize)
 {
 	FuncUpGetGroupSize(typeOp, groupId, goalSize);
 }
-
-/*void ExpertAction::UpGetGuardState(int goalState)
-{
-	FuncUpGetGuardState(goalState);
-}*/
 
 void ExpertAction::UpGetIndirectGoal(int typeOp1, int goalId, int goalValue)
 {
@@ -920,16 +968,6 @@ void ExpertAction::UpGetTimer(int typeOp, int timerId, int goalValue)
 	FuncUpGetTimer(typeOp, timerId, goalValue);
 }
 
-void ExpertAction::UpGetTreatyData(int param)
-{
-	FuncUpGetTreatyData(param);
-}
-
-/*void ExpertAction::UpGetUpgradeId(int player, int count, int goalTypeId, int goalUpgradeId)
-{
-	FuncUpGetUpgradeId(player, count, goalTypeId, goalUpgradeId);
-}*/
-
 void ExpertAction::UpGetVictoryData(int goalPlayerId, int goalType, int goalTime)
 {
 	FuncUpGetVictoryData(goalPlayerId, goalType, goalTime);
@@ -947,17 +985,20 @@ void ExpertAction::UpGuardUnit(int objectId, int typeOp, int unitId)
 
 void ExpertAction::UpJumpDirect(int typeOp, int ruleId)
 {
-	FuncUpJumpDirect(typeOp, ruleId);
+	// crashes with invalid paramters, currently unneeded
+	//FuncUpJumpDirect(typeOp, ruleId);
 }
 
 void ExpertAction::UpJumpDynamic(int typeOp, int ruleDelta)
 {
-	FuncUpJumpDynamic(typeOp, ruleDelta);
+	// crashes with invalid paramters, currently unneeded
+	//FuncUpJumpDynamic(typeOp, ruleDelta);
 }
 
 void ExpertAction::UpJumpRule(int ruleDelta)
 {
-	FuncUpJumpRule(ruleDelta);
+	// crashes with invalid paramters, currently unneeded
+	//FuncUpJumpRule(ruleDelta);
 }
 
 void ExpertAction::UpLerpPercent(int goalPoint1, int goalPoint2, int typeOp, int percent)
@@ -1017,7 +1058,10 @@ void ExpertAction::UpRequestHunters(int typeOp, int value)
 
 void ExpertAction::UpResearch(int escrowState, int typeOp, int techId)
 {
-	FuncUpResearch(escrowState, typeOp, techId);
+	if (ExpertFact::UpCanResearch(escrowState, typeOp, techId))
+	{
+		FuncUpResearch(escrowState, typeOp, techId);
+	}
 }
 
 void ExpertAction::UpResetAttackNow()
@@ -1157,7 +1201,12 @@ void ExpertAction::UpSetTargetById(int typeOp, int id)
 
 void ExpertAction::UpSetTargetObject(int searchSource, int typeOp, int index)
 {
-	FuncUpSetTargetObject(searchSource, typeOp, index);
+#if defined GAME_DE
+	if (searchSource != 0) // crashes otherwise
+#endif
+	{
+		FuncUpSetTargetObject(searchSource, typeOp, index);
+	}
 }
 
 void ExpertAction::UpSetTargetPoint(int goalPoint)
@@ -1167,7 +1216,12 @@ void ExpertAction::UpSetTargetPoint(int goalPoint)
 
 void ExpertAction::UpSetTimer(int typeOp1, int timerId, int typeOp2, int value)
 {
-	FuncUpSetTimer(typeOp1, timerId, typeOp2, value);
+#if defined GAME_AOC
+	if (value != 0) // crashes otherwise
+#endif
+	{
+		FuncUpSetTimer(typeOp1, timerId, typeOp2, value);
+	}
 }
 
 void ExpertAction::UpSetupCostData(int resetCost, int goalId)
@@ -1220,19 +1274,12 @@ void ExpertAction::UpTargetPoint(int goalPoint, int action, int formation, int a
 	FuncUpTargetPoint(goalPoint, action, formation, attackStance);
 }
 
-void ExpertAction::UpTestharnessReport(int param1, int param2, int param3)
-{
-	FuncUpTestharnessReport(param1, param2, param3);
-}
-
-void ExpertAction::UpTestharnessTest(int param1, int param2, int param3, int param4)
-{
-	FuncUpTestharnessTest(param1, param2, param3, param4);
-}
-
 void ExpertAction::UpTrain(int escrowState, int typeOp, int unitId)
 {
-	FuncUpTrain(escrowState, typeOp, unitId);
+	if (ExpertFact::UpCanTrain(escrowState, typeOp, unitId))
+	{
+		FuncUpTrain(escrowState, typeOp, unitId);
+	}
 }
 
 void ExpertAction::UpTributeToPlayer(int player, int resourceAmount, int typeOp, int value)
@@ -1249,3 +1296,70 @@ void ExpertAction::UpUpdateTargets()
 {
 	FuncUpUpdateTargets();
 }
+
+#if defined GAME_DE
+void ExpertAction::ChatDebug(int text)
+{
+	FuncChatDebug(text);
+}
+
+void ExpertAction::FeBreakPoint(int param1, int param2, int param3, int param4)
+{
+	FuncFeBreakPoint(param1, param2, param3, param4);
+}
+
+void ExpertAction::SkyboxClearSignal(int param)
+{
+	FuncSkyboxClearSignal(param);
+}
+
+void ExpertAction::SkyboxSetNameMode(int param)
+{
+	FuncSkyboxSetNameMode(param);
+}
+
+void ExpertAction::UpChatDataToAllUsingId(int param1, int stringId, int param3)
+{
+	FuncUpChatDataToAllUsingId(param1, stringId, param3);
+}
+
+void ExpertAction::UpChatDataToPlayerUsingId(int stringId, int playerId, int param3, int param4)
+{
+	FuncUpChatDataToPlayerUsingId(stringId, playerId, param3, param4);
+}
+
+void ExpertAction::UpGetTreatyData(int param)
+{
+	FuncUpGetTreatyData(param);
+}
+
+void ExpertAction::UpTestharnessReport(int param1, int param2, int param3)
+{
+	FuncUpTestharnessReport(param1, param2, param3);
+}
+
+void ExpertAction::UpTestharnessTest(int param1, int param2, int param3, int param4)
+{
+	FuncUpTestharnessTest(param1, param2, param3, param4);
+}
+#elif defined GAME_AOC
+void ExpertAction::UpGetAlliedTarget(int param1, int param2)
+{
+	FuncUpGetAlliedTarget(param1, param2);
+}
+
+void ExpertAction::UpGetGuardState(int goalState)
+{
+	FuncUpGetGuardState(goalState);
+}
+
+void ExpertAction::UpGetUpgradeId(int player, int count, int goalTypeId, int goalUpgradeId)
+{
+	FuncUpGetUpgradeId(player, count, goalTypeId, goalUpgradeId);
+}
+
+void ExpertAction::UpOutOfSync()
+{
+	FuncUpOutOfSync();
+}
+#endif

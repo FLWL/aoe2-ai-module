@@ -102,17 +102,6 @@ void ExpertActionHandler::CcAddResource(const google::protobuf::Any& anyCommand,
 	anyResult->PackFrom(result);
 }
 
-void ExpertActionHandler::ChatDebug(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
-{
-	protos::expert::action::ChatDebug command;
-	anyCommand.UnpackTo(&command);
-
-	//ExpertAction::ChatDebug(command.text());
-
-	protos::expert::action::ChatDebugResult result;
-	anyResult->PackFrom(result);
-}
-
 void ExpertActionHandler::ChatLocal(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
 {
 	protos::expert::action::ChatLocal command;
@@ -410,17 +399,6 @@ void ExpertActionHandler::EnableWallPlacement(const google::protobuf::Any& anyCo
 	anyResult->PackFrom(result);
 }
 
-void ExpertActionHandler::FeBreakPoint(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
-{
-	protos::expert::action::FeBreakPoint command;
-	anyCommand.UnpackTo(&command);
-
-	ExpertAction::FeBreakPoint(command.param1(), command.param2(), command.param3(), command.param4());
-
-	protos::expert::action::FeBreakPointResult result;
-	anyResult->PackFrom(result);
-}
-
 void ExpertActionHandler::GenerateRandomNumber(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
 {
 	protos::expert::action::GenerateRandomNumber command;
@@ -616,28 +594,6 @@ void ExpertActionHandler::SetStrategicNumber(const google::protobuf::Any& anyCom
 	ExpertAction::SetStrategicNumber(command.strategicnumber(), command.value());
 
 	protos::expert::action::SetStrategicNumberResult result;
-	anyResult->PackFrom(result);
-}
-
-void ExpertActionHandler::SkyboxClearSignal(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
-{
-	protos::expert::action::SkyboxClearSignal command;
-	anyCommand.UnpackTo(&command);
-
-	ExpertAction::SkyboxClearSignal(command.param());
-
-	protos::expert::action::SkyboxClearSignalResult result;
-	anyResult->PackFrom(result);
-}
-
-void ExpertActionHandler::SkyboxSetNameMode(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
-{
-	protos::expert::action::SkyboxSetNameMode command;
-	anyCommand.UnpackTo(&command);
-
-	ExpertAction::SkyboxSetNameMode(command.param());
-
-	protos::expert::action::SkyboxSetNameModeResult result;
 	anyResult->PackFrom(result);
 }
 
@@ -858,28 +814,6 @@ void ExpertActionHandler::UpChatDataToAll(const google::protobuf::Any& anyComman
 	//ExpertAction::UpChatDataToAll(command.format(), command.typeop(), command.value());
 
 	protos::expert::action::UpChatDataToAllResult result;
-	anyResult->PackFrom(result);
-}
-
-void ExpertActionHandler::UpChatDataToAllUsingId(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
-{
-	protos::expert::action::UpChatDataToAllUsingId command;
-	anyCommand.UnpackTo(&command);
-
-	ExpertAction::UpChatDataToAllUsingId(command.param1(), command.stringid(), command.param3());
-
-	protos::expert::action::UpChatDataToAllUsingIdResult result;
-	anyResult->PackFrom(result);
-}
-
-void ExpertActionHandler::UpChatDataToPlayerUsingId(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
-{
-	protos::expert::action::UpChatDataToPlayerUsingId command;
-	anyCommand.UnpackTo(&command);
-
-	ExpertAction::UpChatDataToPlayerUsingId(command.stringid(), command.playerid(), command.param3(), command.param4());
-
-	protos::expert::action::UpChatDataToPlayerUsingIdResult result;
 	anyResult->PackFrom(result);
 }
 
@@ -1301,17 +1235,6 @@ void ExpertActionHandler::UpGetGroupSize(const google::protobuf::Any& anyCommand
 	anyResult->PackFrom(result);
 }
 
-void ExpertActionHandler::UpGetGuardState(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
-{
-	/*protos::expert::action::UpGetGuardState command;
-	anyCommand.UnpackTo(&command);
-
-	ExpertAction::UpGetGuardState(command.goalstate());
-
-	protos::expert::action::UpGetGuardStateResult result;
-	anyResult->PackFrom(result);*/
-}
-
 void ExpertActionHandler::UpGetIndirectGoal(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
 {
 	protos::expert::action::UpGetIndirectGoal command;
@@ -1552,28 +1475,6 @@ void ExpertActionHandler::UpGetTimer(const google::protobuf::Any& anyCommand, go
 
 	protos::expert::action::UpGetTimerResult result;
 	anyResult->PackFrom(result);
-}
-
-void ExpertActionHandler::UpGetTreatyData(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
-{
-	protos::expert::action::UpGetTreatyData command;
-	anyCommand.UnpackTo(&command);
-
-	ExpertAction::UpGetTreatyData(command.param());
-
-	protos::expert::action::UpGetTreatyDataResult result;
-	anyResult->PackFrom(result);
-}
-
-void ExpertActionHandler::UpGetUpgradeId(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
-{
-	/*protos::expert::action::UpGetUpgradeId command;
-	anyCommand.UnpackTo(&command);
-
-	ExpertAction::UpGetUpgradeId(command.player(), command.count(), command.goaltypeid(), command.goalupgradeid());
-
-	protos::expert::action::UpGetUpgradeIdResult result;
-	anyResult->PackFrom(result);*/
 }
 
 void ExpertActionHandler::UpGetVictoryData(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
@@ -2214,28 +2115,6 @@ void ExpertActionHandler::UpTargetPoint(const google::protobuf::Any& anyCommand,
 	anyResult->PackFrom(result);
 }
 
-void ExpertActionHandler::UpTestharnessReport(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
-{
-	protos::expert::action::UpTestharnessReport command;
-	anyCommand.UnpackTo(&command);
-
-	ExpertAction::UpTestharnessReport(command.param1(), command.param2(), command.param3());
-
-	protos::expert::action::UpTestharnessReportResult result;
-	anyResult->PackFrom(result);
-}
-
-void ExpertActionHandler::UpTestharnessTest(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
-{
-	protos::expert::action::UpTestharnessTest command;
-	anyCommand.UnpackTo(&command);
-
-	ExpertAction::UpTestharnessTest(command.param1(), command.param2(), command.param3(), command.param4());
-
-	protos::expert::action::UpTestharnessTestResult result;
-	anyResult->PackFrom(result);
-}
-
 void ExpertActionHandler::UpTrain(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
 {
 	protos::expert::action::UpTrain command;
@@ -2279,3 +2158,148 @@ void ExpertActionHandler::UpUpdateTargets(const google::protobuf::Any& anyComman
 	protos::expert::action::UpUpdateTargetsResult result;
 	anyResult->PackFrom(result);
 }
+
+#if defined GAME_DE
+void ExpertActionHandler::ChatDebug(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::ChatDebug command;
+	anyCommand.UnpackTo(&command);
+
+	//ExpertAction::ChatDebug(command.text());
+
+	protos::expert::action::ChatDebugResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::FeBreakPoint(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::FeBreakPoint command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::FeBreakPoint(command.param1(), command.param2(), command.param3(), command.param4());
+
+	protos::expert::action::FeBreakPointResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::SkyboxClearSignal(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::SkyboxClearSignal command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::SkyboxClearSignal(command.param());
+
+	protos::expert::action::SkyboxClearSignalResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::SkyboxSetNameMode(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::SkyboxSetNameMode command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::SkyboxSetNameMode(command.param());
+
+	protos::expert::action::SkyboxSetNameModeResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::UpChatDataToAllUsingId(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::UpChatDataToAllUsingId command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::UpChatDataToAllUsingId(command.param1(), command.stringid(), command.param3());
+
+	protos::expert::action::UpChatDataToAllUsingIdResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::UpChatDataToPlayerUsingId(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::UpChatDataToPlayerUsingId command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::UpChatDataToPlayerUsingId(command.stringid(), command.playerid(), command.param3(), command.param4());
+
+	protos::expert::action::UpChatDataToPlayerUsingIdResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::UpGetTreatyData(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::UpGetTreatyData command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::UpGetTreatyData(command.param());
+
+	protos::expert::action::UpGetTreatyDataResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::UpTestharnessReport(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::UpTestharnessReport command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::UpTestharnessReport(command.param1(), command.param2(), command.param3());
+
+	protos::expert::action::UpTestharnessReportResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::UpTestharnessTest(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::UpTestharnessTest command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::UpTestharnessTest(command.param1(), command.param2(), command.param3(), command.param4());
+
+	protos::expert::action::UpTestharnessTestResult result;
+	anyResult->PackFrom(result);
+}
+#elif defined GAME_AOC
+void ExpertActionHandler::UpGetAlliedTarget(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::UpGetAlliedTarget command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::UpGetAlliedTarget(command.param1(), command.param2());
+
+	protos::expert::action::UpGetAlliedTargetResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::UpGetGuardState(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::UpGetGuardState command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::UpGetGuardState(command.goalstate());
+
+	protos::expert::action::UpGetGuardStateResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::UpGetUpgradeId(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::UpGetUpgradeId command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::UpGetUpgradeId(command.player(), command.count(), command.goaltypeid(), command.goalupgradeid());
+
+	protos::expert::action::UpGetUpgradeIdResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::UpOutOfSync(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::UpOutOfSync command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::UpOutOfSync();
+
+	protos::expert::action::UpOutOfSyncResult result;
+	anyResult->PackFrom(result);
+}
+#endif

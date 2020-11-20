@@ -177,7 +177,7 @@ void ExpertFactHandler::CanBuildWall(const google::protobuf::Any& anyCommand, go
 	protos::expert::fact::CanBuildWall command;
 	anyCommand.UnpackTo(&command);
 
-	bool factValue = ExpertFact::CanBuildWall(command.perimeter(), command.walltype(), command.escrowflag());
+	bool factValue = ExpertFact::CanBuildWall(command.perimeter(), command.walltype());
 
 	protos::expert::fact::CanBuildWallResult result;
 	result.set_result(factValue);
@@ -520,18 +520,6 @@ void ExpertFactHandler::DropsiteMinDistance(const google::protobuf::Any& anyComm
 	anyResult->PackFrom(result);
 }
 
-void ExpertFactHandler::EndingAge(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
-{
-	protos::expert::fact::EndingAge command;
-	anyCommand.UnpackTo(&command);
-
-	int factValue = ExpertFact::EndingAge();
-
-	protos::expert::fact::EndingAgeResult result;
-	result.set_result(factValue);
-	anyResult->PackFrom(result);
-}
-
 void ExpertFactHandler::EnemyBuildingsInTown(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
 {
 	protos::expert::fact::EnemyBuildingsInTown command;
@@ -588,18 +576,6 @@ void ExpertFactHandler::False(const google::protobuf::Any& anyCommand, google::p
 	bool factValue = ExpertFact::False();
 
 	protos::expert::fact::FalseResult result;
-	result.set_result(factValue);
-	anyResult->PackFrom(result);
-}
-
-void ExpertFactHandler::FeCanBuildAtPoint(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
-{
-	protos::expert::fact::FeCanBuildAtPoint command;
-	anyCommand.UnpackTo(&command);
-
-	bool factValue = ExpertFact::FeCanBuildAtPoint(command.param1(), command.param2(), command.param3(), command.param4());
-
-	protos::expert::fact::FeCanBuildAtPointResult result;
 	result.set_result(factValue);
 	anyResult->PackFrom(result);
 }
@@ -669,7 +645,7 @@ void ExpertFactHandler::Goals(const google::protobuf::Any& anyCommand, google::p
 	protos::expert::fact::Goals command;
 	anyCommand.UnpackTo(&command);
 
-	std::vector<unsigned int> factValues = ExpertFact::Goals();
+	std::vector<int> factValues = ExpertFact::Goals();
 
 	protos::expert::fact::GoalsResult result;
 	for (const auto &factValue : factValues) result.add_result(factValue);
@@ -1923,3 +1899,43 @@ void ExpertFactHandler::WoodAmount(const google::protobuf::Any& anyCommand, goog
 	result.set_result(factValue);
 	anyResult->PackFrom(result);
 }
+
+#if defined GAME_DE
+void ExpertFactHandler::EndingAge(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::fact::EndingAge command;
+	anyCommand.UnpackTo(&command);
+
+	int factValue = ExpertFact::EndingAge();
+
+	protos::expert::fact::EndingAgeResult result;
+	result.set_result(factValue);
+	anyResult->PackFrom(result);
+}
+
+void ExpertFactHandler::FeCanBuildAtPoint(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::fact::FeCanBuildAtPoint command;
+	anyCommand.UnpackTo(&command);
+
+	bool factValue = ExpertFact::FeCanBuildAtPoint(command.param1(), command.param2(), command.param3(), command.param4());
+
+	protos::expert::fact::FeCanBuildAtPointResult result;
+	result.set_result(factValue);
+	anyResult->PackFrom(result);
+}
+
+void ExpertFactHandler::FeSubGameType(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::fact::FeSubGameType command;
+	anyCommand.UnpackTo(&command);
+
+	int factValue = ExpertFact::FeSubGameType();
+
+	protos::expert::fact::FeSubGameTypeResult result;
+	result.set_result(factValue);
+	anyResult->PackFrom(result);
+}
+#elif defined GAME_AOC
+
+#endif

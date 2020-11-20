@@ -37,7 +37,7 @@ grpc::Status ExpertCommandQueue::PushAndWaitForCompletion(const protos::expert::
 		commandQueue.erase(std::remove(commandQueue.begin(), commandQueue.end(), &item), commandQueue.end());
 		return grpc::Status(grpc::StatusCode::CANCELLED, "Request was not processed in time by the game thread.");
 	}
-
+	
 	return status;
 }
 
