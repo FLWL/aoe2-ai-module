@@ -48,7 +48,7 @@ jobs:
       
       - name: Update latest-dev release metadata
         if: endsWith(github.ref, 'dev')
-        uses: marvinpinto/action-automatic-releases@1d058ab0dc4a6b2d9df93b696615cad6ee6d1537
+        uses: marvinpinto/action-automatic-releases@10bdce64abdb4558a2ee6983192242be40d631d8
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: 'latest-dev'
