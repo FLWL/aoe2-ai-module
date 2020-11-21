@@ -9,16 +9,17 @@
 #endif
 
 #define DEBUG_MODE
+#if defined DEBUG_MODE
+	//#define VERBOSE_DEBUG
+#endif
 
 namespace aimodule_conf
 {
 	static const std::string RPC_SERVER_ADDRESS = "0.0.0.0:37412";
 
 #if defined GAME_DE
-	static const std::string GAME_MODULE_NAME = "AoE2DE_s.exe";
 	static const int64_t REFERENCE_BASE_ADDR = 0x7FF7725D0000;
 #elif defined GAME_AOC
-	static const std::string GAME_MODULE_NAME = "age2_x1.exe";
 	static const int32_t REFERENCE_BASE_ADDR = 0x400000;
 #endif
 }
