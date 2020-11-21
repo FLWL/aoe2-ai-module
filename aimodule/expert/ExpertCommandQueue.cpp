@@ -15,6 +15,10 @@ ExpertCommandQueue::~ExpertCommandQueue()
 
 grpc::Status ExpertCommandQueue::PushAndWaitForCompletion(const protos::expert::CommandList* commandList, protos::expert::CommandResultList* commandResultList)
 {
+#if defined VERBOSE_DEBUG
+	std::cout << "ExpertCommandQueue::PushAndWaitForCompletion(): Pushing new command to queue." << std::endl;
+#endif
+
 	// vars to determine when this request has been processed by the game thread
 	bool isProcessed = false;
 	std::condition_variable conditionVar;
@@ -33,11 +37,19 @@ grpc::Status ExpertCommandQueue::PushAndWaitForCompletion(const protos::expert::
 	commandQueue.push_back(&item);
 	if (!conditionVar.wait_for(ulock, std::chrono::seconds(expert_conf::COMMAND_TIMEOUT_SECONDS), [&isProcessed] { return isProcessed; }))
 	{
+#if defined VERBOSE_DEBUG
+		std::cout << "ExpertCommandQueue::PushAndWaitForCompletion(): Timeout occurred." << std::endl;
+#endif
+
 		// wait timed out, remove from queue and mark item as cancelled
 		commandQueue.erase(std::remove(commandQueue.begin(), commandQueue.end(), &item), commandQueue.end());
 		return grpc::Status(grpc::StatusCode::CANCELLED, "Request was not processed in time by the game thread.");
 	}
 	
+#if defined VERBOSE_DEBUG
+	std::cout << "ExpertCommandQueue::PushAndWaitForCompletion(): Command marked as processed. Sending reply." << std::endl;
+#endif
+
 	return status;
 }
 

@@ -253,7 +253,7 @@ void Expert::PopulateCommandMap()
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetUpgradeId", &ExpertActionHandler::UpGetUpgradeId });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpOutOfSync", &ExpertActionHandler::UpOutOfSync });
 #endif
-
+	
 	// facts
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.AttackSoldierCount", &ExpertFactHandler::AttackSoldierCount });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.AttackWarboatCount", &ExpertFactHandler::AttackWarboatCount });
@@ -426,11 +426,15 @@ void Expert::EnableDetours()
 {
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());
-	DetourAttach(&(PVOID&)FuncRunList, DetouredRunList);
+	auto runListResult = DetourAttach(&(PVOID&)FuncRunList, DetouredRunList);
 #if defined GAME_DE
 	DetourAttach(&(PVOID&)FuncEvaluateRelOp, DetouredEvaluateRelOp);
 #endif
-	DetourTransactionCommit();
+	auto transactionResult = DetourTransactionCommit();
+#if defined VERBOSE_DEBUG
+	std::cout << "Expert::EnableDetours(): attach result = " << runListResult << std::endl;
+	std::cout << "Expert::EnableDetours(): transaction result = " << transactionResult << std::endl;
+#endif
 }
 
 void Expert::DisableDetours()
@@ -450,6 +454,10 @@ int64_t Expert::DetouredRunList(void* aiExpertEngine, int listId, void* statsOut
 int32_t __fastcall Expert::DetouredRunList(void* aiExpertEngine, void* unused, int listId, void* statsOutput)
 #endif
 {
+#if defined VERBOSE_DEBUG
+	std::cout << "Expert::DetouredRunList(): called." << std::endl;
+#endif
+
 	auto result = FuncRunList(aiExpertEngine, listId, statsOutput);
 
 	auto t1 = std::chrono::high_resolution_clock::now();
@@ -489,6 +497,10 @@ int Expert::ProcessCommands()
 
 		if (ExpertFact::PlayerNumber(playerNumber))
 		{
+#if defined VERBOSE_DEBUG
+			std::cout << "Expert::ProcessCommands(): Processing command with playerNumber = " << playerNumber << ". Current tick is for this player." << std::endl;
+#endif
+
 			// process
 			item->commandResultList->set_playernumber(playerNumber);
 			numCommandsProcessed += ProcessCommandList(item->commandList, item->commandResultList);
@@ -504,6 +516,10 @@ int Expert::ProcessCommands()
 		{
 			// skip execution of this command for now as its not for the current player
 			i++;
+
+#if defined VERBOSE_DEBUG
+			std::cout << "Expert::ProcessCommands(): Processing command with playerNumber = " << playerNumber << ". Current AI tick is not for this player. Skipping." << std::endl;
+#endif
 		}
 	}
 
@@ -514,6 +530,10 @@ int Expert::ProcessCommandList(const protos::expert::CommandList* commandList, p
 {
 	int numCommandsProcessed = 0;
 
+#if defined VERBOSE_DEBUG
+	std::cout << "Expert::ProcessCommandList(): Processing command list, size: " << commandList->commands_size() << std::endl;
+#endif
+
 	for (int requestIndex = 0; requestIndex < commandList->commands_size(); requestIndex++)
 	{
 		google::protobuf::Any anyCommand = commandList->commands(requestIndex);
@@ -522,8 +542,18 @@ int Expert::ProcessCommandList(const protos::expert::CommandList* commandList, p
 		auto commandHandler = commandMap[anyCommand.type_url()];
 		if (commandHandler)
 		{
+#if defined VERBOSE_DEBUG
+			std::cout << "Expert::ProcessCommandList(): Decoded command " << anyCommand.type_url() << std::endl;
+#endif
+
 			commandHandler(anyCommand, anyResult);
 			numCommandsProcessed++;
+		}
+		else
+		{
+#if defined VERBOSE_DEBUG
+			std::cout << "Expert::ProcessCommandList(): Not found in command map: " << anyCommand.type_url() << std::endl;
+#endif
 		}
 	}
 
