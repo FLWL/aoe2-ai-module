@@ -219,6 +219,12 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncUpGetGuardState, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_GUARD_STATE));
 	statics::SetFuncAddr(FuncUpGetUpgradeId, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_UPGRADE_ID));
 	statics::SetFuncAddr(FuncUpOutOfSync, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_OUT_OF_SYNC));
+
+	// WK quickfix
+	if (*(int8_t*)FuncUpGetObjectData != 0x8B)
+	{
+		statics::SetFuncAddr(FuncUpGetObjectData, (uintptr_t)FuncUpGetObjectData + 0x44);
+	}
 #endif
 }
 
