@@ -1013,111 +1013,63 @@ message UpGaiaTypeCountTotalResult {
   int32 result = 1;
 }
 
-/**
- * Currently unimplemented in AoC version.
- */
 message UpGroupSize {
   int32 typeOp = 1;
   int32 groupId = 2;
 }
-/**
- * Currently unimplemented in AoC version.
- */
 message UpGroupSizeResult {
   int32 result = 1;
 }
 
-/**
- * Currently unimplemented in AoC version.
- */
 message UpIdleUnitCount {
   int32 idleType = 1;
 }
-/**
- * Currently unimplemented in AoC version.
- */
 message UpIdleUnitCountResult {
   int32 result = 1;
 }
 
-/**
- * Currently unimplemented in AoC version.
- */
 message UpObjectData {
   int32 objectData = 1;
 }
-/**
- * Currently unimplemented in AoC version.
- */
 message UpObjectDataResult {
   int32 result = 1;
 }
 
-/**
- * Currently unimplemented in AoC version.
- */
 message UpObjectTargetData {
   int32 objectData = 1;
 }
-/**
- * Currently unimplemented in AoC version.
- */
 message UpObjectTargetDataResult {
   int32 result = 1;
 }
 
-/**
- * Currently unimplemented in AoC version.
- */
 message UpObjectTypeCount {
   int32 typeOp = 1;
   int32 objectId = 2;
 }
-/**
- * Currently unimplemented in AoC version.
- */
 message UpObjectTypeCountResult {
   int32 result = 1;
 }
 
-/**
- * Currently unimplemented in AoC version.
- */
 message UpObjectTypeCountTotal {
   int32 typeOp = 1;
   int32 objectId = 2;
 }
-/**
- * Currently unimplemented in AoC version.
- */
 message UpObjectTypeCountTotalResult {
   int32 result = 1;
 }
 
-/**
- * Currently unimplemented in AoC version.
- */
 message UpPathDistance {
   int32 goalPoint = 1;
   int32 strict = 2;
 }
-/**
- * Currently unimplemented in AoC version.
- */
 message UpPathDistanceResult {
   int32 result = 1;
 }
 
-/**
- * Currently unimplemented in AoC version.
- */
 message UpPendingObjects {
   int32 typeOp = 1;
   int32 objectId = 2;
 }
-/**
- * Currently unimplemented in AoC version.
- */
 message UpPendingObjectsResult {
   int32 result = 1;
 }
@@ -1153,121 +1105,67 @@ message UpPointContainsResult {
   bool result = 1;
 }
 
-/**
- * Currently unimplemented in AoC version.
- */
 message UpPointDistance {
   int32 goalPoint1 = 1;
   int32 goalPoint2 = 2;
 }
-/**
- * Currently unimplemented in AoC version.
- */
 message UpPointDistanceResult {
   int32 result = 1;
 }
 
-/**
- * Currently unimplemented in AoC version.
- */
 message UpPointElevation {
   int32 goalPoint = 1;
 }
-/**
- * Currently unimplemented in AoC version.
- */
 message UpPointElevationResult {
   int32 result = 1;
 }
 
-/**
- * Currently unimplemented in AoC version.
- */
 message UpPointExplored {
   int32 goalPoint = 1;
 }
-/**
- * Currently unimplemented in AoC version.
- */
 message UpPointExploredResult {
   int32 result = 1;
 }
 
-/**
- * Currently unimplemented in AoC version.
- */
 message UpPointTerrain {
   int32 goalPoint = 1;
 }
-/**
- * Currently unimplemented in AoC version.
- */
 message UpPointTerrainResult {
   int32 result = 1;
 }
 
-/**
- * Currently unimplemented in AoC version.
- */
 message UpPointZone {
   int32 goalPoint = 1;
 }
-/**
- * Currently unimplemented in AoC version.
- */
 message UpPointZoneResult {
   int32 result = 1;
 }
 
-/**
- * Currently unimplemented in AoC version.
- */
 message UpProjectileDetected {
   int32 projectileType = 1;
 }
-/**
- * Currently unimplemented in AoC version.
- */
 message UpProjectileDetectedResult {
   int32 result = 1;
 }
 
-/**
- * Currently unimplemented in AoC version.
- */
 message UpProjectileTarget {
   int32 projectileType = 1;
 }
-/**
- * Currently unimplemented in AoC version.
- */
 message UpProjectileTargetResult {
   int32 result = 1;
 }
 
-/**
- * Currently unimplemented in AoC version.
- */
 message UpRemainingBoarAmount {
   
 }
-/**
- * Currently unimplemented in AoC version.
- */
 message UpRemainingBoarAmountResult {
   int32 result = 1;
 }
 
-/**
- * Currently unimplemented in AoC version.
- */
 message UpResearchStatus {
   int32 typeOp = 1;
   int32 techId = 2;
 }
-/**
- * Currently unimplemented in AoC version.
- */
 message UpResearchStatusResult {
   int32 result = 1;
 }
@@ -1301,30 +1199,18 @@ message UpTrainSiteReadyResult {
   bool result = 1;
 }
 
-/**
- * Currently unimplemented in AoC version.
- */
 message UpUnitTypeInTown {
   int32 typeOp = 1;
   int32 unitId = 2;
 }
-/**
- * Currently unimplemented in AoC version.
- */
 message UpUnitTypeInTownResult {
   int32 result = 1;
 }
 
-/**
- * Currently unimplemented in AoC version.
- */
 message UpVillagerTypeInTown {
   int32 typeOp = 1;
   int32 unitId = 2;
 }
-/**
- * Currently unimplemented in AoC version.
- */
 message UpVillagerTypeInTownResult {
   int32 result = 1;
 }
