@@ -8,7 +8,6 @@ class ExpertFact
 {
 public:
 	static void UpdateAddresses();
-	static void EvaluateRelOpCalled(int value);
 
 	static int AttackSoldierCount();
 	static int AttackWarboatCount();
@@ -178,10 +177,10 @@ public:
 
 #endif
 
+	inline static int lastRelOpValue = 0;
+
 private:
 	ExpertFact() {};
-
-	inline static int lastRelOpValue = 0;
 
 	// params might need reviewing
 	inline static intptr_t(*FuncBuildingAvailable)(int buildingType) = 0;
@@ -242,12 +241,25 @@ private:
 	inline static intptr_t(*FuncTraceFact)(int param) = 0;
 	inline static intptr_t(*FuncTrue)() = 0;
 	inline static intptr_t(*FuncUnitAvailable)(int unitType) = 0;
+
+	inline static intptr_t(*FuncUpAlliedGoal)(int computerAlly, int goalId, int relOp, int value) = 0;
+	inline static intptr_t(*FuncUpAlliedResourceAmount)(int ally, int resourceAmount, int relOp, int value) = 0;
+	inline static intptr_t(*FuncUpAlliedResourcePercent)(int ally, int resourceAmount, int relOp, int value) = 0;
+	inline static intptr_t(*FuncUpAlliedSn)(int computerAlly, int snId, int relOp, int value) = 0;
+	inline static intptr_t(*FuncUpAttackerClass)(int relOp, int value) = 0;
+	inline static intptr_t(*FuncUpBuildingTypeInTown)(int typeOp, int buildingId, int relOp, int value) = 0;
 	inline static intptr_t(*FuncUpCanBuild)(int escrowState, int typeOp, int buildingId) = 0;
 	inline static intptr_t(*FuncUpCanBuildLine)(int escrowState, int goalPoint, int typeOp, int buildingId) = 0;
 	inline static intptr_t(*FuncUpCanResearch)(int escrowState, int typeOp, int techId) = 0;
 	inline static intptr_t(*FuncUpCanSearch)(int searchSource) = 0;
 	inline static intptr_t(*FuncUpCanTrain)(int escrowState, int typeOp, int unitId) = 0;
 	inline static intptr_t(*FuncUpCompareGoal)(int goalId, int compareOp, int value) = 0;
+	inline static intptr_t(*FuncUpDefenderCount)(int relOp, int value) = 0;
+	inline static intptr_t(*FuncUpEnemyBuildingsInTown)(int relOp, int value) = 0;
+	inline static intptr_t(*FuncUpEnemyUnitsInTown)(int relOp, int value) = 0;
+	inline static intptr_t(*FuncUpEnemyVillagersInTown)(int relOp, int value) = 0;
+	inline static intptr_t(*FuncUpGaiaTypeCount)(int typeOp, int resource, int relOp, int value) = 0;
+	inline static intptr_t(*FuncUpGaiaTypeCountTotal)(int typeOp, int resource, int relOp, int value) = 0;
 	inline static intptr_t(*FuncUpGroupSize)(int typeOp, int groupId, int relOp, int value) = 0;
 	inline static intptr_t(*FuncUpIdleUnitCount)(int idleType, int relOp, int value) = 0;
 	inline static intptr_t(*FuncUpObjectData)(int objectData, int relOp, int value) = 0;
@@ -257,6 +269,8 @@ private:
 	inline static intptr_t(*FuncUpPathDistance)(int goalPoint, int strict, int relOp, int value) = 0;
 	inline static intptr_t(*FuncUpPendingObjects)(int typeOp, int objectId, int relOp, int value) = 0;
 	inline static intptr_t(*FuncUpPendingPlacement)(int typeOp, int buildingId) = 0;
+	inline static intptr_t(*FuncUpPlayerDistance)(int player, int relOp, int value) = 0;
+	inline static intptr_t(*FuncUpPlayersInGame)(int playerStance, int relOp, int value) = 0;
 	inline static intptr_t(*FuncUpPointContains)(int goalPoint, int typeOp, int objectId) = 0;
 	inline static intptr_t(*FuncUpPointDistance)(int goalPoint1, int goalPoint2, int relOp, int value) = 0;
 	inline static intptr_t(*FuncUpPointElevation)(int goalPoint, int relOp, int value) = 0;
@@ -267,6 +281,9 @@ private:
 	inline static intptr_t(*FuncUpProjectileTarget)(int projectileType, int relOp, int value) = 0;
 	inline static intptr_t(*FuncUpRemainingBoarAmount)(int relOp, int value) = 0;
 	inline static intptr_t(*FuncUpResearchStatus)(int typeOp, int techId, int relOp, int value) = 0;
+	inline static intptr_t(*FuncUpResourceAmount)(int resourceAmount, int relOp, int value) = 0;
+	inline static intptr_t(*FuncUpResourcePercent)(int resourceAmount, int relOp, int value) = 0;
+	inline static intptr_t(*FuncUpTimerStatus)(int timerId, int relOp, int value) = 0;
 	inline static intptr_t(*FuncUpTrainSiteReady)(int typeOp, int unitId) = 0;
 	inline static intptr_t(*FuncUpUnitTypeInTown)(int typeOp, int unitId, int relOp, int value) = 0;
 	inline static intptr_t(*FuncUpVillagerTypeInTown)(int typeOp, int unitId, int relOp, int value) = 0;
@@ -284,10 +301,6 @@ private:
 	inline static intptr_t(*FuncStartingResources)(int relOp, int value) = 0;
 	inline static intptr_t(*FuncStrategicNumber)(int strategicNumber, int relOp, int value) = 0;
 	inline static intptr_t(*FuncUnitCountTotal)(int relOp, int value) = 0;
-	inline static intptr_t(*FuncUpAttackerClass)(int relOp, int value) = 0;
-	inline static intptr_t(*FuncUpBuildingTypeInTown)(int typeOp, int buildingId, int relOp, int value) = 0;
-	inline static intptr_t(*FuncUpGaiaTypeCount)(int typeOp, int resource, int relOp, int value) = 0;
-	inline static intptr_t(*FuncUpGaiaTypeCountTotal)(int typeOp, int resource, int relOp, int value) = 0;
 #elif defined GAME_AOC
 	inline static intptr_t(__thiscall* FuncInternalGetGoal)(void* informationAI, int goalId) = 0;
 	inline static intptr_t(__thiscall* FuncInternalGameType)(void* baseGame) = 0;

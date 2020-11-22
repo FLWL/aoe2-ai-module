@@ -64,11 +64,25 @@ void ExpertFact::UpdateAddresses()
 	statics::SetFuncAddr(FuncTraceFact, statics::TranslateAddr(expert_conf::ADDR_FUNC_TRACE_FACT));
 	statics::SetFuncAddr(FuncTrue, statics::TranslateAddr(expert_conf::ADDR_FUNC_TRUE));
 	statics::SetFuncAddr(FuncUnitAvailable, statics::TranslateAddr(expert_conf::ADDR_FUNC_UNIT_AVAILABLE));
+
+	statics::SetFuncAddr(FuncUpAlliedGoal, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_ALLIED_GOAL));
+	statics::SetFuncAddr(FuncUpAlliedResourceAmount, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_ALLIED_RESOURCE_AMOUNT));
+	statics::SetFuncAddr(FuncUpAlliedResourcePercent, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_ALLIED_RESOURCE_PERCENT));
+	statics::SetFuncAddr(FuncUpAlliedSn, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_ALLIED_SN));
+	statics::SetFuncAddr(FuncUpAttackerClass, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_ATTACKER_CLASS));
+	statics::SetFuncAddr(FuncUpBuildingTypeInTown, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_BUILDING_TYPE_IN_TOWN));
 	statics::SetFuncAddr(FuncUpCanBuild, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CAN_BUILD));
 	statics::SetFuncAddr(FuncUpCanBuildLine, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CAN_BUILD_LINE));
 	statics::SetFuncAddr(FuncUpCanResearch, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CAN_RESEARCH));
 	statics::SetFuncAddr(FuncUpCanSearch, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CAN_SEARCH));
 	statics::SetFuncAddr(FuncUpCanTrain, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CAN_TRAIN));
+	statics::SetFuncAddr(FuncUpCompareGoal, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_COMPARE_GOAL));
+	statics::SetFuncAddr(FuncUpDefenderCount, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_DEFENDER_COUNT));
+	statics::SetFuncAddr(FuncUpEnemyBuildingsInTown, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_ENEMY_BUILDINGS_IN_TOWN));
+	statics::SetFuncAddr(FuncUpEnemyUnitsInTown, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_ENEMY_UNITS_IN_TOWN));
+	statics::SetFuncAddr(FuncUpEnemyVillagersInTown, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_ENEMY_VILLAGERS_IN_TOWN));
+	statics::SetFuncAddr(FuncUpGaiaTypeCount, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GAIA_TYPE_COUNT));
+	statics::SetFuncAddr(FuncUpGaiaTypeCountTotal, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GAIA_TYPE_COUNT_TOTAL));
 	statics::SetFuncAddr(FuncUpGroupSize, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GROUP_SIZE));
 	statics::SetFuncAddr(FuncUpIdleUnitCount, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_IDLE_UNIT_COUNT));
 	statics::SetFuncAddr(FuncUpObjectData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_OBJECT_DATA));
@@ -78,6 +92,8 @@ void ExpertFact::UpdateAddresses()
 	statics::SetFuncAddr(FuncUpPathDistance, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_PATH_DISTANCE));
 	statics::SetFuncAddr(FuncUpPendingObjects, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_PENDING_OBJECTS));
 	statics::SetFuncAddr(FuncUpPendingPlacement, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_PENDING_PLACEMENT));
+	statics::SetFuncAddr(FuncUpPlayerDistance, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_PLAYER_DISTANCE));
+	statics::SetFuncAddr(FuncUpPlayersInGame, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_PLAYERS_IN_GAME));
 	statics::SetFuncAddr(FuncUpPointContains, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_POINT_CONTAINS));
 	statics::SetFuncAddr(FuncUpPointDistance, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_POINT_DISTANCE));
 	statics::SetFuncAddr(FuncUpPointElevation, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_POINT_ELEVATION));
@@ -88,6 +104,9 @@ void ExpertFact::UpdateAddresses()
 	statics::SetFuncAddr(FuncUpProjectileTarget, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_PROJECTILE_TARGET));
 	statics::SetFuncAddr(FuncUpRemainingBoarAmount, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_REMAINING_BOAR_AMOUNT));
 	statics::SetFuncAddr(FuncUpResearchStatus, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_RESEARCH_STATUS));
+	statics::SetFuncAddr(FuncUpResourceAmount, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_RESOURCE_AMOUNT));
+	statics::SetFuncAddr(FuncUpResourcePercent, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_RESOURCE_PERCENT));
+	statics::SetFuncAddr(FuncUpTimerStatus, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TIMER_STATUS));
 	statics::SetFuncAddr(FuncUpTrainSiteReady, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TRAIN_SITE_READY));
 	statics::SetFuncAddr(FuncUpUnitTypeInTown, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_UNIT_TYPE_IN_TOWN));
 	statics::SetFuncAddr(FuncUpVillagerTypeInTown, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_VILLAGER_TYPE_IN_TOWN));
@@ -119,11 +138,6 @@ void ExpertFact::UpdateAddresses()
 #endif
 }
 
-void ExpertFact::EvaluateRelOpCalled(int value)
-{
-	lastRelOpValue = value;
-}
-
 int ExpertFact::AttackSoldierCount()
 {
 	return ExpertFact::UpGetFact(14, 0);
@@ -147,6 +161,7 @@ int ExpertFact::BuildingCount()
 int ExpertFact::BuildingCountTotal()
 {
 #if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncBuildingCountTotal(0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
@@ -257,6 +272,7 @@ bool ExpertFact::CanTrainWithEscrow(int unitType)
 int ExpertFact::CcPlayersBuildingCount(int playerNumber)
 {
 #if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncCcPlayersBuildingCount(playerNumber, 0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
@@ -268,6 +284,7 @@ int ExpertFact::CcPlayersBuildingCount(int playerNumber)
 int ExpertFact::CcPlayersBuildingTypeCount(int playerNumber, int buildingType)
 {
 #if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncCcPlayersBuildingTypeCount(playerNumber, buildingType, 0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
@@ -279,6 +296,7 @@ int ExpertFact::CcPlayersBuildingTypeCount(int playerNumber, int buildingType)
 int ExpertFact::CcPlayersUnitCount(int playerNumber)
 {
 #if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncCcPlayersUnitCount(playerNumber, 0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
@@ -290,6 +308,7 @@ int ExpertFact::CcPlayersUnitCount(int playerNumber)
 int ExpertFact::CcPlayersUnitTypeCount(int playerNumber, int unitType)
 {
 #if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncCcPlayersUnitTypeCount(playerNumber, unitType, 0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
@@ -356,6 +375,7 @@ int ExpertFact::DefendWarboatCount()
 int ExpertFact::Difficulty()
 {
 #if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncDifficulty(0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
@@ -411,6 +431,7 @@ int ExpertFact::GameTime()
 int ExpertFact::GameType()
 {
 #if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncGameType(0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
@@ -421,6 +442,7 @@ int ExpertFact::GameType()
 int ExpertFact::GateCount(int perimeter)
 {
 #if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncGateCount(perimeter, 0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
@@ -434,6 +456,7 @@ int ExpertFact::GateCount(int perimeter)
 int ExpertFact::Goal(int goalId)
 {
 #if defined GAME_DE
+	lastRelOpValue = -1;
 	// Call up-compare-goal instead as the usual goal fact doesn't call EvaluateRelOp
 	FuncUpCompareGoal(goalId, 0, 0);
 	return lastRelOpValue;
@@ -658,6 +681,7 @@ bool ExpertFact::StanceToward(int playerNumber, int stance)
 int ExpertFact::StartingAge()
 {
 #if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncStartingAge(0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
@@ -677,6 +701,7 @@ int ExpertFact::StartingAge()
 int ExpertFact::StartingResources()
 {
 #if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncStartingResources(0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
@@ -692,6 +717,7 @@ int ExpertFact::StoneAmount()
 int ExpertFact::StrategicNumber(int strategicNumber)
 {
 #if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncStrategicNumber(strategicNumber, 0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
@@ -737,6 +763,7 @@ int ExpertFact::UnitCount()
 int ExpertFact::UnitCountTotal()
 {
 #if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUnitCountTotal(0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
@@ -756,53 +783,44 @@ int ExpertFact::UnitTypeCountTotal(int unitType)
 
 int ExpertFact::UpAlliedGoal(int computerAlly, int goalId)
 {
-	return ExpertFact::UpGetPlayerFact(computerAlly, 36, goalId);
+	lastRelOpValue = -1;
+	FuncUpAlliedGoal(computerAlly, goalId, 0, 0);
+	return lastRelOpValue;
 }
 
 int ExpertFact::UpAlliedResourceAmount(int ally, int resourceAmount)
 {
-	if (ExpertFact::PlayersStance(ally, 0))
-	{
-		return ExpertFact::UpGetPlayerFact(ally, 34, resourceAmount);
-	}
-
-	return -1;
+	lastRelOpValue = -1;
+	FuncUpAlliedResourceAmount(ally, resourceAmount, 0, 0);
+	return lastRelOpValue;
 }
 
 int ExpertFact::UpAlliedResourcePercent(int ally, int resourceAmount)
 {
-	if (ExpertFact::PlayersStance(ally, 0))
-	{
-		return ExpertFact::UpGetPlayerFact(ally, 38, resourceAmount);
-	}
-
-	return -1;
+	lastRelOpValue = -1;
+	FuncUpAlliedResourcePercent(ally, resourceAmount, 0, 0);
+	return lastRelOpValue;
 }
 
 int ExpertFact::UpAlliedSn(int computerAlly, int snId)
 {
-	return ExpertFact::UpGetPlayerFact(computerAlly, 37, snId);
+	lastRelOpValue = -1;
+	FuncUpAlliedSn(computerAlly, snId, 0, 0);
+	return lastRelOpValue;
 }
 
 int ExpertFact::UpAttackerClass()
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpAttackerClass(0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	return *(int32_t*)(*(int32_t*)(*(int8_t**)expert_conf::ADDR_PTR_THIS_INFORMATION_AI + 0x139C) + 0x77C) + 900;
-#endif
 }
 
 int ExpertFact::UpBuildingTypeInTown(int typeOp, int buildingId)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpBuildingTypeInTown(typeOp, buildingId, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	// TODO: typeOp param is ignored
-	return ExpertFact::UpGetFact(44, buildingId);
-#endif
 }
 
 bool ExpertFact::UpCanBuild(int escrowState, int typeOp, int buildingId)
@@ -832,44 +850,44 @@ bool ExpertFact::UpCanTrain(int escrowState, int typeOp, int unitId)
 
 int ExpertFact::UpDefenderCount()
 {
-	return ExpertFact::UpGetFact(43, 0);
+	lastRelOpValue = -1;
+	FuncUpDefenderCount(0, 0);
+	return lastRelOpValue;
 }
 
 int ExpertFact::UpEnemyBuildingsInTown()
 {
-	return ExpertFact::UpGetFact(39, 0);
+	lastRelOpValue = -1;
+	FuncUpEnemyBuildingsInTown(0, 0);
+	return lastRelOpValue;
 }
 
 int ExpertFact::UpEnemyUnitsInTown()
 {
-	return ExpertFact::UpGetFact(40, 0);
+	lastRelOpValue = -1;
+	FuncUpEnemyUnitsInTown(0, 0);
+	return lastRelOpValue;
 }
 
 int ExpertFact::UpEnemyVillagersInTown()
 {
-	return ExpertFact::UpGetFact(41, 0);
+	lastRelOpValue = -1;
+	FuncUpEnemyVillagersInTown(0, 0);
+	return lastRelOpValue;
 }
 
 int ExpertFact::UpGaiaTypeCount(int typeOp, int resource)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpGaiaTypeCount(typeOp, resource, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	// TODO: typeOp param is ignored
-	return ExpertFact::UpGetFact(47, resource);
-#endif
 }
 
 int ExpertFact::UpGaiaTypeCountTotal(int typeOp, int resource)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpGaiaTypeCountTotal(typeOp, resource, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	// TODO: typeOp param is ignored
-	return ExpertFact::UpGetFact(48, resource);
-#endif
 }
 
 int ExpertFact::UpGetFact(int factId, int factParam)
@@ -898,82 +916,58 @@ int ExpertFact::UpGetPlayerFact(int player, int factId, int param)
 
 int ExpertFact::UpGroupSize(int typeOp, int groupId)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpGroupSize(typeOp, groupId, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	return -1;
-#endif
 }
 
 int ExpertFact::UpIdleUnitCount(int idleType)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpIdleUnitCount(idleType, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	return -1;
-#endif
 }
 
 int ExpertFact::UpObjectData(int objectData)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpObjectData(objectData, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	return -1;
-#endif
 }
 
 int ExpertFact::UpObjectTargetData(int objectData)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpObjectTargetData(objectData, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	return -1;
-#endif
 }
 
 int ExpertFact::UpObjectTypeCount(int typeOp, int objectId)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpObjectTypeCount(typeOp, objectId, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	return -1;
-#endif
 }
 
 int ExpertFact::UpObjectTypeCountTotal(int typeOp, int objectId)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpObjectTypeCountTotal(typeOp, objectId, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	return -1;
-#endif
 }
 
 int ExpertFact::UpPathDistance(int goalPoint, int strict)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpPathDistance(goalPoint, strict, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	return -1;
-#endif
 }
 
 int ExpertFact::UpPendingObjects(int typeOp, int objectId)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpPendingObjects(typeOp, objectId, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	return -1;
-#endif
 }
 
 bool ExpertFact::UpPendingPlacement(int typeOp, int buildingId)
@@ -983,12 +977,16 @@ bool ExpertFact::UpPendingPlacement(int typeOp, int buildingId)
 
 int ExpertFact::UpPlayerDistance(int player)
 {
-	return ExpertFact::UpGetFact(35, player);
+	lastRelOpValue = -1;
+	FuncUpPlayerDistance(player, 0, 0);
+	return lastRelOpValue;
 }
 
 int ExpertFact::UpPlayersInGame(int playerStance)
 {
-	return ExpertFact::UpGetFact(42, playerStance);
+	lastRelOpValue = -1;
+	FuncUpPlayersInGame(playerStance, 0, 0);
+	return lastRelOpValue;
 }
 
 bool ExpertFact::UpPointContains(int goalPoint, int typeOp, int objectId)
@@ -998,107 +996,86 @@ bool ExpertFact::UpPointContains(int goalPoint, int typeOp, int objectId)
 
 int ExpertFact::UpPointDistance(int goalPoint1, int goalPoint2)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpPointDistance(goalPoint1, goalPoint2, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	return -1;
-#endif
 }
 
 int ExpertFact::UpPointElevation(int goalPoint)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpPointElevation(goalPoint, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	return -1;
-#endif
 }
 
 int ExpertFact::UpPointExplored(int goalPoint)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpPointExplored(goalPoint, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	return -1;
-#endif
 }
 
 int ExpertFact::UpPointTerrain(int goalPoint)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpPointTerrain(goalPoint, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	return -1;
-#endif
 }
 
 int ExpertFact::UpPointZone(int goalPoint)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpPointZone(goalPoint, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	return -1;
-#endif
 }
 
 int ExpertFact::UpProjectileDetected(int projectileType)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpProjectileDetected(projectileType, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	return -1;
-#endif
 }
 
 int ExpertFact::UpProjectileTarget(int projectileType)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpProjectileTarget(projectileType, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	return -1;
-#endif
 }
 
 int ExpertFact::UpRemainingBoarAmount()
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpRemainingBoarAmount(0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	return -1;
-#endif
 }
 
 int ExpertFact::UpResearchStatus(int typeOp, int techId)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpResearchStatus(typeOp, techId, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	return -1;
-#endif
 }
 
 int ExpertFact::UpResourceAmount(int resourceAmount)
 {
-	return ExpertFact::UpGetFact(34, resourceAmount);
+	lastRelOpValue = -1;
+	FuncUpResourceAmount(resourceAmount, 0, 0);
+	return lastRelOpValue;
 }
 
 int ExpertFact::UpResourcePercent(int resourceAmount)
 {
-	return ExpertFact::UpGetFact(38, resourceAmount);
+	lastRelOpValue = -1;
+	FuncUpResourcePercent(resourceAmount, 0, 0);
+	return lastRelOpValue;
 }
 
 int ExpertFact::UpTimerStatus(int timerId)
 {
-	return ExpertFact::UpGetFact(51, timerId);
+	lastRelOpValue = -1;
+	FuncUpTimerStatus(timerId, 0, 0);
+	return lastRelOpValue;
 }
 
 bool ExpertFact::UpTrainSiteReady(int typeOp, int unitId)
@@ -1108,22 +1085,16 @@ bool ExpertFact::UpTrainSiteReady(int typeOp, int unitId)
 
 int ExpertFact::UpUnitTypeInTown(int typeOp, int unitId)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpUnitTypeInTown(typeOp, unitId, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	return -1;
-#endif
 }
 
 int ExpertFact::UpVillagerTypeInTown(int typeOp, int unitId)
 {
-#if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncUpVillagerTypeInTown(typeOp, unitId, 0, 0);
 	return lastRelOpValue;
-#elif defined GAME_AOC
-	return -1;
-#endif
 }
 
 bool ExpertFact::VictoryCondition(int victoryCondition)
@@ -1134,6 +1105,7 @@ bool ExpertFact::VictoryCondition(int victoryCondition)
 int ExpertFact::WallCompletedPercentage(int perimeter)
 {
 #if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncWallCompletedPercentage(perimeter, 0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
@@ -1144,6 +1116,7 @@ int ExpertFact::WallCompletedPercentage(int perimeter)
 int ExpertFact::WallInvisiblePercentage(int perimeter)
 {
 #if defined GAME_DE
+	lastRelOpValue = -1;
 	FuncWallInvisiblePercentage(perimeter, 0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
@@ -1164,6 +1137,7 @@ int ExpertFact::WoodAmount()
 #if defined GAME_DE
 int ExpertFact::EndingAge()
 {
+	lastRelOpValue = -1;
 	FuncEndingAge(0, 0);
 	return lastRelOpValue;
 }
@@ -1175,6 +1149,7 @@ bool ExpertFact::FeCanBuildAtPoint(int param1, int param2, int param3, int param
 
 int ExpertFact::FeSubGameType()
 {
+	lastRelOpValue = -1;
 	FuncFeSubGameType(0, 0);
 	return lastRelOpValue;
 }
