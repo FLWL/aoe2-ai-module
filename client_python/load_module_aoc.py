@@ -4,13 +4,13 @@ from ctypes import windll
 # works on 32-bit Python only
 # change DLL path here
 dll_path = b'C:\\Development\\AoE2\\aoe2-ai-module\\aimodule\\Release\\aimodule.dll'
-aoc_binary_name = "age2_x1.exe"
+aoc_binary_names = ["age2_x1.exe", "WK.exe"]
 
 # get aoc pid
 aoc_pid = None
 for proc in psutil.process_iter():
     try:
-        if proc.name() == aoc_binary_name:
+        if proc.name() in aoc_binary_names:
             aoc_pid = proc.pid
             break
     except (psutil.AccessDenied, psutil.NoSuchProcess, psutil.ZombieProcess):
