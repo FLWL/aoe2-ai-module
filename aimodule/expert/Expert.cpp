@@ -32,6 +32,8 @@ void Expert::UpdateAddresses()
 	statics::SetFuncAddr(FuncRunList, statics::TranslateAddr(expert_conf::ADDR_FUNC_RUN_LIST));
 #if defined GAME_DE
 	statics::SetFuncAddr(FuncEvaluateRelOp, statics::TranslateAddr(expert_conf::ADDR_FUNC_EVALUATE_REL_OP));
+#elif defined GAME_AOC
+	
 #endif
 
 	ExpertAction::UpdateAddresses();
@@ -422,6 +424,23 @@ void Expert::PopulateCommandMap()
 #endif
 }
 
+#if defined GAME_AOC
+// Hook for UpEvaluateRelOp
+uint8_t gUpEvaluateRelOpCachedInstructions[5];
+void __declspec(naked) HookedUpEvaluateRelOp()
+{
+	__asm {
+		xor eax, eax
+		cmp ecx, 0x6
+
+		mov ExpertFact::lastRelOpValue, esi
+
+		jmp[expert_conf::ADDR_FUNC_UP_EVALUATE_REL_OP_CONTINUATION]
+	}
+}
+#endif
+
+
 void Expert::EnableDetours()
 {
 	DetourTransactionBegin();
@@ -435,6 +454,10 @@ void Expert::EnableDetours()
 	std::cout << "Expert::EnableDetours(): attach result = " << runListResult << std::endl;
 	std::cout << "Expert::EnableDetours(): transaction result = " << transactionResult << std::endl;
 #endif
+
+#if defined GAME_AOC
+	statics::PlaceJumpInstruction((uint8_t*)statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_EVALUATE_REL_OP), (uint8_t*)&HookedUpEvaluateRelOp, 5, gUpEvaluateRelOpCachedInstructions);
+#endif
 }
 
 void Expert::DisableDetours()
@@ -446,6 +469,10 @@ void Expert::DisableDetours()
 	DetourDetach(&(PVOID&)FuncEvaluateRelOp, DetouredEvaluateRelOp);
 #endif
 	DetourTransactionCommit();
+	
+#if defined GAME_AOC
+	statics::WriteMemory((uint8_t*)statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_EVALUATE_REL_OP), gUpEvaluateRelOpCachedInstructions, 5);
+#endif
 }
 
 #if defined GAME_DE
@@ -478,7 +505,7 @@ int32_t __fastcall Expert::DetouredRunList(void* aiExpertEngine, void* unused, i
 #if defined GAME_DE
 int64_t Expert::DetouredEvaluateRelOp(int relOp, int arg1, int arg2, char a4, char a5)
 {
-	ExpertFact::EvaluateRelOpCalled(arg1);
+	ExpertFact::lastRelOpValue = arg1;
 
 	return FuncEvaluateRelOp(relOp, arg1, arg2, a4, a5);
 }
@@ -551,9 +578,7 @@ int Expert::ProcessCommandList(const protos::expert::CommandList* commandList, p
 		}
 		else
 		{
-#if defined VERBOSE_DEBUG
-			std::cout << "Expert::ProcessCommandList(): Not found in command map: " << anyCommand.type_url() << std::endl;
-#endif
+			std::cout << "Warning: unsupported command " << anyCommand.type_url() << std::endl;
 		}
 	}
 
