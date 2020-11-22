@@ -409,7 +409,10 @@ void ExpertAction::DisableSelf()
 
 void ExpertAction::DisableTimer(int timerId)
 {
-	FuncDisableTimer(timerId);
+	if (timerId != 0) // can crash otherwise
+	{
+		FuncDisableTimer(timerId);
+	}
 }
 
 void ExpertAction::DoNothing()
