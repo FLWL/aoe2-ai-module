@@ -10,18 +10,20 @@
 
 #include "AIModule.h"
 #include "misc/Statics.h"
-#include "expert/action/ExpertAction.h"
 #include "expert/action/ExpertActionHandler.h"
-#include "expert/fact/ExpertFact.h"
 #include "expert/fact/ExpertFactHandler.h"
 
 Expert* Expert::instance;
 
 Expert::Expert(AIModule* aiModule) :
 	aiModule(aiModule),
-	expertService(this)
+	expertService(this),
+	commandQueue(),
+	expertAction(),
+	expertFact()
 {
 	instance = this;
+
 	UpdateAddresses();
 	PopulateCommandMap();
 	EnableDetours();
@@ -30,19 +32,10 @@ Expert::Expert(AIModule* aiModule) :
 void Expert::UpdateAddresses()
 {
 	statics::SetFuncAddr(FuncRunList, statics::TranslateAddr(expert_conf::ADDR_FUNC_RUN_LIST));
-#if defined GAME_DE
-	statics::SetFuncAddr(FuncEvaluateRelOp, statics::TranslateAddr(expert_conf::ADDR_FUNC_EVALUATE_REL_OP));
-#elif defined GAME_AOC
-	
-#endif
-
-	ExpertAction::UpdateAddresses();
-	ExpertFact::UpdateAddresses();
 }
 
 void Expert::PopulateCommandMap()
 {
-	// actions
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.AcknowledgeEvent", &ExpertActionHandler::AcknowledgeEvent });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.AcknowledgeTaunt", &ExpertActionHandler::AcknowledgeTaunt });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.AttackNow", &ExpertActionHandler::AttackNow });
@@ -256,7 +249,6 @@ void Expert::PopulateCommandMap()
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpOutOfSync", &ExpertActionHandler::UpOutOfSync });
 #endif
 	
-	// facts
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.AttackSoldierCount", &ExpertFactHandler::AttackSoldierCount });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.AttackWarboatCount", &ExpertFactHandler::AttackWarboatCount });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.BuildingAvailable", &ExpertFactHandler::BuildingAvailable });
@@ -310,7 +302,7 @@ void Expert::PopulateCommandMap()
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.GameType", &ExpertFactHandler::GameType });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.GateCount", &ExpertFactHandler::GateCount });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.Goal", &ExpertFactHandler::Goal });
-	commandMap.insert({ "type.googleapis.com/protos.expert.fact.Goals", &ExpertFactHandler::Goals });
+	commandMap.insert({ "type.googleapis.com/protos.expert.fact.GoalList", &ExpertFactHandler::GoalList });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.GoldAmount", &ExpertFactHandler::GoldAmount });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.HoldKohRuin", &ExpertFactHandler::HoldKohRuin });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.HoldRelics", &ExpertFactHandler::HoldRelics });
@@ -356,6 +348,7 @@ void Expert::PopulateCommandMap()
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.StartingResources", &ExpertFactHandler::StartingResources });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.StoneAmount", &ExpertFactHandler::StoneAmount });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.StrategicNumber", &ExpertFactHandler::StrategicNumber });
+	commandMap.insert({ "type.googleapis.com/protos.expert.fact.StrategicNumberList", &ExpertFactHandler::StrategicNumberList });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.TauntDetected", &ExpertFactHandler::TauntDetected });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.TimerTriggered", &ExpertFactHandler::TimerTriggered });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.TownUnderAttack", &ExpertFactHandler::TownUnderAttack });
@@ -386,6 +379,7 @@ void Expert::PopulateCommandMap()
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.UpGroupSize", &ExpertFactHandler::UpGroupSize });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.UpIdleUnitCount", &ExpertFactHandler::UpIdleUnitCount });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.UpObjectData", &ExpertFactHandler::UpObjectData });
+	commandMap.insert({ "type.googleapis.com/protos.expert.fact.UpObjectDataList", &ExpertFactHandler::UpObjectDataList });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.UpObjectTargetData", &ExpertFactHandler::UpObjectTargetData });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.UpObjectTypeCount", &ExpertFactHandler::UpObjectTypeCount });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.UpObjectTypeCountTotal", &ExpertFactHandler::UpObjectTypeCountTotal });
@@ -406,6 +400,7 @@ void Expert::PopulateCommandMap()
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.UpResearchStatus", &ExpertFactHandler::UpResearchStatus });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.UpResourceAmount", &ExpertFactHandler::UpResourceAmount });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.UpResourcePercent", &ExpertFactHandler::UpResourcePercent });
+	commandMap.insert({ "type.googleapis.com/protos.expert.fact.UpSearchObjectIdList", &ExpertFactHandler::UpSearchObjectIdList });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.UpTimerStatus", &ExpertFactHandler::UpTimerStatus });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.UpTrainSiteReady", &ExpertFactHandler::UpTrainSiteReady });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.UpUnitTypeInTown", &ExpertFactHandler::UpUnitTypeInTown });
@@ -424,40 +419,12 @@ void Expert::PopulateCommandMap()
 #endif
 }
 
-#if defined GAME_AOC
-// Hook for UpEvaluateRelOp
-uint8_t gUpEvaluateRelOpCachedInstructions[5];
-void __declspec(naked) HookedUpEvaluateRelOp()
-{
-	__asm {
-		xor eax, eax
-		cmp ecx, 0x6
-
-		mov ExpertFact::lastRelOpValue, esi
-
-		jmp[expert_conf::ADDR_FUNC_UP_EVALUATE_REL_OP_CONTINUATION]
-	}
-}
-#endif
-
-
 void Expert::EnableDetours()
 {
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());
-	auto runListResult = DetourAttach(&(PVOID&)FuncRunList, DetouredRunList);
-#if defined GAME_DE
-	DetourAttach(&(PVOID&)FuncEvaluateRelOp, DetouredEvaluateRelOp);
-#endif
-	auto transactionResult = DetourTransactionCommit();
-#if defined VERBOSE_DEBUG
-	std::cout << "Expert::EnableDetours(): attach result = " << runListResult << std::endl;
-	std::cout << "Expert::EnableDetours(): transaction result = " << transactionResult << std::endl;
-#endif
-
-#if defined GAME_AOC
-	statics::PlaceJumpInstruction((uint8_t*)statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_EVALUATE_REL_OP), (uint8_t*)&HookedUpEvaluateRelOp, 5, gUpEvaluateRelOpCachedInstructions);
-#endif
+	DetourAttach(&(PVOID&)FuncRunList, DetouredRunList);
+	DetourTransactionCommit();
 }
 
 void Expert::DisableDetours()
@@ -465,14 +432,7 @@ void Expert::DisableDetours()
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());
 	DetourDetach(&(PVOID&)FuncRunList, DetouredRunList);
-#if defined GAME_DE
-	DetourDetach(&(PVOID&)FuncEvaluateRelOp, DetouredEvaluateRelOp);
-#endif
 	DetourTransactionCommit();
-	
-#if defined GAME_AOC
-	statics::WriteMemory((uint8_t*)statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_EVALUATE_REL_OP), gUpEvaluateRelOpCachedInstructions, 5);
-#endif
 }
 
 #if defined GAME_DE
@@ -481,10 +441,6 @@ int64_t Expert::DetouredRunList(void* aiExpertEngine, int listId, void* statsOut
 int32_t __fastcall Expert::DetouredRunList(void* aiExpertEngine, void* unused, int listId, void* statsOutput)
 #endif
 {
-#if defined VERBOSE_DEBUG
-	std::cout << "Expert::DetouredRunList(): called." << std::endl;
-#endif
-
 	auto result = FuncRunList(aiExpertEngine, listId, statsOutput);
 
 	auto t1 = std::chrono::high_resolution_clock::now();
@@ -495,21 +451,12 @@ int32_t __fastcall Expert::DetouredRunList(void* aiExpertEngine, void* unused, i
 	if (numCommandsProcessed)
 	{
 		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
-		std::cout << "Processed " << numCommandsProcessed  << " command(s) in " << duration << " us"<< std::endl;
+		std::cout << "[Expert] Processed " << numCommandsProcessed  << " command" << (numCommandsProcessed == 1 ? "" : "s") << " in " << duration << " us" << std::endl;
 	}
 #endif
 
 	return result;
 }
-
-#if defined GAME_DE
-int64_t Expert::DetouredEvaluateRelOp(int relOp, int arg1, int arg2, char a4, char a5)
-{
-	ExpertFact::lastRelOpValue = arg1;
-
-	return FuncEvaluateRelOp(relOp, arg1, arg2, a4, a5);
-}
-#endif
 
 int Expert::ProcessCommands()
 {
@@ -524,10 +471,6 @@ int Expert::ProcessCommands()
 
 		if (ExpertFact::PlayerNumber(playerNumber))
 		{
-#if defined VERBOSE_DEBUG
-			std::cout << "Expert::ProcessCommands(): Processing command with playerNumber = " << playerNumber << ". Current tick is for this player." << std::endl;
-#endif
-
 			// process
 			item->commandResultList->set_playernumber(playerNumber);
 			numCommandsProcessed += ProcessCommandList(item->commandList, item->commandResultList);
@@ -543,10 +486,6 @@ int Expert::ProcessCommands()
 		{
 			// skip execution of this command for now as its not for the current player
 			i++;
-
-#if defined VERBOSE_DEBUG
-			std::cout << "Expert::ProcessCommands(): Processing command with playerNumber = " << playerNumber << ". Current AI tick is not for this player. Skipping." << std::endl;
-#endif
 		}
 	}
 
@@ -557,10 +496,6 @@ int Expert::ProcessCommandList(const protos::expert::CommandList* commandList, p
 {
 	int numCommandsProcessed = 0;
 
-#if defined VERBOSE_DEBUG
-	std::cout << "Expert::ProcessCommandList(): Processing command list, size: " << commandList->commands_size() << std::endl;
-#endif
-
 	for (int requestIndex = 0; requestIndex < commandList->commands_size(); requestIndex++)
 	{
 		google::protobuf::Any anyCommand = commandList->commands(requestIndex);
@@ -569,31 +504,16 @@ int Expert::ProcessCommandList(const protos::expert::CommandList* commandList, p
 		auto commandHandler = commandMap[anyCommand.type_url()];
 		if (commandHandler)
 		{
-#if defined VERBOSE_DEBUG
-			std::cout << "Expert::ProcessCommandList(): Decoded command " << anyCommand.type_url() << std::endl;
-#endif
-
 			commandHandler(anyCommand, anyResult);
 			numCommandsProcessed++;
 		}
 		else
 		{
-			std::cout << "Warning: unsupported command " << anyCommand.type_url() << std::endl;
+			std::cout << "[Expert] Warning: received unsupported command '" << anyCommand.type_url() << "'" << std::endl;
 		}
 	}
 
 	return numCommandsProcessed;
-}
-
-int Expert::ResolveConst(const std::string& constToResolve)
-{
-	// TODO
-	return -1;
-}
-
-void Expert::PreUnload()
-{
-	commandQueue.Clear();
 }
 
 Expert::~Expert()

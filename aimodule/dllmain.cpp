@@ -7,7 +7,7 @@ static HMODULE currentModuleHandle;
 
 void RunAIModule()
 {
-	AIModule aiModule(currentModuleHandle);
+	AIModule aiModule;
 }
 
 void LibraryThread()

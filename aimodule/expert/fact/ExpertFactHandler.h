@@ -59,7 +59,7 @@ public:
 	static void GameType(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void GateCount(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void Goal(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
-	static void Goals(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void GoalList(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void GoldAmount(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void HoldKohRuin(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void HoldRelics(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
@@ -105,6 +105,7 @@ public:
 	static void StartingResources(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void StoneAmount(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void StrategicNumber(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void StrategicNumberList(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void TauntDetected(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void TimerTriggered(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void TownUnderAttack(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
@@ -135,6 +136,7 @@ public:
 	static void UpGroupSize(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpIdleUnitCount(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpObjectData(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void UpObjectDataList(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpObjectTargetData(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpObjectTypeCount(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpObjectTypeCountTotal(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
@@ -155,6 +157,7 @@ public:
 	static void UpResearchStatus(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpResourceAmount(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpResourcePercent(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void UpSearchObjectIdList(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpTimerStatus(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpTrainSiteReady(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpUnitTypeInTown(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);

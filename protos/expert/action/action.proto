@@ -9,8 +9,8 @@ package protos.expert.action;
  * Reset a flag associated with an event such as a trigger so it could be used again.
  */
 message AcknowledgeEvent {
-  int32 eventType = 1; // type of event, such as a trigger
-  int32 id = 2; // id of the event whose flag to reset
+  int32 inConstEventType = 1; // type of event, such as a trigger
+  int32 inConstEventId = 2; // id of the event whose flag to reset
 }
 /**
  * Reply for the `AcknowledgeEvent` action. No information is returned.
@@ -20,8 +20,8 @@ message AcknowledgeEventResult {
 }
 
 message AcknowledgeTaunt {
-  int32 playerNumber = 1;
-  int32 tauntId = 2;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstTauntId = 2;
 }
 message AcknowledgeTauntResult {
   
@@ -35,44 +35,44 @@ message AttackNowResult {
 }
 
 message Build {
-  int32 buildingType = 1;
+  int32 inConstBuildingId = 1;
 }
 message BuildResult {
-  bool success = 1;
+  
 }
 
 message BuildForward {
-  int32 buildingType = 1;
+  int32 inConstBuildingId = 1;
 }
 message BuildForwardResult {
   
 }
 
 message BuildGate {
-  int32 perimeter = 1;
+  int32 inConstPerimeter = 1;
 }
 message BuildGateResult {
   
 }
 
 message BuildWall {
-  int32 perimeter = 1;
-  int32 wallType = 2;
+  int32 inConstPerimeter = 1;
+  int32 inConstWallId = 2;
 }
 message BuildWallResult {
   
 }
 
 message BuyCommodity {
-  int32 commodityType = 1;
+  int32 inConstCommodity = 1;
 }
 message BuyCommodityResult {
   
 }
 
 message CcAddResource {
-  int32 resourceType = 1;
-  int32 amount = 2;
+  int32 inConstResource = 1;
+  int32 inConstValue = 2;
 }
 message CcAddResourceResult {
   
@@ -82,7 +82,7 @@ message CcAddResourceResult {
  * Only available in DE.
  */
 message ChatDebug {
-  string text = 1;
+  string inTextString = 1;
 }
 /**
  * Only available in DE.
@@ -92,156 +92,156 @@ message ChatDebugResult {
 }
 
 message ChatLocal {
-  string text = 1;
+  string inTextString = 1;
 }
 message ChatLocalResult {
   
 }
 
 message ChatLocalUsingId {
-  int32 stringId = 1;
+  int32 inConstLanguageId = 1;
 }
 message ChatLocalUsingIdResult {
   
 }
 
 message ChatLocalUsingRange {
-  int32 stringIdStart = 1;
-  int32 stringIdRange = 2;
+  int32 inConstLanguageId = 1;
+  int32 inConstValue = 2;
 }
 message ChatLocalUsingRangeResult {
   
 }
 
 message ChatLocalToSelf {
-  string text = 1;
+  string inTextString = 1;
 }
 message ChatLocalToSelfResult {
   
 }
 
 message ChatToAll {
-  string text = 1;
+  string inTextString = 1;
 }
 message ChatToAllResult {
   
 }
 
 message ChatToAllUsingId {
-  int32 stringId = 1;
+  int32 inConstLanguageId = 1;
 }
 message ChatToAllUsingIdResult {
   
 }
 
 message ChatToAllUsingRange {
-  int32 stringIdStart = 1;
-  int32 stringIdRange = 2;
+  int32 inConstLanguageId = 1;
+  int32 inConstValue = 2;
 }
 message ChatToAllUsingRangeResult {
   
 }
 
 message ChatToAllies {
-  string text = 1;
+  string inTextString = 1;
 }
 message ChatToAlliesResult {
   
 }
 
 message ChatToAlliesUsingId {
-  int32 stringId = 1;
+  int32 inConstLanguageId = 1;
 }
 message ChatToAlliesUsingIdResult {
   
 }
 
 message ChatToAlliesUsingRange {
-  int32 stringIdStart = 1;
-  int32 stringIdRange = 2;
+  int32 inConstLanguageId = 1;
+  int32 inConstValue = 2;
 }
 message ChatToAlliesUsingRangeResult {
   
 }
 
 message ChatToEnemies {
-  string text = 1;
+  string inTextString = 1;
 }
 message ChatToEnemiesResult {
   
 }
 
 message ChatToEnemiesUsingId {
-  int32 stringId = 1;
+  int32 inConstLanguageId = 1;
 }
 message ChatToEnemiesUsingIdResult {
   
 }
 
 message ChatToEnemiesUsingRange {
-  int32 stringIdStart = 1;
-  int32 stringIdRange = 2;
+  int32 inConstLanguageId = 1;
+  int32 inConstValue = 2;
 }
 message ChatToEnemiesUsingRangeResult {
   
 }
 
 message ChatToPlayer {
-  int32 playerNumber = 1;
-  string text = 2;
+  int32 inPlayerAnyPlayer = 1;
+  string inTextString = 2;
 }
 message ChatToPlayerResult {
   
 }
 
 message ChatToPlayerUsingId {
-  int32 playerNumber = 1;
-  int32 stringId = 2;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstLanguageId = 2;
 }
 message ChatToPlayerUsingIdResult {
   
 }
 
 message ChatToPlayerUsingRange {
-  int32 playerNumber = 1;
-  int32 stringIdStart = 2;
-  int32 stringIdRange = 3;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstLanguageId = 2;
+  int32 inConstValue = 3;
 }
 message ChatToPlayerUsingRangeResult {
   
 }
 
 message ChatTrace {
-  int32 traceNumber = 1;
+  int32 inConstValue = 1;
 }
 message ChatTraceResult {
   
 }
 
 message ClearTributeMemory {
-  int32 playerNumber = 1;
-  int32 resourceType = 2;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstResource = 2;
 }
 message ClearTributeMemoryResult {
   
 }
 
 message DeleteBuilding {
-  int32 buildingType = 1;
+  int32 inConstBuildingId = 1;
 }
 message DeleteBuildingResult {
   
 }
 
 message DeleteUnit {
-  int32 unitType = 1;
+  int32 inConstUnitId = 1;
 }
 message DeleteUnitResult {
   
 }
 
 message DisableRule {
-  int32 groupId = 1;
+  int32 inConstRuleGroupId = 1;
 }
 message DisableRuleResult {
   
@@ -255,7 +255,7 @@ message DisableSelfResult {
 }
 
 message DisableTimer {
-  int32 timerId = 1;
+  int32 inConstTimerId = 1;
 }
 message DisableTimerResult {
   
@@ -269,22 +269,22 @@ message DoNothingResult {
 }
 
 message EnableRule {
-  int32 groupId = 1;
+  int32 inConstRuleGroupId = 1;
 }
 message EnableRuleResult {
   
 }
 
 message EnableTimer {
-  int32 timerId = 1;
-  int32 timeInterval = 2;
+  int32 inConstTimerId = 1;
+  int32 inConstValue = 2;
 }
 message EnableTimerResult {
   
 }
 
 message EnableWallPlacement {
-  int32 perimeter = 1;
+  int32 inConstPerimeter = 1;
 }
 message EnableWallPlacementResult {
   
@@ -307,35 +307,35 @@ message FeBreakPointResult {
 }
 
 message GenerateRandomNumber {
-  int32 range = 1;
+  int32 inConstValue = 1;
 }
 message GenerateRandomNumberResult {
   
 }
 
 message Log {
-  string text = 1;
+  string inTextString = 1;
 }
 message LogResult {
   
 }
 
 message LogTrace {
-  int32 traceNumber = 1;
+  int32 inConstValue = 1;
 }
 message LogTraceResult {
   
 }
 
 message ReleaseEscrow {
-  int32 resourceType = 1;
+  int32 inConstResource = 1;
 }
 message ReleaseEscrowResult {
   
 }
 
 message Research {
-  int32 researchType = 1;
+  int32 inConstTechId = 1;
 }
 message ResearchResult {
   
@@ -349,90 +349,90 @@ message ResignResult {
 }
 
 message SellCommodity {
-  int32 commodityType = 1;
+  int32 inConstCommodity = 1;
 }
 message SellCommodityResult {
   
 }
 
 message SetAuthorName {
-  string name = 1;
+  string inTextString = 1;
 }
 message SetAuthorNameResult {
   
 }
 
 message SetAuthorEmail {
-  string email = 1;
+  string inTextString = 1;
 }
 message SetAuthorEmailResult {
   
 }
 
 message SetAuthorVersion {
-  string version = 1;
+  string inTextString = 1;
 }
 message SetAuthorVersionResult {
   
 }
 
 message SetDifficultyParameter {
-  int32 difficultyParameter = 1;
-  int32 value = 2;
+  int32 inConstDiffParameterId = 1;
+  int32 inConstValue = 2;
 }
 message SetDifficultyParameterResult {
   
 }
 
 message SetDoctrine {
-  int32 doctrine = 1;
+  int32 inConstValue = 1;
 }
 message SetDoctrineResult {
   
 }
 
 message SetEscrowPercentage {
-  int32 resourceType = 1;
-  int32 percentage = 2;
+  int32 inConstResource = 1;
+  int32 inConstValue = 2;
 }
 message SetEscrowPercentageResult {
   
 }
 
 message SetGoal {
-  int32 goalId = 1;
-  int32 goalValue = 2;
+  int32 inConstGoalId = 1;
+  int32 inConstValue = 2;
 }
 message SetGoalResult {
   
 }
 
 message SetSharedGoal {
-  int32 goalId = 1;
-  int32 goal = 2;
+  int32 inConstGoalId = 1;
+  int32 inConstValue = 2;
 }
 message SetSharedGoalResult {
   
 }
 
 message SetSignal {
-  int32 signalId = 1;
+  int32 inConstSignalId = 1;
 }
 message SetSignalResult {
   
 }
 
 message SetStance {
-  int32 playerNumber = 1;
-  int32 stance = 2;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstESPlayerStance = 2;
 }
 message SetStanceResult {
   
 }
 
 message SetStrategicNumber {
-  int32 strategicNumber = 1;
-  int32 value = 2;
+  int32 inConstSnId = 1;
+  int32 inConstValue = 2;
 }
 message SetStrategicNumberResult {
   
@@ -472,170 +472,221 @@ message SpyResult {
 }
 
 message Taunt {
-  int32 tauntNumber = 1;
+  int32 inConstTauntId = 1;
 }
 message TauntResult {
   
 }
 
 message TauntUsingRange {
-  int32 tauntIdStart = 1;
-  int32 tauntIdRange = 2;
+  int32 inConstTauntId = 1;
+  int32 inConstValue = 2;
 }
 message TauntUsingRangeResult {
   
 }
 
 message Train {
-  int32 unitType = 1;
+  int32 inConstUnitId = 1;
 }
 message TrainResult {
   bool success = 1;
 }
 
 message TributeToPlayer {
-  int32 playerNumber = 1;
-  int32 resourceType = 2;
-  int32 tributeAmount = 3;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstResource = 2;
+  int32 inConstValue = 3;
 }
 message TributeToPlayerResult {
   
 }
 
 message UpAddCostData {
-  int32 goalId = 1;
-  int32 typeOp = 2;
-  int32 opValue = 3;
+  int32 inGoalId = 1;
+  oneof value {
+    int32 inConstValue = 2;
+	int32 inGoalValue = 3;
+	int32 inSnValue = 4;
+  }
 }
 message UpAddCostDataResult {
   
 }
 
 message UpAddObjectById {
-  int32 searchSource = 1;
-  int32 typeOp = 2;
-  int32 opId = 3;
+  int32 inConstSearchSource = 1;
+  oneof id {
+    int32 inConstId = 2;
+	int32 inGoalId = 3;
+	int32 inSnId = 4;
+  }
 }
 message UpAddObjectByIdResult {
-  int32 result = 1;
+  
 }
 
 message UpAddObjectCost {
-  int32 typeOp1 = 1;
-  int32 objectId = 2;
-  int32 typeOp2 = 3;
-  int32 value = 4;
+  oneof objectId {
+    int32 inConstObjectId = 1;
+	int32 inGoalObjectId = 2;
+	int32 inSnObjectId = 3;
+  }
+  oneof value {
+    int32 inConstValue = 4;
+	int32 inGoalValue = 5;
+	int32 inSnValue = 6;
+  }
 }
 message UpAddObjectCostResult {
   
 }
 
 message UpAddPoint {
-  int32 goalPoint1 = 1;
-  int32 goalPoint2 = 2;
-  int32 typeOp = 3;
-  int32 count = 4;
+  int32 inGoalPoint1 = 1;
+  int32 inGoalPoint2 = 2;
+  oneof count {
+    int32 inConstCount = 3;
+	int32 inGoalCount = 4;
+	int32 inSnCount = 5;
+  }
 }
 message UpAddPointResult {
   
 }
 
 message UpAddResearchCost {
-  int32 typeOp1 = 1;
-  int32 techId = 2;
-  int32 typeOp2 = 3;
-  int32 value = 4;
+  oneof techId {
+    int32 inConstTechId = 1;
+	int32 inGoalTechId = 2;
+	int32 inSnTechId = 3;
+  }
+  oneof value {
+    int32 inConstValue = 4;
+	int32 inGoalValue = 5;
+	int32 inSnValue = 6;
+  }
 }
 message UpAddResearchCostResult {
   
 }
 
 message UpAssignBuilders {
-  int32 typeOp1 = 1;
-  int32 buildingId = 2;
-  int32 typeOp2 = 3;
-  int32 value = 4;
+  oneof buildingId {
+    int32 inConstBuildingId = 1;
+	int32 inGoalBuildingId = 2;
+	int32 inSnBuildingId = 3;
+  }
+  oneof value {
+    int32 inConstValue = 4;
+	int32 inGoalValue = 5;
+	int32 inSnValue = 6;
+  }
 }
 message UpAssignBuildersResult {
   
 }
 
 message UpBoundPoint {
-  int32 goalPoint1 = 1;
-  int32 goalPoint2 = 2;
+  int32 inGoalPoint1 = 1;
+  int32 inGoalPoint2 = 2;
 }
 message UpBoundPointResult {
   
 }
 
 message UpBoundPrecisePoint {
-  int32 goalPoint = 1;
-  int32 precise = 2;
-  int32 typeOp = 3;
-  int32 border = 4;
+  int32 inGoalPoint = 1;
+  int32 inConstPrecise = 2;
+  oneof border {
+    int32 inConstBorder = 3;
+	int32 inGoalBorder = 4;
+	int32 inSnBorder = 5;
+  }
 }
 message UpBoundPrecisePointResult {
   
 }
 
 message UpBuild {
-  int32 placementType = 1;
-  int32 escrowState = 2;
-  int32 typeOp = 3;
-  int32 buildingId = 4;
+  int32 inConstPlacementType = 1;
+  int32 inGoalEscrowState = 2;
+  oneof buildingId {
+    int32 inConstBuildingId = 3;
+	int32 inGoalBuildingId = 4;
+	int32 inSnBuildingId = 5;
+  }
 }
 message UpBuildResult {
   
 }
 
 message UpBuildLine {
-  int32 goalPoint1 = 1;
-  int32 goalPoint2 = 2;
-  int32 typeOp = 3;
-  int32 buildingId = 4;
+  int32 inGoalPoint1 = 1;
+  int32 inGoalPoint2 = 2;
+  oneof buildingId {
+    int32 inConstBuildingId = 3;
+	int32 inGoalBuildingId = 4;
+	int32 inSnBuildingId = 5;
+  }
 }
 message UpBuildLineResult {
-  bool result = 1;
+  
 }
 
 message UpBuyCommodity {
-  int32 typeOp1 = 1;
-  int32 resourceAmount = 2;
-  int32 typeOp2 = 3;
-  int32 value = 4;
+  oneof resourceAmount {
+    int32 inConstResourceAmount = 1;
+	int32 inGoalResourceAmount = 2;
+	int32 inSnResourceAmount = 3;
+  }
+  oneof value {
+    int32 inConstValue = 4;
+	int32 inGoalValue = 5;
+	int32 inSnValue = 6;
+  }
 }
 message UpBuyCommodityResult {
   
 }
 
 message UpCcAddResource {
-  int32 typeOp1 = 1;
-  int32 resourceAmount = 2;
-  int32 typeOp2 = 3;
-  int32 value = 4;
+  oneof resourceAmount {
+    int32 inConstResourceAmount = 1;
+	int32 inGoalResourceAmount = 2;
+	int32 inSnResourceAmount = 3;
+  }
+  oneof value {
+    int32 inConstValue = 4;
+	int32 inGoalValue = 5;
+	int32 inSnValue = 6;
+  }
 }
 message UpCcAddResourceResult {
   
 }
 
 message UpCcSendCheat {
-  string code = 1;
+  string inTextCode = 1;
 }
 message UpCcSendCheatResult {
   
 }
 
 message UpChangeName {
-  string newName = 1;
+  string inTextNewName = 1;
 }
 message UpChangeNameResult {
   
 }
 
 message UpChatDataToAll {
-  string format = 1;
-  int32 typeOp = 2;
-  int32 value = 3;
+  string inTextFormattedString = 1;
+  oneof value {
+    int32 inConstValue = 2;
+	int32 inGoalValue = 3;
+	int32 inSnValue = 4;
+  }
 }
 message UpChatDataToAllResult {
   
@@ -646,7 +697,7 @@ message UpChatDataToAllResult {
  */
 message UpChatDataToAllUsingId {
   int32 param1 = 1;
-  int32 stringId = 2;
+  int32 param2 = 2;
   int32 param3 = 3;
 }
 /**
@@ -660,8 +711,8 @@ message UpChatDataToAllUsingIdResult {
  * Only available in DE.
  */
 message UpChatDataToPlayerUsingId {
-  int32 stringId = 1;
-  int32 playerId = 2;
+  int32 param1 = 1;
+  int32 param2 = 2;
   int32 param3 = 3;
   int32 param4 = 4;
 }
@@ -673,243 +724,315 @@ message UpChatDataToPlayerUsingIdResult {
 }
 
 message UpChatDataToPlayer {
-  int32 player = 1;
-  string format = 2;
-  int32 typeOp = 3;
-  int32 value = 4;
+  int32 inPlayerAnyPlayer = 1;
+  string inTextFormattedString = 2;
+  oneof value {
+    int32 inConstValue = 3;
+	int32 inGoalValue = 4;
+	int32 inSnValue = 5;
+  }
 }
 message UpChatDataToPlayerResult {
   
 }
 
 message UpChatDataToSelf {
-  string format = 1;
-  int32 typeOp = 2;
-  int32 value = 3;
+  string inTextFormattedString = 1;
+  oneof value {
+    int32 inConstValue = 2;
+	int32 inGoalValue = 3;
+	int32 inSnValue = 4;
+  }
 }
 message UpChatDataToSelfResult {
   
 }
 
 message UpCleanSearch {
-  int32 searchSource = 1;
-  int32 objectData = 2;
-  int32 searchOrder = 3;
+  int32 inConstSearchSource = 1;
+  int32 inConstObjectData = 2;
+  int32 inConstSearchOrder = 3;
 }
 message UpCleanSearchResult {
   
 }
 
 message UpCopyPoint {
-  int32 goalPoint1 = 1;
-  int32 goalPoint2 = 2;
+  int32 outGoalPoint = 1;
+  int32 inGoalPoint = 2;
 }
 message UpCopyPointResult {
   
 }
 
 message UpCreateGroup {
-  int32 goalIndex = 1;
-  int32 goalCount = 2;
-  int32 typeOp = 3;
-  int32 groupId = 4;
+  int32 inGoalIndex = 1;
+  int32 inGoalCount = 2;
+  oneof groupId {
+    int32 inConstGroupId = 3;
+	int32 inGoalGroupId = 4;
+	int32 inSnGroupId = 5;
+  }
 }
 message UpCreateGroupResult {
   
 }
 
 message UpCrossTiles {
-  int32 goalPoint1 = 1;
-  int32 goalPoint2 = 2;
-  int32 typeOp = 3;
-  int32 tiles = 4;
+  int32 ioGoalPoint = 1;
+  int32 inGoalPoint = 2;
+  oneof tiles {
+    int32 inConstTiles = 3;
+	int32 inGoalTiles = 4;
+	int32 inSnTiles = 5;
+  }
 }
 message UpCrossTilesResult {
   
 }
 
 message UpDeleteDistantFarms {
-  int32 typeOp = 1;
-  int32 value = 2;
+  oneof value {
+    int32 inConstValue = 1;
+	int32 inGoalValue = 2;
+	int32 inSnValue = 3;
+  }
 }
 message UpDeleteDistantFarmsResult {
   
 }
 
 message UpDeleteIdleUnits {
-  int32 idleType = 1;
+  int32 inConstIdleType = 1;
 }
 message UpDeleteIdleUnitsResult {
   
 }
 
 message UpDeleteObjects {
-  int32 typeOp1 = 1;
-  int32 unitId = 2;
-  int32 typeOp2 = 3;
-  int32 hitpoints = 4;
+  oneof unitId {
+    int32 inConstUnitId = 1;
+	int32 inGoalUnitId = 2;
+	int32 inSnUnitId = 3;
+  }
+  oneof hitPoints {
+    int32 inConstHitPoints = 4;
+	int32 inGoalHitPoints = 5;
+	int32 inSnHitPoints = 6;
+  }
 }
 message UpDeleteObjectsResult {
   
 }
 
 message UpDisbandGroupType {
-  int32 groupType = 1;
+  int32 inConstGroupType = 1;
 }
 message UpDisbandGroupTypeResult {
   
 }
 
 message UpDropResources {
-  int32 resource = 1;
-  int32 typeOp = 2;
-  int32 value = 3;
+  int32 inConstResource = 1;
+  oneof value {
+    int32 inConstValue = 2;
+	int32 inGoalValue = 3;
+	int32 inSnValue = 4;
+  }
 }
 message UpDropResourcesResult {
   
 }
 
 message UpFilterDistance {
-  int32 typeOp1 = 1;
-  int32 minDistance = 2;
-  int32 typeOp2 = 3;
-  int32 maxDistance = 4;
+  oneof minDistance {
+    int32 inConstMinDistance = 1;
+	int32 inGoalMinDistance = 2;
+	int32 inSnMinDistance = 3;
+  }
+  oneof maxDistance {
+    int32 inConstMaxDistance = 4;
+	int32 inGoalMaxDistance = 5;
+	int32 inSnMaxDistance = 6;
+  }
 }
 message UpFilterDistanceResult {
   
 }
 
 message UpFilterExclude {
-  int32 cmdId = 1;
-  int32 actionId = 2;
-  int32 orderId = 3;
-  int32 classId = 4;
+  int32 inConstCmdId = 1;
+  int32 inConstActionId = 2;
+  int32 inConstOrderId = 3;
+  int32 inConstClassId = 4;
 }
 message UpFilterExcludeResult {
   
 }
 
 message UpFilterGarrison {
-  int32 typeOp1 = 1;
-  int32 minGarrison = 2;
-  int32 typeOp2 = 3;
-  int32 maxGarrison = 4;
+  oneof minGarrison {
+    int32 inConstMinGarrison = 1;
+	int32 inGoalMinGarrison = 2;
+	int32 inSnMinGarrison = 3;
+  }
+  oneof maxGarrison {
+    int32 inConstMaxGarrison = 4;
+	int32 inGoalMaxGarrison = 5;
+	int32 inSnMaxGarrison = 6;
+  }
 }
 message UpFilterGarrisonResult {
   
 }
 
 message UpFilterInclude {
-  int32 cmdId = 1;
-  int32 actionId = 2;
-  int32 orderId = 3;
-  int32 onMainland = 4;
+  int32 inConstCmdId = 1;
+  int32 inConstActionId = 2;
+  int32 inConstOrderId = 3;
+  int32 inConstOnMainland = 4;
 }
 message UpFilterIncludeResult {
   
 }
 
 message UpFilterRange {
-  int32 minGarrison = 1;
-  int32 maxGarrison = 2;
-  int32 minDistance = 3;
-  int32 maxDistance = 4;
+  int32 inConstMinGarrison = 1;
+  int32 inConstMaxGarrison = 2;
+  int32 inConstMinDistance = 3;
+  int32 inConstMaxDistance = 4;
 }
 message UpFilterRangeResult {
   
 }
 
 message UpFilterStatus {
-  int32 typeOp1 = 1;
-  int32 objectStatus = 2;
-  int32 typeOp2 = 3;
-  int32 objectList = 4;
+  oneof objectStatus {
+    int32 inConstObjectStatus = 1;
+	int32 inGoalObjectStatus = 2;
+	int32 inSnObjectStatus = 3;
+  }
+  oneof objectList {
+    int32 inConstObjectList = 4;
+	int32 inGoalObjectList = 5;
+	int32 inSnObjectList = 6;
+  }
 }
 message UpFilterStatusResult {
   
 }
 
 message UpFindFlare {
-  int32 goalPoint = 1;
+  int32 outGoalPoint = 1;
 }
 message UpFindFlareResult {
   
 }
 
 message UpFindLocal {
-  int32 typeOp1 = 1;
-  int32 unitId = 2;
-  int32 typeOp2 = 3;
-  int32 count = 4;
+  oneof unitId {
+    int32 inConstUnitId = 1;
+	int32 inGoalUnitId = 2;
+	int32 inSnUnitId = 3;
+  }
+  oneof count {
+    int32 inConstCount = 4;
+	int32 inGoalCount = 5;
+	int32 inSnCount = 6;
+  }
 }
 message UpFindLocalResult {
-  bool result = 1;
+  
 }
 
 message UpFindNextPlayer {
-  int32 playerStance = 1;
-  int32 findPlayerMethod = 2;
-  int32 goalPlayerId = 3;
+  int32 inConstPlayerStance = 1;
+  int32 inConstFindPlayerMethod = 2;
+  int32 ioGoalPlayerId = 3;
 }
 message UpFindNextPlayerResult {
   
 }
 
 message UpFindPlayer {
-  int32 playerStance = 1;
-  int32 findPlayerMethod = 2;
-  int32 goalPlayerId = 3;
+  int32 inConstPlayerStance = 1;
+  int32 inConstFindPlayerMethod = 2;
+  int32 outGoalPlayerId = 3;
 }
 message UpFindPlayerResult {
   
 }
 
 message UpFindPlayerFlare {
-  int32 player = 1;
-  int32 goalPoint = 2;
+  int32 inPlayerAnyPlayer = 1;
+  int32 outGoalPoint = 2;
 }
 message UpFindPlayerFlareResult {
   
 }
 
 message UpFindRemote {
-  int32 typeOp1 = 1;
-  int32 unitId = 2;
-  int32 typeOp2 = 3;
-  int32 count = 4;
+  oneof unitId {
+    int32 inConstUnitId = 1;
+	int32 inGoalUnitId = 2;
+	int32 inSnUnitId = 3;
+  }
+  oneof count {
+    int32 inConstCount = 4;
+	int32 inGoalCount = 5;
+	int32 inSnCount = 6;
+  }
 }
 message UpFindRemoteResult {
   
 }
 
 message UpFindResource {
-  int32 typeOp1 = 1;
-  int32 resource = 2;
-  int32 typeOp2 = 3;
-  int32 count = 4;
+  oneof resource {
+    int32 inConstResource = 1;
+	int32 inGoalResource = 2;
+	int32 inSnResource = 3;
+  }
+  oneof count {
+    int32 inConstCount = 4;
+	int32 inGoalCount = 5;
+	int32 inSnCount = 6;
+  }
 }
 message UpFindResourceResult {
   
 }
 
 message UpFindStatusLocal {
-  int32 typeOp1 = 1;
-  int32 unitId = 2;
-  int32 typeOp2 = 3;
-  int32 count = 4;
+  oneof unitId {
+    int32 inConstUnitId = 1;
+	int32 inGoalUnitId = 2;
+	int32 inSnUnitId = 3;
+  }
+  oneof count {
+    int32 inConstCount = 4;
+	int32 inGoalCount = 5;
+	int32 inSnCount = 6;
+  }
 }
 message UpFindStatusLocalResult {
-  bool result = 1;
+  
 }
 
 message UpFindStatusRemote {
-  int32 typeOp1 = 1;
-  int32 unitId = 2;
-  int32 typeOp2 = 3;
-  int32 count = 4;
+  oneof unitId {
+    int32 inConstUnitId = 1;
+	int32 inGoalUnitId = 2;
+	int32 inSnUnitId = 3;
+  }
+  oneof count {
+    int32 inConstCount = 4;
+	int32 inGoalCount = 5;
+	int32 inSnCount = 6;
+  }
 }
 message UpFindStatusRemoteResult {
-  bool result = 1;
+  
 }
 
 message UpFullResetSearch {
@@ -920,19 +1043,28 @@ message UpFullResetSearchResult {
 }
 
 message UpGarrison {
-  int32 objectId = 1;
-  int32 typeOp = 2;
-  int32 unitId = 3;
+  int32 inConstObjectId = 1;
+  oneof unitId {
+    int32 inConstUnitId = 2;
+	int32 inGoalUnitId = 3;
+	int32 inSnUnitId = 4;
+  }
 }
 message UpGarrisonResult {
   
 }
 
 message UpGatherInside {
-  int32 typeOp1 = 1;
-  int32 buildingId = 2;
-  int32 typeOp2 = 3;
-  int32 state = 4;
+  oneof buildingId {
+    int32 inConstBuildingId = 1;
+	int32 inGoalBuildingId = 2;
+	int32 inSnBuildingId = 3;
+  }
+  oneof state {
+    int32 inConstState = 4;
+	int32 inGoalState = 5;
+	int32 inSnState = 6;
+  }
 }
 message UpGatherInsideResult {
   
@@ -953,80 +1085,86 @@ message UpGetAlliedTargetResult {
 }
 
 message UpGetAttackerClass {
-  int32 goalSourceClass = 1;
+  int32 outGoalSourceClass = 1;
 }
 message UpGetAttackerClassResult {
   
 }
 
 message UpGetCostDelta {
-  int32 goalId = 1;
+  int32 outGoalId = 1;
 }
 message UpGetCostDeltaResult {
   
 }
 
 message UpGetEvent {
-  int32 typeOp = 1;
-  int32 eventId = 2;
-  int32 goalValue = 3;
+  oneof eventId {
+    int32 inConstEventId = 1;
+	int32 inGoalEventId = 2;
+	int32 inSnEventId = 3;
+  }
+  int32 outGoalValue = 4;
 }
 message UpGetEventResult {
   
 }
 
 message UpGetFact {
-  int32 factId = 1;
-  int32 factParam = 2;
-  int32 goalId = 3;
+  int32 inConstFactId = 1;
+  int32 inConstParam = 2;
+  int32 outGoalData = 3;
 }
 message UpGetFactResult {
-  bool result = 1;
+  
 }
 
 message UpGetFactMax {
-  int32 player = 1;
-  int32 factId = 2;
-  int32 param = 3;
-  int32 goalData = 4;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstFactId = 2;
+  int32 inConstParam = 3;
+  int32 outGoalData = 4;
 }
 message UpGetFactMaxResult {
-  bool result = 1;
+  
 }
 
 message UpGetFactMin {
-  int32 player = 1;
-  int32 factId = 2;
-  int32 param = 3;
-  int32 goalData = 4;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstFactId = 2;
+  int32 inConstParam = 3;
+  int32 outGoalData = 4;
 }
 message UpGetFactMinResult {
-  bool result = 1;
+  
 }
 
 message UpGetFactSum {
-  int32 player = 1;
-  int32 factId = 2;
-  int32 param = 3;
-  int32 goalData = 4;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstFactId = 2;
+  int32 inConstParam = 3;
+  int32 outGoalData = 4;
 }
 message UpGetFactSumResult {
-  bool result = 1;
+  
 }
 
 message UpGetFocusFact {
-  int32 factId = 1;
-  int32 param = 2;
-  int32 goalData = 3;
+  int32 inConstFactId = 1;
+  int32 inConstParam = 2;
+  int32 outGoalData = 3;
 }
 message UpGetFocusFactResult {
-  bool result = 1;
+  
 }
 
 message UpGetGroupSize {
-  int32 typeOp = 1;
-  int32 groupId = 2;
-  int32 goalSize = 3;
+  oneof groupId {
+    int32 inConstGroupId = 1;
+	int32 inGoalGroupId = 2;
+	int32 inSnGroupId = 3;
+  }
+  int32 outGoalSize = 4;
 }
 message UpGetGroupSizeResult {
   
@@ -1036,7 +1174,7 @@ message UpGetGroupSizeResult {
  * Only available in AoC.
  */
 message UpGetGuardState {
-  int32 goalState = 1;
+  int32 outGoalState = 1;
 }
 /**
  * Only available in AoC.
@@ -1046,189 +1184,207 @@ message UpGetGuardStateResult {
 }
 
 message UpGetIndirectGoal {
-  int32 typeOp1 = 1;
-  int32 goalId = 2;
-  int32 goalValue = 3;
+  oneof goalId {
+    int32 inConstGoalId = 1;
+	int32 inGoalGoalId = 2;
+	int32 inSnGoalId = 3;
+  }
+  int32 outGoalValue = 4;
 }
 message UpGetIndirectGoalResult {
   
 }
 
 message UpGetObjectData {
-  int32 objectData = 1;
-  int32 goalData = 2;
+  int32 inConstObjectData = 1;
+  int32 outGoalData = 2;
 }
 message UpGetObjectDataResult {
-  bool result = 1;
+  
 }
 
 message UpGetObjectTargetData {
-  int32 objectData = 1;
-  int32 goalData = 2;
+  int32 inConstObjectData = 1;
+  int32 outGoalData = 2;
 }
 message UpGetObjectTargetDataResult {
-  bool result = 1;
+  
 }
 
 message UpGetObjectTypeData {
-  int32 typeOp = 1;
-  int32 objectTypeId = 2;
-  int32 objectData = 3;
-  int32 goalData = 4;
+  oneof typeId {
+    int32 inConstTypeId = 1;
+	int32 inGoalTypeId = 2;
+	int32 inSnTypeId = 3;
+  }
+  int32 inConstObjectData = 4;
+  int32 outGoalData = 5;
 }
 message UpGetObjectTypeDataResult {
   
 }
 
 message UpGetPathDistance {
-  int32 goalPoint = 1;
-  int32 strict = 2;
-  int32 goalData = 3;
+  int32 inGoalPoint = 1;
+  int32 inConstStrict = 2;
+  int32 outGoalData = 3;
 }
 message UpGetPathDistanceResult {
   
 }
 
 message UpGetPlayerColor {
-  int32 player = 1;
-  int32 goalColorId = 2;
+  int32 inPlayerAnyPlayer = 1;
+  int32 outGoalColorId = 2;
 }
 message UpGetPlayerColorResult {
   
 }
 
 message UpGetPlayerFact {
-  int32 player = 1;
-  int32 factId = 2;
-  int32 param = 3;
-  int32 goalData = 4;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstFactId = 2;
+  int32 inConstParam = 3;
+  int32 outGoalData = 4;
 }
 message UpGetPlayerFactResult {
   
 }
 
 message UpGetPoint {
-  int32 positionType = 1;
-  int32 goalPoint = 2;
+  int32 inConstPositionType = 1;
+  int32 outGoalPoint = 2;
 }
 message UpGetPointResult {
   
 }
 
 message UpGetPointContains {
-  int32 goalPoint = 1;
-  int32 goalId = 2;
-  int32 typeOp = 3;
-  int32 objectId = 4;
+  int32 inGoalPoint = 1;
+  int32 outGoalGoalId = 2;
+  oneof objectId {
+    int32 inConstObjectId = 3;
+	int32 inGoalObjectId = 4;
+	int32 inSnObjectId = 5;
+  }
 }
 message UpGetPointContainsResult {
-  bool result = 1;
+  
 }
 
 message UpGetPointDistance {
-  int32 goalPoint1 = 1;
-  int32 goalPoint2 = 2;
-  int32 goalDistance = 3;
+  int32 inGoalPoint1 = 1;
+  int32 inGoalPoint2 = 2;
+  int32 outGoalDistance = 3;
 }
 message UpGetPointDistanceResult {
   
 }
 
 message UpGetPointElevation {
-  int32 goalPoint = 1;
-  int32 goalData = 2;
+  int32 inGoalPoint = 1;
+  int32 outGoalData = 2;
 }
 message UpGetPointElevationResult {
   
 }
 
 message UpGetPointTerrain {
-  int32 goalPoint = 1;
-  int32 goalTerrain = 2;
+  int32 inGoalPoint = 1;
+  int32 outGoalTerrain = 2;
 }
 message UpGetPointTerrainResult {
   
 }
 
 message UpGetPointZone {
-  int32 goalPoint = 1;
-  int32 goalData = 2;
+  int32 inGoalPoint = 1;
+  int32 outGoalData = 2;
 }
 message UpGetPointZoneResult {
   
 }
 
 message UpGetPreciseTime {
-  int32 goalStart = 1;
-  int32 goalTime = 2;
+  int32 inGoalStart = 1;
+  int32 outGoalTime = 2;
 }
 message UpGetPreciseTimeResult {
   
 }
 
 message UpGetProjectilePlayer {
-  int32 projectileType = 1;
-  int32 goalPlayerId = 2;
+  int32 inConstProjectileType = 1;
+  int32 outGoalPlayerId = 2;
 }
 message UpGetProjectilePlayerResult {
   
 }
 
 message UpGetRuleId {
-  int32 goalRuleId = 1;
+  int32 outGoalRuleId = 1;
 }
 message UpGetRuleIdResult {
   
 }
 
 message UpGetSearchState {
-  int32 goalState = 1;
+  int32 outGoalState = 1;
 }
 message UpGetSearchStateResult {
   
 }
 
 message UpGetSharedGoal {
-  int32 typeOp = 1;
-  int32 sharedGoalId = 2;
-  int32 goalValue = 3;
+  oneof sharedGoalId {
+    int32 inConstSharedGoalId = 1;
+	int32 inGoalSharedGoalId = 2;
+	int32 inSnSharedGoalId = 3;
+  }
+  int32 outGoalValue = 4;
 }
 message UpGetSharedGoalResult {
   
 }
 
 message UpGetSignal {
-  int32 typeOp = 1;
-  int32 signalId = 2;
-  int32 goalValue = 3;
+  oneof signalId {
+    int32 inConstSignalId = 1;
+	int32 inGoalSignalId = 2;
+	int32 inSnSignalId = 3;
+  }
+  int32 outGoalValue = 4;
 }
 message UpGetSignalResult {
   
 }
 
 message UpGetTargetFact {
-  int32 factId = 1;
-  int32 param = 2;
-  int32 goalData = 3;
+  int32 inConstFactId = 1;
+  int32 inConstParam = 2;
+  int32 outGoalData = 3;
 }
 message UpGetTargetFactResult {
-  bool result = 1;
+  
 }
 
 message UpGetThreatData {
-  int32 goalElapsedTime = 1;
-  int32 goalPlayerId = 2;
-  int32 goalSourceClass = 3;
-  int32 goalTargetClass = 4;
+  int32 outGoalElapsedTime = 1;
+  int32 outGoalPlayerId = 2;
+  int32 outGoalSourceClass = 3;
+  int32 outGoalTargetClass = 4;
 }
 message UpGetThreatDataResult {
   
 }
 
 message UpGetTimer {
-  int32 typeOp = 1;
-  int32 timerId = 2;
-  int32 goalValue = 3;
+  oneof timerId {
+    int32 inConstTimerId = 1;
+	int32 inGoalTimerId = 2;
+	int32 inSnTimerId = 3;
+  }
+  int32 outGoalValue = 4;
 }
 message UpGetTimerResult {
   
@@ -1251,10 +1407,10 @@ message UpGetTreatyDataResult {
  * Only available in AoC.
  */
 message UpGetUpgradeId {
-  int32 player = 1;
-  int32 count = 2;
-  int32 goalTypeId = 3;
-  int32 goalUpgradeId = 4;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstCount = 2;
+  int32 inGoalTypeId = 3;
+  int32 outGoalUpgradeId = 4;
 }
 /**
  * Only available in AoC.
@@ -1264,123 +1420,144 @@ message UpGetUpgradeIdResult {
 }
 
 message UpGetVictoryData {
-  int32 goalPlayerId = 1;
-  int32 goalType = 2;
-  int32 goalTime = 3;
+  int32 outGoalPlayerId = 1;
+  int32 outGoalType = 2;
+  int32 outGoalTime = 3;
 }
 message UpGetVictoryDataResult {
   
 }
 
 message UpGetVictoryLimit {
-  int32 goalLimit = 1;
+  int32 outGoalLimit = 1;
 }
 message UpGetVictoryLimitResult {
   
 }
 
 message UpGuardUnit {
-  int32 objectId = 1;
-  int32 typeOp = 2;
-  int32 unitId = 3;
+  int32 inConstObjectId = 1;
+  oneof unitId {
+    int32 inConstUnitId = 2;
+	int32 inGoalUnitId = 3;
+	int32 inSnUnitId = 4;
+  }
 }
 message UpGuardUnitResult {
   
 }
 
 message UpJumpDirect {
-  int32 typeOp = 1;
-  int32 ruleId = 2;
+  oneof ruleId {
+    int32 inConstRuleId = 1;
+	int32 inGoalRuleId = 2;
+	int32 inSnRuleId = 3;
+  }
 }
 message UpJumpDirectResult {
   
 }
 
 message UpJumpDynamic {
-  int32 typeOp = 1;
-  int32 ruleDelta = 2;
+  oneof ruleDelta {
+    int32 inConstRuleDelta = 1;
+	int32 inGoalRuleDelta = 2;
+	int32 inSnRuleDelta = 3;
+  }
 }
 message UpJumpDynamicResult {
   
 }
 
 message UpJumpRule {
-  int32 ruleDelta = 1;
+  int32 inConstRuleDelta = 1;
 }
 message UpJumpRuleResult {
   
 }
 
 message UpLerpPercent {
-  int32 goalPoint1 = 1;
-  int32 goalPoint2 = 2;
-  int32 typeOp = 3;
-  int32 percent = 4;
+  int32 ioGoalPoint = 1;
+  int32 inGoalPoint = 2;
+  oneof percent {
+    int32 inConstPercent = 3;
+	int32 inGoalPercent = 4;
+	int32 inSnPercent = 5;
+  }
 }
 message UpLerpPercentResult {
   
 }
 
 message UpLerpTiles {
-  int32 goalPoint1 = 1;
-  int32 goalPoint2 = 2;
-  int32 typeOp = 3;
-  int32 tiles = 4;
+  int32 ioGoalPoint = 1;
+  int32 inGoalPoint = 2;
+  oneof tiles {
+    int32 inConstTiles = 3;
+	int32 inGoalTiles = 4;
+	int32 inSnTiles = 5;
+  }
 }
 message UpLerpTilesResult {
   
 }
 
 message UpLogData {
-  int32 plain = 1;
-  string format = 2;
-  int32 typeOp = 3;
-  int32 value = 4;
+  int32 inConstPlain = 1;
+  string inTextFormattedString = 2;
+  oneof value {
+    int32 inConstValue = 3;
+	int32 inGoalValue = 4;
+	int32 inSnValue = 5;
+  }
 }
 message UpLogDataResult {
   
 }
 
 message UpModifyEscrow {
-  int32 resource = 1;
+  int32 inConstResource = 1;
   int32 mathOp = 2;
-  int32 value = 3;
+  int32 inOpValue = 3;
 }
 message UpModifyEscrowResult {
   
 }
 
 message UpModifyFlag {
-  int32 goalId = 1;
+  int32 ioGoalId = 1;
   int32 mathOp = 2;
-  int32 value = 3;
+  int32 inOpFlag = 3;
 }
 message UpModifyFlagResult {
   
 }
 
 message UpModifyGoal {
-  int32 goalId = 1;
+  int32 ioGoalId = 1;
   int32 mathOp = 2;
-  int32 value = 3;
+  int32 inOpValue = 3;
 }
 message UpModifyGoalResult {
   
 }
 
 message UpModifyGroupFlag {
-  int32 on = 1;
-  int32 typeOp = 2;
-  int32 groupId = 3;
+  int32 inConstOn = 1;
+  oneof groupId {
+    int32 inConstGroupId = 2;
+	int32 inGoalGroupId = 3;
+	int32 inSnGroupId = 4;
+  }
 }
 message UpModifyGroupFlagResult {
   
 }
 
 message UpModifySn {
-  int32 snId = 1;
+  int32 ioSnId = 1;
   int32 mathOp = 2;
-  int32 value = 3;
+  int32 inOpValue = 3;
 }
 message UpModifySnResult {
   
@@ -1407,27 +1584,36 @@ message UpReleaseEscrowResult {
 }
 
 message UpRemoveObjects {
-  int32 searchSource = 1;
-  int32 objectData = 2;
-  int32 typeOp = 3;
-  int32 value = 4;
+  int32 inConstSearchSource = 1;
+  int32 inConstObjectData = 2;
+  oneof value {
+    int32 inConstValue = 3;
+	int32 inGoalValue = 4;
+	int32 inSnValue = 5;
+  }
 }
 message UpRemoveObjectsResult {
   
 }
 
 message UpRequestHunters {
-  int32 typeOp = 1;
-  int32 value = 2;
+  oneof value {
+    int32 inConstValue = 1;
+	int32 inGoalValue = 2;
+	int32 inSnValue = 3;
+  }
 }
 message UpRequestHuntersResult {
   
 }
 
 message UpResearch {
-  int32 escrowState = 1;
-  int32 typeOp = 2;
-  int32 techId = 3;
+  int32 inGoalEscrowState = 1;
+  oneof techId {
+    int32 inConstTechId = 2;
+	int32 inGoalTechId = 3;
+	int32 inSnTechId = 4;
+  }
 }
 message UpResearchResult {
   
@@ -1441,16 +1627,20 @@ message UpResetAttackNowResult {
 }
 
 message UpResetBuilding {
-  int32 preserveResearch = 1;
-  int32 typeOp = 2;
-  int32 buildingId = 3;
+  int32 inConstPreserveResearch = 1;
+  oneof buildingId {
+    int32 inConstBuildingId = 2;
+	int32 inGoalBuildingId = 3;
+	int32 inSnBuildingId = 4;
+  }
 }
 message UpResetBuildingResult {
   
 }
 
 message UpResetCostData {
-  int32 goalId = 1;
+  int32 outGoalId = 1;
+  
 }
 message UpResetCostDataResult {
   
@@ -1464,16 +1654,22 @@ message UpResetFiltersResult {
 }
 
 message UpResetGroup {
-  int32 typeOp = 1;
-  int32 groupId = 2;
+  oneof groupId {
+    int32 inConstGroupId = 1;
+	int32 inGoalGroupId = 2;
+	int32 inSnGroupId = 3;
+  }
 }
 message UpResetGroupResult {
   
 }
 
 message UpResetPlacement {
-  int32 typeOp = 1;
-  int32 buildingId = 2;
+  oneof buildingId {
+    int32 inConstBuildingId = 1;
+	int32 inGoalBuildingId = 2;
+	int32 inSnBuildingId = 3;
+  }
 }
 message UpResetPlacementResult {
   
@@ -1487,35 +1683,41 @@ message UpResetScoutsResult {
 }
 
 message UpResetSearch {
-  int32 localIndex = 1;
-  int32 localList = 2;
-  int32 remoteIndex = 3;
-  int32 remoteList = 4;
+  int32 inConstLocalIndex = 1;
+  int32 inConstLocalList = 2;
+  int32 inConstRemoteIndex = 3;
+  int32 inConstRemoteList = 4;
 }
 message UpResetSearchResult {
   
 }
 
 message UpResetTargetPriorities {
-  int32 priorityType = 1;
-  int32 mode = 2;
+  int32 inConstPriorityType = 1;
+  int32 inConstMode = 2;
 }
 message UpResetTargetPrioritiesResult {
   
 }
 
 message UpResetUnit {
-  int32 typeOp = 1;
-  int32 unitId = 2;
+  oneof unitId {
+    int32 inConstUnitId = 1;
+	int32 inGoalUnitId = 2;
+	int32 inSnUnitId = 3;
+  }
 }
 message UpResetUnitResult {
   
 }
 
 message UpRetaskGatherers {
-  int32 resource = 1;
-  int32 typeOp = 2;
-  int32 value = 3;
+  int32 inConstResource = 1;
+  oneof value {
+    int32 inConstValue = 2;
+	int32 inGoalValue = 3;
+	int32 inSnValue = 4;
+  }
 }
 message UpRetaskGatherersResult {
   
@@ -1529,178 +1731,244 @@ message UpRetreatNowResult {
 }
 
 message UpRetreatTo {
-  int32 objectId = 1;
-  int32 typeOp = 2;
-  int32 unitId = 3;
+  int32 inConstObjectId = 1;
+  oneof unitId {
+    int32 inConstUnitId = 2;
+	int32 inGoalUnitId = 3;
+	int32 inSnUnitId = 4;
+  }
 }
 message UpRetreatToResult {
   
 }
 
 message UpSellCommodity {
-  int32 typeOp1 = 1;
-  int32 resourceAmount = 2;
-  int32 typeOp2 = 3;
-  int32 value = 4;
+  oneof resourceAmount {
+    int32 inConstResourceAmount = 1;
+	int32 inGoalResourceAmount = 2;
+	int32 inSnResourceAmount = 3;
+  }
+  oneof value {
+    int32 inConstValue = 4;
+	int32 inGoalValue = 5;
+	int32 inSnValue = 6;
+  }
 }
 message UpSellCommodityResult {
   
 }
 
 message UpSendFlare {
-  int32 goalPoint = 1;
+  int32 inGoalPoint = 1;
 }
 message UpSendFlareResult {
   
 }
 
 message UpSendScout {
-  int32 groupType = 1;
-  int32 positionType = 2;
+  int32 inConstGroupType = 1;
+  int32 inConstScoutMethod = 2;
 }
 message UpSendScoutResult {
   
 }
 
 message UpSetAttackStance {
-  int32 unitId = 1;
-  int32 typeOp = 2;
-  int32 attackStance = 3;
+  int32 inConstUnitId = 1;
+  oneof attackStance {
+    int32 inConstAttackStance = 2;
+	int32 inGoalAttackStance = 3;
+	int32 inSnAttackStance = 4;
+  }
 }
 message UpSetAttackStanceResult {
   
 }
 
 message UpSetDefensePriority {
-  int32 typeOp1 = 1;
-  int32 buildingId = 2;
-  int32 typeOp2 = 3;
-  int32 value = 4;
+  oneof buildingId {
+    int32 inConstBuildingId = 1;
+	int32 inGoalBuildingId = 2;
+	int32 inSnBuildingId = 3;
+  }
+  oneof value {
+    int32 inConstValue = 4;
+	int32 inGoalValue = 5;
+	int32 inSnValue = 6;
+  }
 }
 message UpSetDefensePriorityResult {
   
 }
 
 message UpSetEvent {
-  int32 typeOp1 = 1;
-  int32 eventId = 2;
-  int32 typeOp2 = 3;
-  int32 value = 4;
+  oneof eventId {
+    int32 inConstEventId = 1;
+	int32 inGoalEventId = 2;
+	int32 inSnEventId = 3;
+  }
+  oneof value {
+    int32 inConstValue = 4;
+	int32 inGoalValue = 5;
+	int32 inSnValue = 6;
+  }
 }
 message UpSetEventResult {
   
 }
 
 message UpSetGroup {
-  int32 searchSource = 1;
-  int32 typeOp = 2;
-  int32 groupId = 3;
+  int32 inConstSearchSource = 1;
+  oneof groupId {
+    int32 inConstGroupId = 2;
+	int32 inGoalGroupId = 3;
+	int32 inSnGroupId = 4;
+  }
 }
 message UpSetGroupResult {
   
 }
 
 message UpSetIndirectGoal {
-  int32 typeOp1 = 1;
-  int32 goalId = 2;
-  int32 typeOp2 = 3;
-  int32 value = 4;
+  oneof goalId {
+    int32 inConstGoalId = 1;
+	int32 inGoalGoalId = 2;
+	int32 inSnGoalId = 3;
+  }
+  oneof value {
+    int32 inConstValue = 4;
+	int32 inGoalValue = 5;
+	int32 inSnValue = 6;
+  }
 }
 message UpSetIndirectGoalResult {
   
 }
 
 message UpSetOffensePriority {
-  int32 typeOp1 = 1;
-  int32 objectId = 2;
-  int32 typeOp2 = 3;
-  int32 value = 4;
+  oneof objectId {
+    int32 inConstObjectId = 1;
+	int32 inGoalObjectId = 2;
+	int32 inSnObjectId = 3;
+  }
+  oneof value {
+    int32 inConstValue = 4;
+	int32 inGoalValue = 5;
+	int32 inSnValue = 6;
+  }
 }
 message UpSetOffensePriorityResult {
   
 }
 
 message UpSetPlacementData {
-  int32 playerAlly = 1;
-  int32 objectId = 2;
-  int32 typeOp = 3;
-  int32 value = 4;
+  int32 inPlayerAllyPlayer = 1;
+  int32 inConstObjectId = 2;
+  oneof value {
+    int32 inConstValue = 3;
+	int32 inGoalValue = 4;
+	int32 inSnValue = 5;
+  }
 }
 message UpSetPlacementDataResult {
   
 }
 
 message UpSetPreciseTargetPoint {
-  int32 goalPoint = 1;
+  int32 inGoalPoint = 1;
 }
 message UpSetPreciseTargetPointResult {
   
 }
 
 message UpSetSharedGoal {
-  int32 typeOp1 = 1;
-  int32 sharedGoalId = 2;
-  int32 typeOp2 = 3;
-  int32 value = 4;
+  oneof sharedGoalId {
+    int32 inConstSharedGoalId = 1;
+	int32 inGoalSharedGoalId = 2;
+	int32 inSnSharedGoalId = 3;
+  }
+  oneof value {
+    int32 inConstValue = 4;
+	int32 inGoalValue = 5;
+	int32 inSnValue = 6;
+  }
 }
 message UpSetSharedGoalResult {
   
 }
 
 message UpSetSignal {
-  int32 typeOp1 = 1;
-  int32 signalId = 2;
-  int32 typeOp2 = 3;
-  int32 value = 4;
+  oneof signalId {
+    int32 inConstSignalId = 1;
+	int32 inGoalSignalId = 2;
+	int32 inSnSignalId = 3;
+  }
+  oneof value {
+    int32 inConstValue = 4;
+	int32 inGoalValue = 5;
+	int32 inSnValue = 6;
+  }
 }
 message UpSetSignalResult {
   
 }
 
 message UpSetTargetById {
-  int32 typeOp = 1;
-  int32 id = 2;
+  oneof id {
+    int32 inConstId = 1;
+	int32 inGoalId = 2;
+	int32 inSnId = 3;
+  }
 }
 message UpSetTargetByIdResult {
-  bool result = 1;
+  
 }
 
 message UpSetTargetObject {
-  int32 searchSource = 1;
-  int32 typeOp = 2;
-  int32 index = 3;
+  int32 inConstSearchSource = 1;
+  oneof index {
+    int32 inConstIndex = 2;
+	int32 inGoalIndex = 3;
+	int32 inSnIndex = 4;
+  }
 }
 message UpSetTargetObjectResult {
-  bool result = 1;
+  
 }
 
 message UpSetTargetPoint {
-  int32 goalPoint = 1;
+  int32 inGoalPoint = 1;
 }
 message UpSetTargetPointResult {
   
 }
 
 message UpSetTimer {
-  int32 typeOp1 = 1;
-  int32 timerId = 2;
-  int32 typeOp2 = 3;
-  int32 value = 4;
+  oneof timerId {
+    int32 inConstTimerId = 1;
+	int32 inGoalTimerId = 2;
+	int32 inSnTimerId = 3;
+  }
+  oneof value {
+    int32 inConstValue = 4;
+	int32 inGoalValue = 5;
+	int32 inSnValue = 6;
+  }
 }
 message UpSetTimerResult {
   
 }
 
 message UpSetupCostData {
-  int32 resetCost = 1;
-  int32 goalId = 2;
+  int32 inConstResetCost = 1;
+  int32 ioGoalId = 2;
 }
 message UpSetupCostDataResult {
   
 }
 
 message UpStoreMapName {
-  int32 extension = 1;
+  int32 inConstExtension = 1;
 }
 message UpStoreMapNameResult {
   
@@ -1714,58 +1982,67 @@ message UpStoreObjectNameResult {
 }
 
 message UpStorePlayerChat {
-  int32 player = 1;
+  int32 inPlayerAnyPlayer = 1;
 }
 message UpStorePlayerChatResult {
   
 }
 
 message UpStorePlayerName {
-  int32 player = 1;
+  int32 inPlayerAnyPlayer = 1;
 }
 message UpStorePlayerNameResult {
   
 }
 
 message UpStoreTechName {
-  int32 typeOp = 1;
-  int32 techId = 2;
+  oneof techId {
+    int32 inConstTechId = 1;
+	int32 inGoalTechId = 2;
+	int32 inSnTechId = 3;
+  }
 }
 message UpStoreTechNameResult {
   
 }
 
 message UpStoreText {
-  int32 typeOp = 1;
-  int32 languageId = 2;
+  oneof languageId {
+    int32 inConstLanguageId = 1;
+	int32 inGoalLanguageId = 2;
+	int32 inSnLanguageId = 3;
+  }
 }
 message UpStoreTextResult {
   
 }
 
 message UpStoreTypeName {
-  int32 typeOp = 1;
-  int32 objectTypeId = 2;
+  oneof typeId {
+    int32 inConstTypeId = 1;
+	int32 inGoalTypeId = 2;
+	int32 inSnTypeId = 3;
+  }
 }
 message UpStoreTypeNameResult {
   
 }
 
 message UpTargetObjects {
-  int32 target = 1;
-  int32 action = 2;
-  int32 formation = 3;
-  int32 attackStance = 4;
+  int32 inConstTarget = 1;
+  int32 inConstTargetAction = 2;
+  int32 inConstFormation = 3;
+  int32 inConstAttackStance = 4;
 }
 message UpTargetObjectsResult {
   
 }
 
 message UpTargetPoint {
-  int32 goalPoint = 1;
-  int32 action = 2;
-  int32 formation = 3;
-  int32 attackStance = 4;
+  int32 inGoalPoint = 1;
+  int32 inConstTargetAction = 2;
+  int32 inConstFormation = 3;
+  int32 inConstAttackStance = 4;
 }
 message UpTargetPointResult {
   
@@ -1803,27 +2080,36 @@ message UpTestharnessTestResult {
 }
 
 message UpTrain {
-  int32 escrowState = 1;
-  int32 typeOp = 2;
-  int32 unitId = 3;
+  int32 inGoalEscrowState = 1;
+  oneof unitId {
+    int32 inConstUnitId = 2;
+	int32 inGoalUnitId = 3;
+	int32 inSnUnitId = 4;
+  }
 }
 message UpTrainResult {
   
 }
 
 message UpTributeToPlayer {
-  int32 player = 1;
-  int32 resourceAmount = 2;
-  int32 typeOp = 3;
-  int32 value = 4;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstResourceAmount = 2;
+  oneof value {
+    int32 inConstValue = 3;
+	int32 inGoalValue = 4;
+	int32 inSnValue = 5;
+  }
 }
 message UpTributeToPlayerResult {
   
 }
 
 message UpUngarrison {
-  int32 typeOp = 1;
-  int32 objectId = 2;
+  oneof objectId {
+    int32 inConstObjectId = 1;
+	int32 inGoalObjectId = 2;
+	int32 inSnObjectId = 3;
+  }
 }
 message UpUngarrisonResult {
   

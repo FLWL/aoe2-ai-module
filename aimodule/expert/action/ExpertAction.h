@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include <stdint.h>
 
 #include "misc/Configuration.h"
@@ -6,31 +7,32 @@
 class ExpertAction
 {
 public:
-	static void UpdateAddresses();
+	ExpertAction();
+	~ExpertAction();
 
-	static void AcknowledgeEvent(int eventType, int id);
-	static void AcknowledgeTaunt(int playerNumber, int tauntId);
+	static void AcknowledgeEvent(int eventType, int eventId);
+	static void AcknowledgeTaunt(int anyPlayer, int tauntId);
 	static void AttackNow();
-	static void Build(int buildingType);
-	static void BuildForward(int buildingType);
+	static void Build(int buildingId);
+	static void BuildForward(int buildingId);
 	static void BuildGate(int perimeter);
-	static void BuildWall(int perimeter, int wallType);
-	static void BuyCommodity(int commodityType);
-	static void CcAddResource(int resourceType, int amount);
-	static void ChatLocal(int text);
+	static void BuildWall(int perimeter, int wallId);
+	static void BuyCommodity(int commodity);
+	static void CcAddResource(int resource, int value);
+	static void ChatLocal(const std::string& inTextString);
 	static void ChatLocalUsingId(int stringId);
 	static void ChatLocalUsingRange(int stringIdStart, int stringIdRange);
-	static void ChatLocalToSelf(int text);
-	static void ChatToAll(int text);
+	static void ChatLocalToSelf(const std::string& inTextString);
+	static void ChatToAll(const std::string& inTextString);
 	static void ChatToAllUsingId(int stringId);
 	static void ChatToAllUsingRange(int stringIdStart, int stringIdRange);
-	static void ChatToAllies(int text);
+	static void ChatToAllies(const std::string& inTextString);
 	static void ChatToAlliesUsingId(int stringId);
 	static void ChatToAlliesUsingRange(int stringIdStart, int stringIdRange);
-	static void ChatToEnemies(int text);
+	static void ChatToEnemies(const std::string& inTextString);
 	static void ChatToEnemiesUsingId(int stringId);
 	static void ChatToEnemiesUsingRange(int stringIdStart, int stringIdRange);
-	static void ChatToPlayer(int playerNumber, int text);
+	static void ChatToPlayer(int playerNumber, const std::string& inTextString);
 	static void ChatToPlayerUsingId(int playerNumber, int stringId);
 	static void ChatToPlayerUsingRange(int playerNumber, int stringIdStart, int stringIdRange);
 	static void ChatTrace(int traceNumber);
@@ -45,15 +47,15 @@ public:
 	static void EnableTimer(int timerId, int timeInterval);
 	static void EnableWallPlacement(int perimeter);
 	static void GenerateRandomNumber(int range);
-	static void Log(int text);
+	static void Log(const std::string& inTextString);
 	static void LogTrace(int traceNumber);
 	static void ReleaseEscrow(int resourceType);
 	static void Research(int researchType);
 	static void Resign();
 	static void SellCommodity(int commodityType);
-	static void SetAuthorName(int name);
-	static void SetAuthorEmail(int email);
-	static void SetAuthorVersion(int version);
+	static void SetAuthorName(const std::string& inTextString);
+	static void SetAuthorEmail(const std::string& inTextString);
+	static void SetAuthorVersion(const std::string& inTextString);
 	static void SetDifficultyParameter(int difficultyParameter, int value);
 	static void SetDoctrine(int doctrine);
 	static void SetEscrowPercentage(int resourceType, int percentage);
@@ -79,11 +81,11 @@ public:
 	static void UpBuildLine(int goalPoint1, int goalPoint2, int typeOp, int buildingId);
 	static void UpBuyCommodity(int typeOp1, int resourceAmount, int typeOp2, int value);
 	static void UpCcAddResource(int typeOp1, int resourceAmount, int typeOp2, int value);
-	static void UpCcSendCheat(int code);
-	static void UpChangeName(int newName);
-	static void UpChatDataToAll(int format, int typeOp, int value);
-	static void UpChatDataToPlayer(int player, int format, int typeOp, int value);
-	static void UpChatDataToSelf(int format, int typeOp, int value);
+	static void UpCcSendCheat(const std::string& inTextCode);
+	static void UpChangeName(const std::string& inTextNewName);
+	static void UpChatDataToAll(const std::string& inTextFormattedString, int typeOp, int value);
+	static void UpChatDataToPlayer(int player, const std::string& inTextFormattedString, int typeOp, int value);
+	static void UpChatDataToSelf(const std::string& inTextFormattedString, int typeOp, int value);
 	static void UpCleanSearch(int searchSource, int objectData, int searchOrder);
 	static void UpCopyPoint(int goalPoint1, int goalPoint2);
 	static void UpCreateGroup(int goalIndex, int goalCount, int typeOp, int groupId);
@@ -150,7 +152,7 @@ public:
 	static void UpJumpRule(int ruleDelta);
 	static void UpLerpPercent(int goalPoint1, int goalPoint2, int typeOp, int percent);
 	static void UpLerpTiles(int goalPoint1, int goalPoint2, int typeOp, int tiles);
-	static void UpLogData(int plain, int format, int typeOp, int value);
+	static void UpLogData(int plain, const std::string& inTextFormattedString, int typeOp, int value);
 	static void UpModifyEscrow(int resource, int mathOp, int value);
 	static void UpModifyFlag(int goalId, int mathOp, int value);
 	static void UpModifyGoal(int goalId, int mathOp, int value);
@@ -205,7 +207,7 @@ public:
 	static void UpUngarrison(int typeOp, int objectId);
 	static void UpUpdateTargets();
 #if defined GAME_DE
-	static void ChatDebug(int text);
+	static void ChatDebug(const std::string& inTextString);
 	static void FeBreakPoint(int param1, int param2, int param3, int param4);
 	static void SkyboxClearSignal(int param);
 	static void SkyboxSetNameMode(int param);
@@ -222,17 +224,29 @@ public:
 #endif
 
 private:
-	ExpertAction() {};
+	void UpdateAddresses();
+	void EnableDetours();
+	void DisableDetours();
 
-	inline static void(*FuncAcknowledgeEvent)(int eventType, int id) = 0;
-	inline static void(*FuncAcknowledgeTaunt)(int playerNumber, int tauntId) = 0;
+#if defined GAME_DE
+	static char* DetouredGetString(void* aiExpertEngine, int stringId);
+	inline static char* (*FuncGetString)(void* aiExpertEngine, int stringId) = 0;
+#elif defined GAME_AOC
+	static char* __fastcall DetouredGetString(void* aiExpertEngine, void* unused, int stringId);
+	inline static char* (__thiscall* FuncGetString)(void* aiExpertEngine, int stringId) = 0;
+#endif
+
+	static void SetCustomString(const std::string& inTextString);
+
+	inline static void(*FuncAcknowledgeEvent)(int eventType, int eventId) = 0;
+	inline static void(*FuncAcknowledgeTaunt)(int anyPlayer, int tauntId) = 0;
 	inline static void(*FuncAttackNow)() = 0;
-	inline static void(*FuncBuild)(int buildingType) = 0;
-	inline static void(*FuncBuildForward)(int buildingType) = 0;
+	inline static void(*FuncBuild)(int buildingId) = 0;
+	inline static void(*FuncBuildForward)(int buildingId) = 0;
 	inline static void(*FuncBuildGate)(int perimeter) = 0;
-	inline static void(*FuncBuildWall)(int perimeter, int wallType) = 0;
-	inline static void(*FuncBuyCommodity)(int commodityType) = 0;
-	inline static void(*FuncCcAddResource)(int resourceType, int amount) = 0;
+	inline static void(*FuncBuildWall)(int perimeter, int wallId) = 0;
+	inline static void(*FuncBuyCommodity)(int commodity) = 0;
+	inline static void(*FuncCcAddResource)(int resource, int value) = 0;
 	inline static void(*FuncChatLocal)(int text) = 0;
 	inline static void(*FuncChatLocalUsingId)(int stringId) = 0;
 	inline static void(*FuncChatLocalUsingRange)(int stringIdStart, int stringIdRange) = 0;
@@ -256,7 +270,6 @@ private:
 	inline static void(*FuncDisableRule)(int groupId) = 0;
 	inline static void(*FuncDisableSelf)() = 0;
 	inline static void(*FuncDisableTimer)(int timerId) = 0;
-	inline static void(*FuncDoNothing)() = 0;
 	inline static void(*FuncEnableRule)(int groupId) = 0;
 	inline static void(*FuncEnableTimer)(int timerId, int timeInterval) = 0;
 	inline static void(*FuncEnableWallPlacement)(int perimeter) = 0;
@@ -267,9 +280,6 @@ private:
 	inline static void(*FuncResearch)(int researchType) = 0;
 	inline static void(*FuncResign)() = 0;
 	inline static void(*FuncSellCommodity)(int commodityType) = 0;
-	inline static void(*FuncSetAuthorName)(int name) = 0;
-	inline static void(*FuncSetAuthorEmail)(int email) = 0;
-	inline static void(*FuncSetAuthorVersion)(int version) = 0;
 	inline static void(*FuncSetDifficultyParameter)(int difficultyParameter, int value) = 0;
 	inline static void(*FuncSetDoctrine)(int doctrine) = 0;
 	inline static void(*FuncSetEscrowPercentage)(int resourceType, int percentage) = 0;
@@ -436,4 +446,6 @@ private:
 	inline static void(*FuncUpGetUpgradeId)(int player, int count, int goalTypeId, int goalUpgradeId) = 0;
 	inline static void(*FuncUpOutOfSync)() = 0;
 #endif
+
+	inline static char customString[256] = { };
 };

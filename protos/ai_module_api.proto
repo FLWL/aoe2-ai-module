@@ -13,6 +13,11 @@ service AIModuleAPI {
   rpc IsMatchInProgress(IsMatchInProgressRequest) returns (IsMatchInProgressReply) { }
   
   /**
+   * Get the path to the game data (.dat) file that is being used by the game. Only available on AoC.
+   */
+  rpc GetGameDataFilePath(GetGameDataFilePathRequest) returns (GetGameDataFilePathReply) { }
+  
+  /**
    * Cancel any pending RPC calls, close the RPC server, remove detours and detach the AI Module from the game process.
    */
   rpc Unload(UnloadRequest) returns (UnloadReply) { }
@@ -29,6 +34,19 @@ message IsMatchInProgressRequest {
  */
 message IsMatchInProgressReply {
   bool result = 1;
+}
+
+/**
+ * `GetGameDataFilePathRequest` call parameters.
+ */
+message GetGameDataFilePathRequest {
+  
+}
+/**
+ * `GetGameDataFilePathRequest` call reply.
+ */
+message GetGameDataFilePathReply {
+  string result = 1;
 }
 
 /**

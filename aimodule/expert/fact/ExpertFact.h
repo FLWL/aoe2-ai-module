@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <vector>
 #include <stdint.h>
 
@@ -7,7 +8,8 @@
 class ExpertFact
 {
 public:
-	static void UpdateAddresses();
+	ExpertFact();
+	~ExpertFact();
 
 	static int AttackSoldierCount();
 	static int AttackWarboatCount();
@@ -39,7 +41,7 @@ public:
 	static int CcPlayersUnitCount(int playerNumber);
 	static int CcPlayersUnitTypeCount(int playerNumber, int unitType);
 	static bool CheatsEnabled();
-	static bool CivSelected(int civ);
+	static int CivSelected();
 	static int CivilianPopulation();
 	static int CommodityBuyingPrice(int commodityType);
 	static int CommoditySellingPrice(int commodityType);
@@ -62,14 +64,14 @@ public:
 	static int GameType();
 	static int GateCount(int perimeter);
 	static int Goal(int goalId);
-	static std::vector<int> Goals();
+	static std::vector<int> GoalList();
 	static int GoldAmount();
 	static bool HoldKohRuin();
 	static bool HoldRelics();
 	static int HousingHeadroom();
 	static int IdleFarmCount();
-	static bool MapSize(int mapSize);
-	static bool MapType(int mapType);
+	static int MapSize();
+	static int MapType();
 	static int MilitaryPopulation();
 	static bool PlayerComputer(int playerNumber);
 	static bool PlayerHuman(int playerNumber);
@@ -108,6 +110,7 @@ public:
 	static int StartingResources();
 	static int StoneAmount();
 	static int StrategicNumber(int strategicNumber);
+	static std::vector<int> StrategicNumberList();
 	static bool TauntDetected(int playerNumber, int tauntId);
 	static bool TimerTriggered(int timerId);
 	static bool TownUnderAttack();
@@ -133,13 +136,15 @@ public:
 	static int UpEnemyBuildingsInTown();
 	static int UpEnemyUnitsInTown();
 	static int UpEnemyVillagersInTown();
-	static int UpGaiaTypeCount(int typeOp, int resource);
-	static int UpGaiaTypeCountTotal(int typeOp, int resource);
+	static int UpGaiaTypeCount(int resource);
+	static int UpGaiaTypeCountTotal(int resource);
 	static int UpGetFact(int factId, int factParam);
 	static int UpGetPlayerFact(int player, int factId, int param);
+	static std::array<int, 4> UpGetSearchState();
 	static int UpGroupSize(int typeOp, int groupId);
 	static int UpIdleUnitCount(int idleType);
 	static int UpObjectData(int objectData);
+	static std::vector<int> UpObjectDataList();
 	static int UpObjectTargetData(int objectData);
 	static int UpObjectTypeCount(int typeOp, int objectId);
 	static int UpObjectTypeCountTotal(int typeOp, int objectId);
@@ -160,6 +165,7 @@ public:
 	static int UpResearchStatus(int typeOp, int techId);
 	static int UpResourceAmount(int resourceAmount);
 	static int UpResourcePercent(int resourceAmount);
+	static std::vector<int> UpSearchObjectIdList(int searchSource);
 	static int UpTimerStatus(int timerId);
 	static bool UpTrainSiteReady(int typeOp, int unitId);
 	static int UpUnitTypeInTown(int typeOp, int unitId);
@@ -180,7 +186,16 @@ public:
 	inline static int lastRelOpValue = 0;
 
 private:
-	ExpertFact() {};
+	void UpdateAddresses();
+	void EnableDetours();
+	void DisableDetours();
+
+#if defined GAME_DE
+	static int64_t DetouredEvaluateRelOp(int relOp, int arg1, int arg2, char a4, char a5);
+	inline static int64_t(*FuncEvaluateRelOp)(int relOp, int arg1, int arg2, char a4, char a5) = 0;
+#elif defined GAME_AOC
+
+#endif
 
 	// params might need reviewing
 	inline static intptr_t(*FuncBuildingAvailable)(int buildingType) = 0;
@@ -207,13 +222,11 @@ private:
 	inline static intptr_t(*FuncCcPlayersUnitCount)(int playerNumber, int relOp, int value) = 0;
 	inline static intptr_t(*FuncCcPlayersUnitTypeCount)(int playerNumber, int unitType, int relOp, int value) = 0;
 	inline static intptr_t(*FuncCheatsEnabled)() = 0;
-	inline static intptr_t(*FuncCivSelected)(int civ) = 0;
 	inline static intptr_t(*FuncDeathMatchGame)() = 0;
 	inline static intptr_t(*FuncDoctrine)(int value) = 0;
 	inline static intptr_t(*FuncEnemyBuildingsInTown)() = 0;
 	inline static intptr_t(*FuncEnemyCapturedRelics)() = 0;
 	inline static intptr_t(*FuncEventDetected)(int eventType, int id) = 0;
-	inline static intptr_t(*FuncFalse)() = 0;
 	inline static intptr_t(*FuncGameType)(int relOp, int value) = 0;
 	inline static intptr_t(*FuncHoldKohRuin)() = 0;
 	inline static intptr_t(*FuncHoldRelics)() = 0;
@@ -239,7 +252,6 @@ private:
 	inline static intptr_t(*FuncTimerTriggered)(int timerId) = 0;
 	inline static intptr_t(*FuncTownUnderAttack)() = 0;
 	inline static intptr_t(*FuncTraceFact)(int param) = 0;
-	inline static intptr_t(*FuncTrue)() = 0;
 	inline static intptr_t(*FuncUnitAvailable)(int unitType) = 0;
 
 	inline static intptr_t(*FuncUpAlliedGoal)(int computerAlly, int goalId, int relOp, int value) = 0;
@@ -302,9 +314,12 @@ private:
 	inline static intptr_t(*FuncStrategicNumber)(int strategicNumber, int relOp, int value) = 0;
 	inline static intptr_t(*FuncUnitCountTotal)(int relOp, int value) = 0;
 #elif defined GAME_AOC
-	inline static intptr_t(__thiscall* FuncInternalGetGoal)(void* informationAI, int goalId) = 0;
 	inline static intptr_t(__thiscall* FuncInternalGameType)(void* baseGame) = 0;
 	inline static intptr_t(__thiscall* FuncInternalGetGateCount)(void* informationAI, int perimeter) = 0;
 	inline static intptr_t(__thiscall* FuncInternalStrategicNumber)(void* tacticalAI, int snId) = 0;
+	inline static intptr_t(__thiscall* FuncInternalWallCompletedPercentage)(void* informationAI, int perimeter) = 0;
+	inline static intptr_t(__thiscall* FuncInternalWallInvisiblePercentage)(void* informationAI, int perimeter) = 0;
 #endif
+
+	static void ChangeTypeOpToConst(int& typeOp, int& opValue);
 };

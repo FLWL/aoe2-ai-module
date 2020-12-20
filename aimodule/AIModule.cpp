@@ -1,11 +1,13 @@
 #include "AIModule.h"
 
 #include <iostream>
+#include <filesystem>
 
 #include "misc/Statics.h"
 #include "misc/Configuration.h"
+#include "structs/Game.h"
 
-AIModule::AIModule(HMODULE currentModuleHandle) :
+AIModule::AIModule() :
 #ifdef DEBUG_MODE
 	debugConsole(this),
 #endif
@@ -41,16 +43,31 @@ bool AIModule::IsUnloadRequested()
 
 bool AIModule::IsMatchInProgress()
 {
+	structs::Game* game = *(structs::Game**)statics::TranslateAddr(expert_conf::ADDR_PTR_BASE_GAME);
+
 #if defined GAME_DE
-	static int8_t* bgame = 0;
-	if (!bgame) bgame = *(int8_t**)statics::TranslateAddr(expert_conf::ADDR_PTR_BASE_GAME);
-	return *(int32_t*)(*(int64_t*)(bgame + 704) + 8) == 1;
+	return game->programMode->programMode == 1;
 #elif defined GAME_AOC
-	return *(int32_t*)(*(int8_t**)statics::TranslateAddr(expert_conf::ADDR_PTR_BASE_GAME) + 480) == 4;
+	return game->programMode == 4;
+#endif
+}
+
+std::string AIModule::GetGameDataFilePath()
+{
+	structs::Game* game = *(structs::Game**)statics::TranslateAddr(expert_conf::ADDR_PTR_BASE_GAME);
+
+#if defined GAME_DE
+	return std::string("");
+#elif defined GAME_AOC
+	std::filesystem::path gamePath(game->workingDirectory);
+	std::filesystem::path gameDataFilePath(game->programInformation->gameDataFilePath);
+
+	return (gamePath / gameDataFilePath).string();
 #endif
 }
 
 AIModule::~AIModule()
 {
-	expert.PreUnload();
+	// send back error messages before the RPC server gets closed
+	expert.GetCommandQueue()->Clear();
 }

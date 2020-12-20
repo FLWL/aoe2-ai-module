@@ -25,6 +25,7 @@ void DebugConsole::Enable()
 
 		// create a console and redirect stdin and stdout to it
 		AllocConsole();
+		SetConsoleTitle(L"AoE2 AI Module");
 		freopen_s(&input, "CONIN$", "r", stdin);
 		freopen_s(&output, "CONOUT$", "w", stdout);
 
@@ -32,7 +33,7 @@ void DebugConsole::Enable()
 		isEnabled = true;
 		inputThread = std::make_unique<std::thread>(&DebugConsole::Run, this);
 
-		std::cout << "--- Debug console enabled." << std::endl;
+		std::cout << "[Debug Console] Enabled" << std::endl;
 	}
 }
 
@@ -59,7 +60,7 @@ void DebugConsole::ProcessUserCommand(std::string const& command)
 		if (command == "unload")
 		{
 			aiModule->RequestUnload();
-			std::cout << "Requested unload." << std::endl;
+			std::cout << "[AI Module] Requested unload" << std::endl;
 		}
 	}
 }

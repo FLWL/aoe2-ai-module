@@ -6,39 +6,39 @@ syntax = "proto3";
 package protos.expert.fact;
 
 /**
- * Retrieve the amount of player's land military units designated as attackers
+ * Retrieve the amount of player's land military units designated as attackers.
  */
 message AttackSoldierCount {
   
 }
 /**
- * Response for the `AttackSoldierCount` fact
+ * Response for the `AttackSoldierCount` fact.
  */
 message AttackSoldierCountResult {
   int32 result = 1; // number of player's land military units designated as attackers
 }
 
 /**
- * Retrieve the amount of player's naval military units designated as attackers
+ * Retrieve the amount of player's naval military units designated as attackers.
  */
 message AttackWarboatCount {
   
 }
 /**
- * Response for the `AttackWarboatCount` fact
+ * Response for the `AttackWarboatCount` fact.
  */
 message AttackWarboatCountResult {
   int32 result = 1; // number of player's naval military units designated as attackers
 }
 
 /**
- * Check whether a building of certain type is available. This does not check if the player has the resources to build it
+ * Check whether a building of certain type is available. This does not check if the player has the resources to build it.
  */
 message BuildingAvailable {
-  int32 buildingType = 1; // building type to check
+  int32 inConstBuildingId = 1; // building type to check
 }
 /**
- * Response for the `BuildingAvailable` fact
+ * Response for the `BuildingAvailable` fact.
  */
 message BuildingAvailableResult {
   bool result = 1; // whether the given building type is available
@@ -59,115 +59,115 @@ message BuildingCountTotalResult {
 }
 
 message BuildingTypeCount {
-  int32 buildingType = 1;
+  int32 inConstBuildingId = 1;
 }
 message BuildingTypeCountResult {
   int32 result = 1;
 }
 
 message BuildingTypeCountTotal {
-  int32 buildingType = 1;
+  int32 inConstBuildingId = 1;
 }
 message BuildingTypeCountTotalResult {
   int32 result = 1;
 }
 
 message CanAffordBuilding {
-  int32 buildingType = 1;
+  int32 inConstBuildingId = 1;
 }
 message CanAffordBuildingResult {
   bool result = 1;
 }
 
 message CanAffordCompleteWall {
-  int32 perimeter = 1;
-  int32 wallType = 2;
+  int32 inConstPerimeter = 1;
+  int32 inConstWallId = 2;
 }
 message CanAffordCompleteWallResult {
   bool result = 1;
 }
 
 message CanAffordResearch {
-  int32 researchType = 1;
+  int32 inConstTechId = 1;
 }
 message CanAffordResearchResult {
   bool result = 1;
 }
 
 message CanAffordUnit {
-  int32 unitType = 1;
+  int32 inConstUnitId = 1;
 }
 message CanAffordUnitResult {
   bool result = 1;
 }
 
 message CanBuild {
-  int32 buildingType = 1;
+  int32 inConstBuildingId = 1;
 }
 message CanBuildResult {
   bool result = 1;
 }
 
 message CanBuildGate {
-  int32 perimeter = 1;
+  int32 inConstPerimeter = 1;
 }
 message CanBuildGateResult {
   bool result = 1;
 }
 
 message CanBuildGateWithEscrow {
-  int32 perimeter = 1;
+  int32 inConstPerimeter = 1;
 }
 message CanBuildGateWithEscrowResult {
   bool result = 1;
 }
 
 message CanBuildWall {
-  int32 perimeter = 1;
-  int32 wallType = 2;
+  int32 inConstPerimeter = 1;
+  int32 inConstWallId = 2;
 }
 message CanBuildWallResult {
   bool result = 1;
 }
 
 message CanBuildWallWithEscrow {
-  int32 perimeter = 1;
-  int32 wallType = 2;
+  int32 inConstPerimeter = 1;
+  int32 inConstWallId = 2;
 }
 message CanBuildWallWithEscrowResult {
   bool result = 1;
 }
 
 message CanBuildWithEscrow {
-  int32 buildingType = 1;
+  int32 inConstBuildingId = 1;
 }
 message CanBuildWithEscrowResult {
   bool result = 1;
 }
 
 message CanBuyCommodity {
-  int32 commodityType = 1;
+  int32 inConstCommodity = 1;
 }
 message CanBuyCommodityResult {
   bool result = 1;
 }
 
 message CanResearch {
-  int32 researchType = 1;
+  int32 inConstTechId = 1;
 }
 message CanResearchResult {
   bool result = 1;
 }
 
 message CanResearchWithEscrow {
-  int32 researchType = 1;
+  int32 inConstTechId = 1;
 }
 message CanResearchWithEscrowResult {
   bool result = 1;
 }
 
 message CanSellCommodity {
-  int32 commodityType = 1;
+  int32 inConstCommodity = 1;
 }
 message CanSellCommodityResult {
   bool result = 1;
@@ -188,14 +188,14 @@ message CanSpyWithEscrowResult {
 }
 
 message CanTrain {
-  int32 unitType = 1;
+  int32 inConstUnitId = 1;
 }
 message CanTrainResult {
   bool result = 1;
 }
 
 message CanTrainWithEscrow {
-  int32 unitType = 1;
+  int32 inConstUnitId = 1;
 }
 message CanTrainWithEscrowResult {
   bool result = 1;
@@ -205,7 +205,7 @@ message CanTrainWithEscrowResult {
  * Currently unimplemented in AoC version.
  */
 message CcPlayersBuildingCount {
-  int32 playerNumber = 1;
+  int32 inPlayerAnyPlayer = 1;
 }
 /**
  * Currently unimplemented in AoC version.
@@ -218,8 +218,8 @@ message CcPlayersBuildingCountResult {
  * Currently unimplemented in AoC version.
  */
 message CcPlayersBuildingTypeCount {
-  int32 playerNumber = 1;
-  int32 buildingType = 2;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstBuildingId = 2;
 }
 /**
  * Currently unimplemented in AoC version.
@@ -232,7 +232,7 @@ message CcPlayersBuildingTypeCountResult {
  * Currently unimplemented in AoC version.
  */
 message CcPlayersUnitCount {
-  int32 playerNumber = 1;
+  int32 inPlayerAnyPlayer = 1;
 }
 /**
  * Currently unimplemented in AoC version.
@@ -245,8 +245,8 @@ message CcPlayersUnitCountResult {
  * Currently unimplemented in AoC version.
  */
 message CcPlayersUnitTypeCount {
-  int32 playerNumber = 1;
-  int32 unitType = 2;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstUnitId = 2;
 }
 /**
  * Currently unimplemented in AoC version.
@@ -263,10 +263,10 @@ message CheatsEnabledResult {
 }
 
 message CivSelected {
-  int32 civ = 1;
+  
 }
 message CivSelectedResult {
-  bool result = 1;
+  int32 result = 1;
 }
 
 message CivilianPopulation {
@@ -277,14 +277,14 @@ message CivilianPopulationResult {
 }
 
 message CommodityBuyingPrice {
-  int32 commodityType = 1;
+  int32 inConstCommodity = 1;
 }
 message CommodityBuyingPriceResult {
   int32 result = 1;
 }
 
 message CommoditySellingPrice {
-  int32 commodityType = 1;
+  int32 inConstCommodity = 1;
 }
 message CommoditySellingPriceResult {
   int32 result = 1;
@@ -340,14 +340,14 @@ message DifficultyResult {
 }
 
 message Doctrine {
-  int32 value = 1;
+  int32 inConstValue = 1;
 }
 message DoctrineResult {
   bool result = 1;
 }
 
 message DropsiteMinDistance {
-  int32 resourceType = 1;
+  int32 inConstResource = 1;
 }
 message DropsiteMinDistanceResult {
   int32 result = 1;
@@ -381,15 +381,15 @@ message EnemyCapturedRelicsResult {
 }
 
 message EscrowAmount {
-  int32 resourceType = 1;
+  int32 inConstResource = 1;
 }
 message EscrowAmountResult {
   int32 result = 1;
 }
 
 message EventDetected {
-  int32 eventType = 1;
-  int32 id = 2;
+  int32 inConstEventType = 1;
+  int32 inConstEventId = 2;
 }
 message EventDetectedResult {
   bool result = 1;
@@ -453,24 +453,30 @@ message GameTypeResult {
 }
 
 message GateCount {
-  int32 perimeter = 1;
+  int32 inConstPerimeter = 1;
 }
 message GateCountResult {
   int32 result = 1;
 }
 
 message Goal {
-  int32 goalId = 1;
+  int32 inConstGoalId = 1;
 }
 message GoalResult {
-  int32 result = 1;
+  sint32 result = 1;
 }
 
-message Goals {
+/**
+ * Custom fact. Retrieve all goals as a list starting from index 0.
+ */
+message GoalList {
   
 }
-message GoalsResult {
-  repeated int32 result = 1;
+/**
+ * Response for the `GoalList` fact.
+ */
+message GoalListResult {
+  repeated sint32 result = 1; // all goals as a list starting from index 0
 }
 
 message GoldAmount {
@@ -509,17 +515,17 @@ message IdleFarmCountResult {
 }
 
 message MapSize {
-  int32 mapSize = 1;
+  
 }
 message MapSizeResult {
-  bool result = 1;
+  int32 result = 1;
 }
 
 message MapType {
-  int32 mapType = 1;
+  
 }
 message MapTypeResult {
-  bool result = 1;
+  int32 result = 1;
 }
 
 message MilitaryPopulation {
@@ -530,42 +536,42 @@ message MilitaryPopulationResult {
 }
 
 message PlayerComputer {
-  int32 playerNumber = 1;
+  int32 inPlayerAnyPlayer = 1;
 }
 message PlayerComputerResult {
   bool result = 1;
 }
 
 message PlayerHuman {
-  int32 playerNumber = 1;
+  int32 inPlayerAnyPlayer = 1;
 }
 message PlayerHumanResult {
   bool result = 1;
 }
 
 message PlayerInGame {
-  int32 playerNumber = 1;
+  int32 inPlayerAnyPlayer = 1;
 }
 message PlayerInGameResult {
   bool result = 1;
 }
 
 message PlayerNumber {
-  int32 playerNumber = 1;
+  int32 inPlayerAnyPlayer = 1;
 }
 message PlayerNumberResult {
   bool result = 1;
 }
 
 message PlayerResigned {
-  int32 playerNumber = 1;
+  int32 inPlayerAnyPlayer = 1;
 }
 message PlayerResignedResult {
   bool result = 1;
 }
 
 message PlayerValid {
-  int32 playerNumber = 1;
+  int32 inPlayerAnyPlayer = 1;
 }
 message PlayerValidResult {
   bool result = 1;
@@ -582,103 +588,103 @@ message PlayersAchievementsResult {
 }
 
 message PlayersBuildingCount {
-  int32 playerNumber = 1;
+  int32 inPlayerAnyPlayer = 1;
 }
 message PlayersBuildingCountResult {
   int32 result = 1;
 }
 
 message PlayersBuildingTypeCount {
-  int32 playerNumber = 1;
-  int32 buildingType = 2;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstBuildingId = 2;
 }
 message PlayersBuildingTypeCountResult {
   int32 result = 1;
 }
 
 message PlayersCiv {
-  int32 playerNumber = 1;
+  int32 inPlayerAnyPlayer = 1;
 }
 message PlayersCivResult {
-  bool result = 1;
+  int32 result = 1;
 }
 
 message PlayersCivilianPopulation {
-  int32 playerNumber = 1;
+  int32 inPlayerAnyPlayer = 1;
 }
 message PlayersCivilianPopulationResult {
   int32 result = 1;
 }
 
 message PlayersCurrentAge {
-  int32 playerNumber = 1;
+  int32 inPlayerAnyPlayer = 1;
 }
 message PlayersCurrentAgeResult {
   int32 result = 1;
 }
 
 message PlayersCurrentAgeTime {
-  int32 playerNumber = 1;
+  int32 inPlayerAnyPlayer = 1;
 }
 message PlayersCurrentAgeTimeResult {
   int32 result = 1;
 }
 
 message PlayersMilitaryPopulation {
-  int32 playerNumber = 1;
+  int32 inPlayerAnyPlayer = 1;
 }
 message PlayersMilitaryPopulationResult {
   int32 result = 1;
 }
 
 message PlayersPopulation {
-  int32 playerNumber = 1;
+  int32 inPlayerAnyPlayer = 1;
 }
 message PlayersPopulationResult {
   int32 result = 1;
 }
 
 message PlayersScore {
-  int32 playerNumber = 1;
+  int32 inPlayerAnyPlayer = 1;
 }
 message PlayersScoreResult {
   int32 result = 1;
 }
 
 message PlayersStance {
-  int32 playerNumber = 1;
-  int32 stance = 2;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstESPlayerStance = 2;
 }
 message PlayersStanceResult {
   bool result = 1;
 }
 
 message PlayersTribute {
-  int32 playerNumber = 1;
-  int32 resourceType = 2;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstResource = 2;
 }
 message PlayersTributeResult {
   int32 result = 1;
 }
 
 message PlayersTributeMemory {
-  int32 playerNumber = 1;
-  int32 resourceType = 2;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstResource = 2;
 }
 message PlayersTributeMemoryResult {
   int32 result = 1;
 }
 
 message PlayersUnitCount {
-  int32 playerNumber = 1;
+  int32 inPlayerAnyPlayer = 1;
 }
 message PlayersUnitCountResult {
   int32 result = 1;
 }
 
 message PlayersUnitTypeCount {
-  int32 playerNumber = 1;
-  int32 unitType = 2;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstUnitId = 2;
 }
 message PlayersUnitTypeCountResult {
   int32 result = 1;
@@ -720,29 +726,29 @@ message RegicideGameResult {
 }
 
 message ResearchAvailable {
-  int32 researchType = 1;
+  int32 inConstTechId = 1;
 }
 message ResearchAvailableResult {
   bool result = 1;
 }
 
 message ResearchCompleted {
-  int32 researchType = 1;
+  int32 inConstTechId = 1;
 }
 message ResearchCompletedResult {
   bool result = 1;
 }
 
 message ResourceFound {
-  int32 resourceType = 1;
+  int32 inConstResource = 1;
 }
 message ResourceFoundResult {
   bool result = 1;
 }
 
 message SharedGoal {
-  int32 goalId = 1;
-  int32 value = 2;
+  int32 inConstSharedGoalId = 1;
+  int32 inConstValue = 2;
 }
 message SharedGoalResult {
   bool result = 1;
@@ -763,8 +769,8 @@ message SoldierCountResult {
 }
 
 message StanceToward {
-  int32 playerNumber = 1;
-  int32 stance = 2;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstESPlayerStance = 2;
 }
 message StanceTowardResult {
   bool result = 1;
@@ -792,22 +798,35 @@ message StoneAmountResult {
 }
 
 message StrategicNumber {
-  int32 strategicNumber = 1;
+  int32 inConstSnId = 1;
 }
 message StrategicNumberResult {
   int32 result = 1;
 }
 
+/**
+ * Custom fact. Retrieve all strategic numbers as a list.
+ */
+message StrategicNumberList {
+  
+}
+/**
+ * Response for the `StrategicNumberList` custom fact.
+ */
+message StrategicNumberListResult {
+  repeated int32 result = 1; // list of all strategic numbers
+}
+
 message TauntDetected {
-  int32 playerNumber = 1;
-  int32 tauntId = 2;
+  int32 inPlayerAnyPlayer = 1;
+  int32 inConstTauntId = 2;
 }
 message TauntDetectedResult {
   bool result = 1;
 }
 
 message TimerTriggered {
-  int32 timerId = 1;
+  int32 inConstTimerId = 1;
 }
 message TimerTriggeredResult {
   bool result = 1;
@@ -835,7 +854,7 @@ message TrueResult {
 }
 
 message UnitAvailable {
-  int32 unitType = 1;
+  int32 inConstUnitId = 1;
 }
 message UnitAvailableResult {
   bool result = 1;
@@ -856,46 +875,46 @@ message UnitCountTotalResult {
 }
 
 message UnitTypeCount {
-  int32 unitType = 1;
+  int32 inConstUnitId = 1;
 }
 message UnitTypeCountResult {
   int32 result = 1;
 }
 
 message UnitTypeCountTotal {
-  int32 unitType = 1;
+  int32 inConstUnitId = 1;
 }
 message UnitTypeCountTotalResult {
   int32 result = 1;
 }
 
 message UpAlliedGoal {
-  int32 computerAlly = 1;
-  int32 goalId = 2;
+  int32 inPlayerComputerAllyPlayer = 1;
+  int32 inGoalId = 2;
 }
 message UpAlliedGoalResult {
   int32 result = 1;
 }
 
 message UpAlliedResourceAmount {
-  int32 ally = 1;
-  int32 resourceAmount = 2;
+  int32 inPlayerAllyPlayer = 1;
+  int32 inConstResourceAmount = 2;
 }
 message UpAlliedResourceAmountResult {
   int32 result = 1;
 }
 
 message UpAlliedResourcePercent {
-  int32 ally = 1;
-  int32 resourceAmount = 2;
+  int32 inPlayerAllyPlayer = 1;
+  int32 inConstResourceAmount = 2;
 }
 message UpAlliedResourcePercentResult {
   int32 result = 1;
 }
 
 message UpAlliedSn {
-  int32 computerAlly = 1;
-  int32 snId = 2;
+  int32 inPlayerComputerAllyPlayer = 1;
+  int32 inSnId = 2;
 }
 message UpAlliedSnResult {
   int32 result = 1;
@@ -912,52 +931,67 @@ message UpAttackerClassResult {
  * Type operator parameter is currently ignored in AoC version.
  */
 message UpBuildingTypeInTown {
-  int32 typeOp = 1;
-  int32 buildingId = 2;
+  oneof buildingId {
+    int32 inConstBuildingId = 1;
+	int32 inGoalBuildingId = 2;
+	int32 inSnBuildingId = 3;
+  }
 }
 message UpBuildingTypeInTownResult {
   int32 result = 1;
 }
 
 message UpCanBuild {
-  int32 escrowState = 1;
-  int32 typeOp = 2;
-  int32 buildingId = 3;
+  int32 inGoalEscrowState = 1;
+  oneof buildingId {
+    int32 inConstBuildingId = 2;
+	int32 inGoalBuildingId = 3;
+	int32 inSnBuildingId = 4;
+  }
 }
 message UpCanBuildResult {
   bool result = 1;
 }
 
 message UpCanBuildLine {
-  int32 escrowState = 1;
-  int32 goalPoint = 2;
-  int32 typeOp = 3;
-  int32 buildingId = 4;
+  int32 inGoalEscrowState = 1;
+  int32 inGoalPoint = 2;
+  oneof buildingId {
+    int32 inConstBuildingId = 3;
+	int32 inGoalBuildingId = 4;
+	int32 inSnBuildingId = 5;
+  }
 }
 message UpCanBuildLineResult {
   bool result = 1;
 }
 
 message UpCanResearch {
-  int32 escrowState = 1;
-  int32 typeOp = 2;
-  int32 techId = 3;
+  int32 inGoalEscrowState = 1;
+  oneof techId {
+    int32 inConstTechId = 2;
+	int32 inGoalTechId = 3;
+	int32 inSnTechId = 4;
+  }
 }
 message UpCanResearchResult {
   bool result = 1;
 }
 
 message UpCanSearch {
-  int32 searchSource = 1;
+  int32 inConstSearchSource = 1;
 }
 message UpCanSearchResult {
   bool result = 1;
 }
 
 message UpCanTrain {
-  int32 escrowState = 1;
-  int32 typeOp = 2;
-  int32 unitId = 3;
+  int32 inGoalEscrowState = 1;
+  oneof unitId {
+    int32 inConstUnitId = 2;
+	int32 inGoalUnitId = 3;
+	int32 inSnUnitId = 4;
+  }
 }
 message UpCanTrainResult {
   bool result = 1;
@@ -991,165 +1025,188 @@ message UpEnemyVillagersInTownResult {
   int32 result = 1;
 }
 
-/**
- * Type operator parameter is currently ignored in AoC version.
- */
 message UpGaiaTypeCount {
-  int32 typeOp = 1;
-  int32 resource = 2;
+  int32 inConstResource = 1;
 }
 message UpGaiaTypeCountResult {
   int32 result = 1;
 }
 
-/**
- * Type operator parameter is currently ignored in AoC version.
- */
 message UpGaiaTypeCountTotal {
-  int32 typeOp = 1;
-  int32 resource = 2;
+  int32 inConstResource = 1;
 }
 message UpGaiaTypeCountTotalResult {
   int32 result = 1;
 }
 
 message UpGroupSize {
-  int32 typeOp = 1;
-  int32 groupId = 2;
+  oneof groupId {
+    int32 inConstGroupId = 1;
+	int32 inGoalGroupId = 2;
+	int32 inSnGroupId = 3;
+  }
 }
 message UpGroupSizeResult {
   int32 result = 1;
 }
 
 message UpIdleUnitCount {
-  int32 idleType = 1;
+  int32 inConstIdleType = 1;
 }
 message UpIdleUnitCountResult {
   int32 result = 1;
 }
 
 message UpObjectData {
-  int32 objectData = 1;
+  int32 inConstObjectData = 1;
 }
 message UpObjectDataResult {
   int32 result = 1;
 }
 
+/**
+ * Custom fact. Retrieve current target object's all data values as a list.
+ */
+message UpObjectDataList {
+  
+}
+/**
+ * Response for the `UpObjectDataList` custom fact.
+ */
+message UpObjectDataListResult {
+  repeated int32 result = 1; // list of all current target object's data values
+}
+
 message UpObjectTargetData {
-  int32 objectData = 1;
+  int32 inConstObjectData = 1;
 }
 message UpObjectTargetDataResult {
   int32 result = 1;
 }
 
 message UpObjectTypeCount {
-  int32 typeOp = 1;
-  int32 objectId = 2;
+  oneof objectId {
+    int32 inConstObjectId = 1;
+	int32 inGoalObjectId = 2;
+	int32 inSnObjectId = 3;
+  }
 }
 message UpObjectTypeCountResult {
   int32 result = 1;
 }
 
 message UpObjectTypeCountTotal {
-  int32 typeOp = 1;
-  int32 objectId = 2;
+  oneof objectId {
+    int32 inConstObjectId = 1;
+	int32 inGoalObjectId = 2;
+	int32 inSnObjectId = 3;
+  }
 }
 message UpObjectTypeCountTotalResult {
   int32 result = 1;
 }
 
 message UpPathDistance {
-  int32 goalPoint = 1;
-  int32 strict = 2;
+  int32 inGoalPoint = 1;
+  int32 inConstStrict = 2;
 }
 message UpPathDistanceResult {
   int32 result = 1;
 }
 
 message UpPendingObjects {
-  int32 typeOp = 1;
-  int32 objectId = 2;
+  oneof objectId {
+    int32 inConstObjectId = 1;
+	int32 inGoalObjectId = 2;
+	int32 inSnObjectId = 3;
+  }
 }
 message UpPendingObjectsResult {
   int32 result = 1;
 }
 
 message UpPendingPlacement {
-  int32 typeOp = 1;
-  int32 buildingId = 2;
+  oneof buildingId {
+    int32 inConstBuildingId = 1;
+	int32 inGoalBuildingId = 2;
+	int32 inSnBuildingId = 3;
+  }
 }
 message UpPendingPlacementResult {
   bool result = 1;
 }
 
 message UpPlayerDistance {
-  int32 player = 1;
+  int32 inPlayerAnyPlayer = 1;
 }
 message UpPlayerDistanceResult {
   int32 result = 1;
 }
 
 message UpPlayersInGame {
-  int32 playerStance = 1;
+  int32 inConstPlayerStance = 1;
 }
 message UpPlayersInGameResult {
   int32 result = 1;
 }
 
 message UpPointContains {
-  int32 goalPoint = 1;
-  int32 typeOp = 2;
-  int32 objectId = 3;
+  int32 inGoalPoint = 1;
+  oneof objectId {
+    int32 inConstObjectId = 2;
+	int32 inGoalObjectId = 3;
+	int32 inSnObjectId = 4;
+  }
 }
 message UpPointContainsResult {
   bool result = 1;
 }
 
 message UpPointDistance {
-  int32 goalPoint1 = 1;
-  int32 goalPoint2 = 2;
+  int32 inGoalPoint1 = 1;
+  int32 inGoalPoint2 = 2;
 }
 message UpPointDistanceResult {
   int32 result = 1;
 }
 
 message UpPointElevation {
-  int32 goalPoint = 1;
+  int32 inGoalPoint = 1;
 }
 message UpPointElevationResult {
   int32 result = 1;
 }
 
 message UpPointExplored {
-  int32 goalPoint = 1;
+  int32 inGoalPoint = 1;
 }
 message UpPointExploredResult {
   int32 result = 1;
 }
 
 message UpPointTerrain {
-  int32 goalPoint = 1;
+  int32 inGoalPoint = 1;
 }
 message UpPointTerrainResult {
   int32 result = 1;
 }
 
 message UpPointZone {
-  int32 goalPoint = 1;
+  int32 inGoalPoint = 1;
 }
 message UpPointZoneResult {
   int32 result = 1;
 }
 
 message UpProjectileDetected {
-  int32 projectileType = 1;
+  int32 inConstProjectileType = 1;
 }
 message UpProjectileDetectedResult {
   int32 result = 1;
 }
 
 message UpProjectileTarget {
-  int32 projectileType = 1;
+  int32 inConstProjectileType = 1;
 }
 message UpProjectileTargetResult {
   int32 result = 1;
@@ -1163,60 +1220,87 @@ message UpRemainingBoarAmountResult {
 }
 
 message UpResearchStatus {
-  int32 typeOp = 1;
-  int32 techId = 2;
+  oneof techId {
+    int32 inConstTechId = 1;
+	int32 inGoalTechId = 2;
+	int32 inSnTechId = 3;
+  }
 }
 message UpResearchStatusResult {
   int32 result = 1;
 }
 
 message UpResourceAmount {
-  int32 resourceAmount = 1;
+  int32 inConstResourceAmount = 1;
 }
 message UpResourceAmountResult {
   int32 result = 1;
 }
 
 message UpResourcePercent {
-  int32 resourceAmount = 1;
+  int32 inConstResourceAmount = 1;
 }
 message UpResourcePercentResult {
   int32 result = 1;
 }
 
+/**
+ * Custom fact. Retrieve a list of object IDs in the specified search source.
+ * Note that if there is no target object set before calling this function, it
+ * may set one itself.
+ */
+message UpSearchObjectIdList {
+  int32 inConstSearchSource = 1;
+}
+/**
+ * Response for the `UpSearchObjectIdList` custom fact.
+ */
+message UpSearchObjectIdListResult {
+  repeated int32 result = 1; // list of objects' IDs that are in a specified search source
+}
+
 message UpTimerStatus {
-  int32 timerId = 1;
+  int32 inConstTimerId = 1;
 }
 message UpTimerStatusResult {
   int32 result = 1;
 }
 
 message UpTrainSiteReady {
-  int32 typeOp = 1;
-  int32 unitId = 2;
+  oneof unitId {
+    int32 inConstUnitId = 1;
+	int32 inGoalUnitId = 2;
+	int32 inSnUnitId = 3;
+  }
 }
 message UpTrainSiteReadyResult {
   bool result = 1;
 }
 
 message UpUnitTypeInTown {
-  int32 typeOp = 1;
-  int32 unitId = 2;
+  oneof unitId {
+    int32 inConstUnitId = 1;
+	int32 inGoalUnitId = 2;
+	int32 inSnUnitId = 3;
+  }
 }
 message UpUnitTypeInTownResult {
   int32 result = 1;
 }
 
 message UpVillagerTypeInTown {
-  int32 typeOp = 1;
-  int32 unitId = 2;
+  oneof unitId {
+    int32 inConstUnitId = 1;
+	int32 inGoalUnitId = 2;
+	int32 inSnUnitId = 3;
+  }
 }
 message UpVillagerTypeInTownResult {
   int32 result = 1;
 }
 
 message VictoryCondition {
-  int32 victoryCondition = 1;
+  int32 inConstVictory = 1;
 }
 message VictoryConditionResult {
   bool result = 1;
@@ -1226,7 +1310,7 @@ message VictoryConditionResult {
  * Currently unimplemented in AoC version.
  */
 message WallCompletedPercentage {
-  int32 perimeter = 1;
+  int32 inConstPerimeter = 1;
 }
 /**
  * Currently unimplemented in AoC version.
@@ -1239,7 +1323,7 @@ message WallCompletedPercentageResult {
  * Currently unimplemented in AoC version.
  */
 message WallInvisiblePercentage {
-  int32 perimeter = 1;
+  int32 inConstPerimeter = 1;
 }
 /**
  * Currently unimplemented in AoC version.
