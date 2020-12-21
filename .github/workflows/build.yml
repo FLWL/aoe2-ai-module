@@ -3,7 +3,6 @@ name: Build
 on:
   push:
     branches:
-    - main
     - dev
     paths-ignore:
     - '**.md'
@@ -15,61 +14,14 @@ jobs:
 
     steps:
       - name: Checkout aoe2-ai-module
-        uses: actions/checkout@a81bbbf8298c0fa03ea29cdc473d45769f953675
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
       
       - name: Restore from cache and run vcpkg
-        uses: lukka/run-vcpkg@fc243fce3040cd0f085c9704118f849ebacbe9d3
+        uses: lukka/run-vcpkg@477b7bf94ee06669a6f06f5867061c69fbf22136
         with:
           vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-          vcpkgGitCommitId: 8fe1851e1eb51a971b2b7cfdb8161ac03bbbd6d5
+          vcpkgGitCommitId: 66bac12e4e54cc858bdf7f93c5786010b6812b13
           vcpkgArguments: '@${{ env.VCPKG_RESPONSE_FILE }}'
           appendedCacheKey: ${{ hashFiles(env.VCPKG_RESPONSE_FILE) }}
         env:
           VCPKG_RESPONSE_FILE: ${{ github.workspace }}\aimodule\vcpkg_dependencies.txt
-
-      - name: Generate protobuf+grpc include files
-        run: '%GITHUB_WORKSPACE%\protos\make-protos.bat'
-        shell: cmd
-
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@c26a08ba26249b81327e26f6ef381897b6a8754d
-
-      - name: Integrate MSBuild
-        run: '%VCPKG_ROOT%/vcpkg integrate install'
-        shell: cmd
-
-      - name: Build AIModule x64
-        run: 'msbuild %GITHUB_WORKSPACE%\aimodule\aimodule.vcxproj /p:Configuration=Release /p:Platform=x64'
-        shell: cmd
-      
-      - name: Build AIModule x86
-        run: 'msbuild %GITHUB_WORKSPACE%\aimodule\aimodule.vcxproj /p:Configuration=Release /p:Platform=x86'
-        shell: cmd
-      
-      - name: Update latest-dev release metadata
-        if: endsWith(github.ref, 'dev')
-        uses: marvinpinto/action-automatic-releases@10bdce64abdb4558a2ee6983192242be40d631d8
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: 'latest-dev'
-          prerelease: true
-          title: 'Latest Development Build ${{ github.run_number }}'
-
-      - name: Upload x64 build to release latest-dev
-        if: endsWith(github.ref, 'dev')
-        uses: svenstaro/upload-release-action@e74ff71f7d8a4c4745b560a485cc5fdb9b5b999d
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: 'aimodule/x64/Release/aimodule.dll'
-          asset_name: 'aimodule-de.dll'
-          tag: 'latest-dev'
-      
-      - name: Upload x86 build to release latest-dev
-        if: endsWith(github.ref, 'dev')
-        uses: svenstaro/upload-release-action@e74ff71f7d8a4c4745b560a485cc5fdb9b5b999d
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: 'aimodule/Release/aimodule.dll'
-          asset_name: 'aimodule-aoc.dll'
-          tag: 'latest-dev'
-
