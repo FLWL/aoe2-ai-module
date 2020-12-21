@@ -25,3 +25,27 @@ jobs:
           appendedCacheKey: ${{ hashFiles(env.VCPKG_RESPONSE_FILE) }}
         env:
           VCPKG_RESPONSE_FILE: ${{ github.workspace }}\aimodule\vcpkg_dependencies.txt
+      
+      - name: Generate protobuf+grpc include files
+        run: '%GITHUB_WORKSPACE%\protos\make-protos.bat'
+        shell: cmd
+      
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@0e477eda777a6587a64c4fd7dd54af60bd75f192
+      
+      - name: Integrate MSBuild
+        run: '%VCPKG_ROOT%/vcpkg integrate install'
+        shell: cmd
+      
+      - name: Build AIModule x86
+        run: 'msbuild %GITHUB_WORKSPACE%\aimodule\aimodule.vcxproj /p:Configuration=Release /p:Platform=x86'
+        shell: cmd
+      
+      
+      
+      
+      
+      
+      
+      
+      
