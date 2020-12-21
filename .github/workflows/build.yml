@@ -20,7 +20,7 @@ jobs:
         uses: lukka/run-vcpkg@477b7bf94ee06669a6f06f5867061c69fbf22136
         with:
           vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-          vcpkgGitCommitId: 66bac12e4e54cc858bdf7f93c5786010b6812b13
+          vcpkgCommitId: 66bac12e4e54cc858bdf7f93c5786010b6812b13
           vcpkgArguments: '@${{ env.VCPKG_RESPONSE_FILE }}'
           appendedCacheKey: ${{ hashFiles(env.VCPKG_RESPONSE_FILE) }}
         env:
