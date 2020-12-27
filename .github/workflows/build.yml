@@ -35,6 +35,9 @@ jobs:
           ref: 4a678aa329c0a6323d7334fdf3ad37d571600d27
           path: vcpkg
       
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@c26a08ba26249b81327e26f6ef381897b6a8754d
+      
       - name: Bootstrap vcpkg
         if: steps.cache-vcpkg.outputs.cache-hit != 'true'
         run: '.\vcpkg\bootstrap-vcpkg.bat'
@@ -42,24 +45,15 @@ jobs:
       
       - name: Install dependencies with vcpkg
         if: steps.cache-vcpkg.outputs.cache-hit != 'true'
-        run: '.\vcpkg\vcpkg install @aimodule\vcpkg_dependencies.txt'
+        run: '.\vcpkg\vcpkg install --recurse grpc:x86-windows-static'
         shell: cmd
       
-      - name: Integrate vcpkg
-        run: '.\vcpkg\vcpkg integrate install'
-        shell: cmd
-      
-      - name: Generate protobuf+grpc include files
-        run: '.\protos\make-protos.bat'
-        shell: cmd
-      
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@c26a08ba26249b81327e26f6ef381897b6a8754d
-      
-      - name: Build AI Module x86
-        run: 'msbuild .\aimodule\aimodule.vcxproj /p:Configuration=Release /p:Platform=x86'
-        shell: cmd
-      
+      - name: Archive error log
+        uses: actions/upload-artifact@v2
+        with:
+          name: error-log-archive
+          path: .\vcpkg\buildtrees\grpc\install-x86-windows-static-dbg-out.log
+          retention-days: 1
       
       
       
