@@ -1,15 +1,63 @@
 syntax = "proto3";
+/**
+ * RPC calls that are general to the AI Module and do not belong to any subsystem.
+ */
 
 package protos;
 
 service AIModuleAPI {
+  
+  /**
+   * Check if a match is currently in progress.
+   */
+  rpc IsMatchInProgress(IsMatchInProgressRequest) returns (IsMatchInProgressReply) { }
+  
+  /**
+   * Get the path to the game data (.dat) file that is being used by the game. Only available on AoC.
+   */
+  rpc GetGameDataFilePath(GetGameDataFilePathRequest) returns (GetGameDataFilePathReply) { }
+  
+  /**
+   * Cancel any pending RPC calls, close the RPC server, remove detours and detach the AI Module from the game process.
+   */
   rpc Unload(UnloadRequest) returns (UnloadReply) { }
 }
 
+/**
+ * `IsMatchInProgressRequest` call parameters.
+ */
+message IsMatchInProgressRequest {
+  
+}
+/**
+ * `IsMatchInProgressRequest` call reply.
+ */
+message IsMatchInProgressReply {
+  bool result = 1;
+}
+
+/**
+ * `GetGameDataFilePathRequest` call parameters.
+ */
+message GetGameDataFilePathRequest {
+  
+}
+/**
+ * `GetGameDataFilePathRequest` call reply.
+ */
+message GetGameDataFilePathReply {
+  string result = 1;
+}
+
+/**
+ * `Unload` call parameters. Currently empty.
+ */
 message UnloadRequest {
   
 }
-
+/**
+ * `Unload` call reply. Currently empty.
+ */
 message UnloadReply {
   
 }

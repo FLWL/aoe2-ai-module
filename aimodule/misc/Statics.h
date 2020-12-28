@@ -1,12 +1,17 @@
 #pragma once
 #include "misc/Configuration.h"
+
+#include <vector>
+
 #include <Windows.h>
+
+#define SPACER(from, size) uint8_t spacer##from[##size]
 
 namespace statics
 {
 	static uintptr_t GetGameModuleBaseAddr()
 	{
-		return (uintptr_t) GetModuleHandleA(aimodule_conf::GAME_MODULE_NAME.c_str());
+		return (uintptr_t) GetModuleHandle(NULL);
 	}
 	
 	static uintptr_t TranslateAddr(uintptr_t absoluteAddress, uintptr_t absoluteBaseAddress = aimodule_conf::REFERENCE_BASE_ADDR)

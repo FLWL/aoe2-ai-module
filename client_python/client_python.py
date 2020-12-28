@@ -52,11 +52,51 @@ def run():
         # executed on the specified target player number specified in first parameter of
         # the helper function pack_commands
         # results will be put into the result_list list
-        result_list = expert_api.ExecuteCommandList(pack_commands(1, [
-            action.UpGetFact(factId=25, factParam=83, goalId=99), # up-get-fact unit-type-count 83 99
-            fact.Goal(goalId=99), # goal 99
-        ]))
+        cmdlist = [
+            action.UpGetFact(inConstFactId=25, inConstParam=83, outGoalData=99), # up-get-fact unit-type-count 83 99
+            fact.Goal(inConstGoalId=99), # goal 99
+            action.SetGoal(inConstGoalId=510, inConstValue=448),
+            fact.Goal(inConstGoalId=510),
+            action.UpFullResetSearch(),
+            action.UpFindLocal(inGoalUnitId=510, inConstCount=10),
+            action.UpGetSearchState(outGoalState=500),
+            fact.Goal(inConstGoalId=500),
+            fact.UpSearchObjectIdList(inConstSearchSource=1),
+            action.UpSetTargetObject(inConstSearchSource=1, inConstIndex=0),
+            fact.UpObjectData(inConstObjectData=1),
+            #fact.UpObjectDataList(),
+            #fact.MapSize(),
+            #fact.MapType(),
+            #action.SetGoal(inConstGoalId=378, inConstValue=70),
+            #action.SetStrategicNumber(inConstSnId=30, inConstValue=70),
+            #fact.Goal(inConstGoalId=30),
+            #fact.StrategicNumber(inConstSnId=30),
+            #fact.UpCanBuild(inConstBuildingId=70),
+            #fact.UpCanBuild(inGoalBuildingId=30),
+            #fact.UpCanBuild(inSnBuildingId=30),
+            #action.SetGoal(inConstGoalId=378, inConstValue=70),
+            #action.SetStrategicNumber(inConstSnId=375, inConstValue=68),
+            #fact.Goal(inConstGoalId=378),
+            #fact.UpCanBuild(inConstBuildingId=70),
+            #fact.UpCanBuild(inGoalBuildingId=378),
+            #fact.UpCanBuild(inSnBuildingId=375),
+            #fact.UpCanBuild(inSnBuildingId=122),
+            action.UpChangeName(inTextNewName=("William Wallace")),
+            action.UpCcSendCheat(inTextCode="rock on"),
+            #fact.CcPlayersBuildingCount(inPlayerAnyPlayer=1),
+            #fact.CcPlayersUnitCount(inPlayerAnyPlayer=1),
+            #fact.CcPlayersUnitTypeCount(inPlayerAnyPlayer=1, inConstUnitId=83),
+            #fact.CcPlayersUnitTypeCount(inPlayerAnyPlayer=1, inConstUnitId=448),
+            #fact.UpPlayersInGame(inConstPlayerStance=2),
+            #fact.GameTime(),
+            fact.CcPlayersBuildingCount(inPlayerAnyPlayer=1),
+            fact.CcPlayersBuildingTypeCount(inPlayerAnyPlayer=1, inConstBuildingId=70),
+            fact.CcPlayersUnitCount(inPlayerAnyPlayer=1),
+            fact.CcPlayersUnitTypeCount(inPlayerAnyPlayer=1, inConstUnitId=448),
+            fact.CcPlayersUnitTypeCount(inPlayerAnyPlayer=1, inConstUnitId=83),
+        ]
 
+        result_list = expert_api.ExecuteCommandList(pack_commands(1, cmdlist))
         print(result_list)
 
         # the result of our "up-get-fact" query can be extracted via the "goal" fact and

@@ -61,6 +61,21 @@
     <Filter Include="Source Files\misc">
       <UniqueIdentifier>{8127cb79-1826-4d78-b3cd-5b8ccf83e328}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\structs">
+      <UniqueIdentifier>{1cf00224-d7db-48a3-9fed-73bddd517cfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\structs\program_information">
+      <UniqueIdentifier>{bce13cc0-7bec-4a81-b987-bf00792b475a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\structs\program_mode">
+      <UniqueIdentifier>{a2e93da4-3c4c-4b6b-840c-a043e9a4bc73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\structs\world">
+      <UniqueIdentifier>{d9091ccf-d49c-448d-87f2-7e8934fd3c2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\structs\world\player">
+      <UniqueIdentifier>{370f2143-6b3e-4cfd-a916-b81a4352c2c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIModule.h">
@@ -119,6 +134,24 @@
     </ClInclude>
     <ClInclude Include="expert\fact\ExpertFactHandler.h">
       <Filter>Header Files\expert\fact</Filter>
+    </ClInclude>
+    <ClInclude Include="structs\Game.h">
+      <Filter>Header Files\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="structs\program_information\ProgramInformation.h">
+      <Filter>Header Files\structs\program_information</Filter>
+    </ClInclude>
+    <ClInclude Include="structs\program_mode\ProgramMode.h">
+      <Filter>Header Files\structs\program_mode</Filter>
+    </ClInclude>
+    <ClInclude Include="structs\world\World.h">
+      <Filter>Header Files\structs\world</Filter>
+    </ClInclude>
+    <ClInclude Include="structs\world\player\Player.h">
+      <Filter>Header Files\structs\world\player</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\MemoryUtils.h">
+      <Filter>Header Files\misc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

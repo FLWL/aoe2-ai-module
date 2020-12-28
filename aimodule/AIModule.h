@@ -12,11 +12,13 @@
 class AIModule
 {
 public:
-	AIModule(HMODULE currentModuleHandle);
+	AIModule();
 	~AIModule();
 
 	void RequestUnload();
 	bool IsUnloadRequested();
+	bool IsMatchInProgress();
+	std::string GetGameDataFilePath();
 
 	AIModuleService* GetService() { return &aiModuleService; };
 	Expert* GetExpert() { return &expert; };

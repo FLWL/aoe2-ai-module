@@ -1,0 +1,102 @@
+name: Build Documentation
+
+on:
+  push:
+    branches:
+    - main
+    - dev
+    paths:
+    - '.github/workflows/build-documentation.yml'
+    - 'protos/**.proto'
+
+jobs:
+  build-documentation:
+    runs-on: windows-2019
+    
+    steps:
+      - name: Checkout aoe2-ai-module
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+      
+      - name: Checkout ${{ github.repository }}.wiki
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+        with:
+          repository: ${{ github.repository }}.wiki
+          path: documentation
+      
+      - name: Restore (cache) protoc-gen-doc
+        id: cache-protoc-gen-doc
+        uses: actions/cache@0781355a23dac32fd3bac414512f4b903437991a
+        with:
+          path: |
+            .\protoc-gen-doc
+          key: cache-protoc-gen-doc-f06de7ac0ef41acabeac9ac02f6f30ef15f6405f }}
+      
+      - name: Checkout protoc-gen-doc
+        if: steps.cache-protoc-gen-doc.outputs.cache-hit != 'true'
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+        with:
+          repository: pseudomuto/protoc-gen-doc
+          ref: f06de7ac0ef41acabeac9ac02f6f30ef15f6405f
+          path: protoc-gen-doc
+      
+      - name: Compile protoc-gen-doc
+        if: steps.cache-protoc-gen-doc.outputs.cache-hit != 'true'
+        run: 'cd protoc-gen-doc && go build ./cmd/... & cd ..'
+        shell: cmd
+      
+      - name: Restore (cache) vcpkg
+        id: cache-vcpkg
+        uses: actions/cache@0781355a23dac32fd3bac414512f4b903437991a
+        with:
+          path: |
+            .\vcpkg
+            !.\vcpkg\buildtrees
+            !.\vcpkg\downloads
+            !.\vcpkg\packages
+          key: cache-vcpkg-4a678aa329c0a6323d7334fdf3ad37d571600d27-protobuf }}
+      
+      - name: Checkout vcpkg
+        if: steps.cache-vcpkg.outputs.cache-hit != 'true'
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
+        with:
+          repository: microsoft/vcpkg
+          ref: 4a678aa329c0a6323d7334fdf3ad37d571600d27
+          path: vcpkg
+      
+      - name: Bootstrap vcpkg
+        if: steps.cache-vcpkg.outputs.cache-hit != 'true'
+        run: '.\vcpkg\bootstrap-vcpkg.bat'
+        shell: cmd
+      
+      - name: Install vcpkg libraries
+        if: steps.cache-vcpkg.outputs.cache-hit != 'true'
+        run: '.\vcpkg\vcpkg install --recurse protobuf:x64-windows-static --clean-after-build'
+        shell: cmd
+      
+      - name: Generate protobuf documentation
+        run: |
+          IF %GITHUB_REF:~-3%==dev (SET WIKI_PREFIX=Dev-Branch-Documentation#)
+          IF %GITHUB_REF:~-4%==main (SET WIKI_PREFIX=Documentation#)
+          
+          IF DEFINED WIKI_PREFIX (
+            .\vcpkg\installed\x64-windows-static\tools\protobuf\protoc.exe -I . -I .\vcpkg\installed\x64-windows-static\include --doc_out .\documentation\ --plugin=protoc-gen-doc=.\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,%WIKI_PREFIX%-AI-Module-API.md protos/ai_module_api.proto
+            .\vcpkg\installed\x64-windows-static\tools\protobuf\protoc.exe -I . -I .\vcpkg\installed\x64-windows-static\include --doc_out .\documentation\ --plugin=protoc-gen-doc=.\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,%WIKI_PREFIX%-Expert-API.md protos/expert/expert_api.proto
+            .\vcpkg\installed\x64-windows-static\tools\protobuf\protoc.exe -I . -I .\vcpkg\installed\x64-windows-static\include --doc_out .\documentation\ --plugin=protoc-gen-doc=.\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,%WIKI_PREFIX%-Expert-Actions.md protos/expert/action/action.proto
+            .\vcpkg\installed\x64-windows-static\tools\protobuf\protoc.exe -I . -I .\vcpkg\installed\x64-windows-static\include --doc_out .\documentation\ --plugin=protoc-gen-doc=.\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,%WIKI_PREFIX%-Expert-Facts.md protos/expert/fact/fact.proto
+          )
+        shell: cmd
+      
+      - name: Commit and push wiki files
+        run: |
+          cd documentation
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Add automated documentation changes" && git push
+          cd ..
+        shell: cmd
+      
+      
+      
+      
+      

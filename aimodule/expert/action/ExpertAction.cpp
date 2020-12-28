@@ -1,11 +1,28 @@
 #include "ExpertAction.h"
-#include "misc/Configuration.h"
-#include "misc/Statics.h"
 
 #include <iostream>
 
+#include <Windows.h>
+#include <detours/detours.h>
+
+#include "misc/Statics.h"
+#include "expert/fact/ExpertFact.h"
+
+ExpertAction::ExpertAction()
+{
+	UpdateAddresses();
+	EnableDetours();
+}
+
+ExpertAction::~ExpertAction()
+{
+	DisableDetours();
+}
+
 void ExpertAction::UpdateAddresses()
 {
+	statics::SetFuncAddr(FuncGetString, statics::TranslateAddr(expert_conf::ADDR_FUNC_GET_STRING));
+
 	statics::SetFuncAddr(FuncAcknowledgeEvent, statics::TranslateAddr(expert_conf::ADDR_FUNC_ACKNOWLEDGE_EVENT));
 	statics::SetFuncAddr(FuncAcknowledgeTaunt, statics::TranslateAddr(expert_conf::ADDR_FUNC_ACKNOWLEDGE_TAUNT));
 	statics::SetFuncAddr(FuncAttackNow, statics::TranslateAddr(expert_conf::ADDR_FUNC_ATTACK_NOW));
@@ -15,7 +32,6 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncBuildWall, statics::TranslateAddr(expert_conf::ADDR_FUNC_BUILD_WALL));
 	statics::SetFuncAddr(FuncBuyCommodity, statics::TranslateAddr(expert_conf::ADDR_FUNC_BUY_COMMODITY));
 	statics::SetFuncAddr(FuncCcAddResource, statics::TranslateAddr(expert_conf::ADDR_FUNC_CC_ADD_RESOURCE));
-	statics::SetFuncAddr(FuncChatDebug, statics::TranslateAddr(expert_conf::ADDR_FUNC_CHAT_DEBUG));
 	statics::SetFuncAddr(FuncChatLocal, statics::TranslateAddr(expert_conf::ADDR_FUNC_CHAT_LOCAL));
 	statics::SetFuncAddr(FuncChatLocalUsingId, statics::TranslateAddr(expert_conf::ADDR_FUNC_CHAT_LOCAL_USING_ID));
 	statics::SetFuncAddr(FuncChatLocalUsingRange, statics::TranslateAddr(expert_conf::ADDR_FUNC_CHAT_LOCAL_USING_RANGE));
@@ -39,11 +55,9 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncDisableRule, statics::TranslateAddr(expert_conf::ADDR_FUNC_DISABLE_RULE));
 	statics::SetFuncAddr(FuncDisableSelf, statics::TranslateAddr(expert_conf::ADDR_FUNC_DISABLE_SELF));
 	statics::SetFuncAddr(FuncDisableTimer, statics::TranslateAddr(expert_conf::ADDR_FUNC_DISABLE_TIMER));
-	statics::SetFuncAddr(FuncDoNothing, statics::TranslateAddr(expert_conf::ADDR_FUNC_DO_NOTHING));
 	statics::SetFuncAddr(FuncEnableRule, statics::TranslateAddr(expert_conf::ADDR_FUNC_ENABLE_RULE));
 	statics::SetFuncAddr(FuncEnableTimer, statics::TranslateAddr(expert_conf::ADDR_FUNC_ENABLE_TIMER));
 	statics::SetFuncAddr(FuncEnableWallPlacement, statics::TranslateAddr(expert_conf::ADDR_FUNC_ENABLE_WALL_PLACEMENT));
-	statics::SetFuncAddr(FuncFeBreakPoint, statics::TranslateAddr(expert_conf::ADDR_FUNC_FE_BREAK_POINT));
 	statics::SetFuncAddr(FuncGenerateRandomNumber, statics::TranslateAddr(expert_conf::ADDR_FUNC_GENERATE_RANDOM_NUMBER));
 	statics::SetFuncAddr(FuncLog, statics::TranslateAddr(expert_conf::ADDR_FUNC_LOG));
 	statics::SetFuncAddr(FuncLogTrace, statics::TranslateAddr(expert_conf::ADDR_FUNC_LOG_TRACE));
@@ -51,9 +65,6 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncResearch, statics::TranslateAddr(expert_conf::ADDR_FUNC_RESEARCH));
 	statics::SetFuncAddr(FuncResign, statics::TranslateAddr(expert_conf::ADDR_FUNC_RESIGN));
 	statics::SetFuncAddr(FuncSellCommodity, statics::TranslateAddr(expert_conf::ADDR_FUNC_SELL_COMMODITY));
-	statics::SetFuncAddr(FuncSetAuthorName, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_AUTHOR_NAME));
-	statics::SetFuncAddr(FuncSetAuthorEmail, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_AUTHOR_EMAIL));
-	statics::SetFuncAddr(FuncSetAuthorVersion, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_AUTHOR_VERSION));
 	statics::SetFuncAddr(FuncSetDifficultyParameter, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_DIFFICULTY_PARAMETER));
 	statics::SetFuncAddr(FuncSetDoctrine, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_DOCTRINE));
 	statics::SetFuncAddr(FuncSetEscrowPercentage, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_ESCROW_PERCENTAGE));
@@ -62,8 +73,6 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncSetSignal, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_SIGNAL));
 	statics::SetFuncAddr(FuncSetStance, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_STANCE));
 	statics::SetFuncAddr(FuncSetStrategicNumber, statics::TranslateAddr(expert_conf::ADDR_FUNC_SET_STRATEGIC_NUMBER));
-	statics::SetFuncAddr(FuncSkyboxClearSignal, statics::TranslateAddr(expert_conf::ADDR_FUNC_SKYBOX_CLEAR_SIGNAL));
-	statics::SetFuncAddr(FuncSkyboxSetNameMode, statics::TranslateAddr(expert_conf::ADDR_FUNC_SKYBOX_SET_NAME_MODE));
 	statics::SetFuncAddr(FuncSpy, statics::TranslateAddr(expert_conf::ADDR_FUNC_SPY));
 	statics::SetFuncAddr(FuncTaunt, statics::TranslateAddr(expert_conf::ADDR_FUNC_TAUNT));
 	statics::SetFuncAddr(FuncTauntUsingRange, statics::TranslateAddr(expert_conf::ADDR_FUNC_TAUNT_USING_RANGE));
@@ -84,8 +93,6 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncUpCcSendCheat, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CC_SEND_CHEAT));
 	statics::SetFuncAddr(FuncUpChangeName, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHANGE_NAME));
 	statics::SetFuncAddr(FuncUpChatDataToAll, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHAT_DATA_TO_ALL));
-	statics::SetFuncAddr(FuncUpChatDataToAllUsingId, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHAT_DATA_TO_ALL_USING_ID));
-	statics::SetFuncAddr(FuncUpChatDataToPlayerUsingId, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHAT_DATA_TO_PLAYER_USING_ID));
 	statics::SetFuncAddr(FuncUpChatDataToPlayer, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHAT_DATA_TO_PLAYER));
 	statics::SetFuncAddr(FuncUpChatDataToSelf, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHAT_DATA_TO_SELF));
 	statics::SetFuncAddr(FuncUpCleanSearch, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CLEAN_SEARCH));
@@ -124,7 +131,6 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncUpGetFactSum, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_FACT_SUM));
 	statics::SetFuncAddr(FuncUpGetFocusFact, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_FOCUS_FACT));
 	statics::SetFuncAddr(FuncUpGetGroupSize, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_GROUP_SIZE));
-	//statics::SetFuncAddr(FuncUpGetGuardState, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_GUARD_STATE));
 	statics::SetFuncAddr(FuncUpGetIndirectGoal, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_INDIRECT_GOAL));
 	statics::SetFuncAddr(FuncUpGetObjectData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_OBJECT_DATA));
 	statics::SetFuncAddr(FuncUpGetObjectTargetData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_OBJECT_TARGET_DATA));
@@ -147,8 +153,6 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncUpGetTargetFact, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_TARGET_FACT));
 	statics::SetFuncAddr(FuncUpGetThreatData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_THREAT_DATA));
 	statics::SetFuncAddr(FuncUpGetTimer, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_TIMER));
-	statics::SetFuncAddr(FuncUpGetTreatyData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_TREATY_DATA));
-	//statics::SetFuncAddr(FuncUpGetUpgradeId, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_UPGRADE_ID));
 	statics::SetFuncAddr(FuncUpGetVictoryData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_VICTORY_DATA));
 	statics::SetFuncAddr(FuncUpGetVictoryLimit, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_VICTORY_LIMIT));
 	statics::SetFuncAddr(FuncUpGuardUnit, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GUARD_UNIT));
@@ -207,22 +211,75 @@ void ExpertAction::UpdateAddresses()
 	statics::SetFuncAddr(FuncUpStoreTypeName, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_STORE_TYPE_NAME));
 	statics::SetFuncAddr(FuncUpTargetObjects, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TARGET_OBJECTS));
 	statics::SetFuncAddr(FuncUpTargetPoint, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TARGET_POINT));
-	statics::SetFuncAddr(FuncUpTestharnessReport, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TESTHARNESS_REPORT));
-	statics::SetFuncAddr(FuncUpTestharnessTest, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TESTHARNESS_TEST));
 	statics::SetFuncAddr(FuncUpTrain, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TRAIN));
 	statics::SetFuncAddr(FuncUpTributeToPlayer, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TRIBUTE_TO_PLAYER));
 	statics::SetFuncAddr(FuncUpUngarrison, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_UNGARRISON));
 	statics::SetFuncAddr(FuncUpUpdateTargets, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_UPDATE_TARGETS));
+#if defined GAME_DE
+	statics::SetFuncAddr(FuncChatDebug, statics::TranslateAddr(expert_conf::ADDR_FUNC_CHAT_DEBUG));
+	statics::SetFuncAddr(FuncFeBreakPoint, statics::TranslateAddr(expert_conf::ADDR_FUNC_FE_BREAK_POINT));
+	statics::SetFuncAddr(FuncSkyboxClearSignal, statics::TranslateAddr(expert_conf::ADDR_FUNC_SKYBOX_CLEAR_SIGNAL));
+	statics::SetFuncAddr(FuncSkyboxSetNameMode, statics::TranslateAddr(expert_conf::ADDR_FUNC_SKYBOX_SET_NAME_MODE));
+	statics::SetFuncAddr(FuncUpChatDataToAllUsingId, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHAT_DATA_TO_ALL_USING_ID));
+	statics::SetFuncAddr(FuncUpChatDataToPlayerUsingId, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CHAT_DATA_TO_PLAYER_USING_ID));
+	statics::SetFuncAddr(FuncUpGetTreatyData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_TREATY_DATA));
+	statics::SetFuncAddr(FuncUpTestharnessReport, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TESTHARNESS_REPORT));
+	statics::SetFuncAddr(FuncUpTestharnessTest, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TESTHARNESS_TEST));
+#elif defined GAME_AOC
+	statics::SetFuncAddr(FuncUpGetAlliedTarget, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_ALLIED_TARGET));
+	statics::SetFuncAddr(FuncUpGetGuardState, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_GUARD_STATE));
+	statics::SetFuncAddr(FuncUpGetUpgradeId, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GET_UPGRADE_ID));
+	statics::SetFuncAddr(FuncUpOutOfSync, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_OUT_OF_SYNC));
+
+	// WK quickfix
+	if (*(int8_t*)FuncUpGetObjectData != 0x8B)
+	{
+		statics::SetFuncAddr(FuncUpGetObjectData, (uintptr_t)FuncUpGetObjectData + 0x44);
+	}
+#endif
 }
 
-void ExpertAction::AcknowledgeEvent(int eventType, int id)
+void ExpertAction::EnableDetours()
 {
-	FuncAcknowledgeEvent(eventType, id);
+	DetourTransactionBegin();
+	DetourUpdateThread(GetCurrentThread());
+	DetourAttach(&(PVOID&)FuncGetString, DetouredGetString);
+	DetourTransactionCommit();
 }
 
-void ExpertAction::AcknowledgeTaunt(int playerNumber, int tauntId)
+void ExpertAction::DisableDetours()
 {
-	FuncAcknowledgeTaunt(playerNumber, tauntId);
+	DetourTransactionBegin();
+	DetourUpdateThread(GetCurrentThread());
+	DetourDetach(&(PVOID&)FuncGetString, DetouredGetString);
+	DetourTransactionCommit();
+}
+
+#if defined GAME_DE
+char* ExpertAction::DetouredGetString(void* aiExpertEngine, int stringId)
+#elif defined GAME_AOC
+char* __fastcall ExpertAction::DetouredGetString(void* aiExpertEngine, void* unused, int stringId)
+#endif
+{
+	if (stringId == expert_conf::CONST_CUSTOM_STRING_ID)
+		return customString;
+
+	return FuncGetString(aiExpertEngine, stringId);
+}
+
+void ExpertAction::SetCustomString(const std::string& inTextString)
+{
+	snprintf(customString, sizeof(customString), "%s", inTextString.c_str());
+}
+
+void ExpertAction::AcknowledgeEvent(int inConstEventType, int inConstEventId)
+{
+	FuncAcknowledgeEvent(inConstEventType, inConstEventId);
+}
+
+void ExpertAction::AcknowledgeTaunt(int inPlayerAnyPlayer, int inConstTauntId)
+{
+	FuncAcknowledgeTaunt(inPlayerAnyPlayer, inConstTauntId);
 }
 
 void ExpertAction::AttackNow()
@@ -230,144 +287,175 @@ void ExpertAction::AttackNow()
 	FuncAttackNow();
 }
 
-void ExpertAction::Build(int buildingType)
+void ExpertAction::Build(int inConstBuildingId)
 {
-	FuncBuild(buildingType);
+	if (ExpertFact::CanBuildWithEscrow(inConstBuildingId))
+	{
+		FuncBuild(inConstBuildingId);
+	}
 }
 
-void ExpertAction::BuildForward(int buildingType)
+void ExpertAction::BuildForward(int inConstBuildingId)
 {
-	FuncBuildForward(buildingType);
+	if (ExpertFact::CanBuildWithEscrow(inConstBuildingId))
+	{
+		FuncBuildForward(inConstBuildingId);
+	}
 }
 
-void ExpertAction::BuildGate(int perimeter)
+void ExpertAction::BuildGate(int inConstPerimeter)
 {
-	FuncBuildGate(perimeter);
+	if (ExpertFact::CanBuildGateWithEscrow(inConstPerimeter))
+	{
+		FuncBuildGate(inConstPerimeter);
+	}
 }
 
-void ExpertAction::BuildWall(int perimeter, int wallType)
+void ExpertAction::BuildWall(int inConstPerimeter, int inConstWallId)
 {
-	FuncBuildWall(perimeter, wallType);
+	if (ExpertFact::CanBuildWallWithEscrow(inConstPerimeter, inConstWallId))
+	{
+		FuncBuildWall(inConstPerimeter, inConstWallId);
+	}
 }
 
-void ExpertAction::BuyCommodity(int commodityType)
+void ExpertAction::BuyCommodity(int inConstCommodity)
 {
-	FuncBuyCommodity(commodityType);
+	if (ExpertFact::CanBuyCommodity(inConstCommodity))
+	{
+		FuncBuyCommodity(inConstCommodity);
+	}
 }
 
-void ExpertAction::CcAddResource(int resourceType, int amount)
+void ExpertAction::CcAddResource(int inConstResource, int inConstValue)
 {
-	FuncCcAddResource(resourceType, amount);
+	FuncCcAddResource(inConstResource, inConstValue);
 }
 
-void ExpertAction::ChatDebug(int text)
+void ExpertAction::ChatLocal(const std::string& inTextString)
 {
-	FuncChatDebug(text);
+	SetCustomString(inTextString);
+	FuncChatLocal(expert_conf::CONST_CUSTOM_STRING_ID);
 }
 
-void ExpertAction::ChatLocal(int text)
+void ExpertAction::ChatLocalUsingId(int inConstLanguageId)
 {
-	FuncChatLocal(text);
+	FuncChatLocalUsingId(inConstLanguageId);
 }
 
-void ExpertAction::ChatLocalUsingId(int stringId)
+void ExpertAction::ChatLocalUsingRange(int inConstLanguageId, int inConstValue)
 {
-	FuncChatLocalUsingId(stringId);
+	if (inConstValue != 0) // crashes otherwise
+	{
+		FuncChatLocalUsingRange(inConstLanguageId, inConstValue);
+	}
 }
 
-void ExpertAction::ChatLocalUsingRange(int stringIdStart, int stringIdRange)
+void ExpertAction::ChatLocalToSelf(const std::string& inTextString)
 {
-	FuncChatLocalUsingRange(stringIdStart, stringIdRange);
+	SetCustomString(inTextString);
+	FuncChatLocalToSelf(expert_conf::CONST_CUSTOM_STRING_ID);
 }
 
-void ExpertAction::ChatLocalToSelf(int text)
+void ExpertAction::ChatToAll(const std::string& inTextString)
 {
-	FuncChatLocalToSelf(text);
+	SetCustomString(inTextString);
+	FuncChatToAll(expert_conf::CONST_CUSTOM_STRING_ID);
 }
 
-void ExpertAction::ChatToAll(int text)
+void ExpertAction::ChatToAllUsingId(int inConstLanguageId)
 {
-	FuncChatToAll(text);
+	FuncChatToAllUsingId(inConstLanguageId);
 }
 
-void ExpertAction::ChatToAllUsingId(int stringId)
+void ExpertAction::ChatToAllUsingRange(int inConstLanguageId, int inConstValue)
 {
-	FuncChatToAllUsingId(stringId);
+	if (inConstValue != 0) // crashes otherwise
+	{
+		FuncChatToAllUsingRange(inConstLanguageId, inConstValue);
+	}
 }
 
-void ExpertAction::ChatToAllUsingRange(int stringIdStart, int stringIdRange)
+void ExpertAction::ChatToAllies(const std::string& inTextString)
 {
-	FuncChatToAllUsingRange(stringIdStart, stringIdRange);
+	SetCustomString(inTextString);
+	FuncChatToAllies(expert_conf::CONST_CUSTOM_STRING_ID);
 }
 
-void ExpertAction::ChatToAllies(int text)
+void ExpertAction::ChatToAlliesUsingId(int inConstLanguageId)
 {
-	FuncChatToAllies(text);
+	FuncChatToAlliesUsingId(inConstLanguageId);
 }
 
-void ExpertAction::ChatToAlliesUsingId(int stringId)
+void ExpertAction::ChatToAlliesUsingRange(int inConstLanguageId, int inConstValue)
 {
-	FuncChatToAlliesUsingId(stringId);
+	if (inConstValue != 0) // crashes otherwise
+	{
+		FuncChatToAlliesUsingRange(inConstLanguageId, inConstValue);
+	}
 }
 
-void ExpertAction::ChatToAlliesUsingRange(int stringIdStart, int stringIdRange)
+void ExpertAction::ChatToEnemies(const std::string& inTextString)
 {
-	FuncChatToAlliesUsingRange(stringIdStart, stringIdRange);
+	SetCustomString(inTextString);
+	FuncChatToEnemies(expert_conf::CONST_CUSTOM_STRING_ID);
 }
 
-void ExpertAction::ChatToEnemies(int text)
+void ExpertAction::ChatToEnemiesUsingId(int inConstLanguageId)
 {
-	FuncChatToEnemies(text);
+	FuncChatToEnemiesUsingId(inConstLanguageId);
 }
 
-void ExpertAction::ChatToEnemiesUsingId(int stringId)
+void ExpertAction::ChatToEnemiesUsingRange(int inConstLanguageId, int inConstValue)
 {
-	FuncChatToEnemiesUsingId(stringId);
+	if (inConstValue != 0) // crashes otherwise
+	{
+		FuncChatToEnemiesUsingRange(inConstLanguageId, inConstValue);
+	}
 }
 
-void ExpertAction::ChatToEnemiesUsingRange(int stringIdStart, int stringIdRange)
+void ExpertAction::ChatToPlayer(int inPlayerAnyPlayer, const std::string& inTextString)
 {
-	FuncChatToEnemiesUsingRange(stringIdStart, stringIdRange);
+	SetCustomString(inTextString);
+	FuncChatToPlayer(inPlayerAnyPlayer, expert_conf::CONST_CUSTOM_STRING_ID);
 }
 
-void ExpertAction::ChatToPlayer(int playerNumber, int text)
+void ExpertAction::ChatToPlayerUsingId(int inPlayerAnyPlayer, int inConstLanguageId)
 {
-	FuncChatToPlayer(playerNumber, text);
+	FuncChatToPlayerUsingId(inPlayerAnyPlayer, inConstLanguageId);
 }
 
-void ExpertAction::ChatToPlayerUsingId(int playerNumber, int stringId)
+void ExpertAction::ChatToPlayerUsingRange(int inPlayerAnyPlayer, int inConstLanguageId, int inConstValue)
 {
-	FuncChatToPlayerUsingId(playerNumber, stringId);
+	if (inConstValue != 0) // crashes otherwise
+	{
+		FuncChatToPlayerUsingRange(inPlayerAnyPlayer, inConstLanguageId, inConstValue);
+	}
 }
 
-void ExpertAction::ChatToPlayerUsingRange(int playerNumber, int stringIdStart, int stringIdRange)
+void ExpertAction::ChatTrace(int inConstValue)
 {
-	FuncChatToPlayerUsingRange(playerNumber, stringIdStart, stringIdRange);
+	FuncChatTrace(inConstValue);
 }
 
-void ExpertAction::ChatTrace(int traceNumber)
+void ExpertAction::ClearTributeMemory(int inPlayerAnyPlayer, int inConstResource)
 {
-	FuncChatTrace(traceNumber);
+	FuncClearTributeMemory(inPlayerAnyPlayer, inConstResource);
 }
 
-void ExpertAction::ClearTributeMemory(int playerNumber, int resourceType)
+void ExpertAction::DeleteBuilding(int inConstBuildingId)
 {
-	FuncClearTributeMemory(playerNumber, resourceType);
+	FuncDeleteBuilding(inConstBuildingId);
 }
 
-void ExpertAction::DeleteBuilding(int buildingType)
+void ExpertAction::DeleteUnit(int inConstUnitId)
 {
-	FuncDeleteBuilding(buildingType);
+	FuncDeleteUnit(inConstUnitId);
 }
 
-void ExpertAction::DeleteUnit(int unitType)
+void ExpertAction::DisableRule(int inConstRuleGroupId)
 {
-	FuncDeleteUnit(unitType);
-}
-
-void ExpertAction::DisableRule(int groupId)
-{
-	FuncDisableRule(groupId);
+	FuncDisableRule(inConstRuleGroupId);
 }
 
 void ExpertAction::DisableSelf()
@@ -375,59 +463,69 @@ void ExpertAction::DisableSelf()
 	FuncDisableSelf();
 }
 
-void ExpertAction::DisableTimer(int timerId)
+void ExpertAction::DisableTimer(int inConstTimerId)
 {
-	FuncDisableTimer(timerId);
+	if (inConstTimerId != 0) // can crash otherwise
+	{
+		FuncDisableTimer(inConstTimerId);
+	}
 }
 
 void ExpertAction::DoNothing()
 {
-	FuncDoNothing();
+	
 }
 
-void ExpertAction::EnableRule(int groupId)
+void ExpertAction::EnableRule(int inConstRuleGroupId)
 {
-	FuncEnableRule(groupId);
+	FuncEnableRule(inConstRuleGroupId);
 }
 
-void ExpertAction::EnableTimer(int timerId, int timeInterval)
+void ExpertAction::EnableTimer(int inConstTimerId, int inConstValue)
 {
-	FuncEnableTimer(timerId, timeInterval);
+#if defined GAME_AOC
+	if (inConstValue != 0) // crashes otherwise
+#endif
+	{
+		FuncEnableTimer(inConstTimerId, inConstValue);
+	}
 }
 
-void ExpertAction::EnableWallPlacement(int perimeter)
+void ExpertAction::EnableWallPlacement(int inConstPerimeter)
 {
-	FuncEnableWallPlacement(perimeter);
+	FuncEnableWallPlacement(inConstPerimeter);
 }
 
-void ExpertAction::FeBreakPoint(int param1, int param2, int param3, int param4)
+void ExpertAction::GenerateRandomNumber(int inConstValue)
 {
-	FuncFeBreakPoint(param1, param2, param3, param4);
+	if (inConstValue != 0) // crashes otherwise
+	{
+		FuncGenerateRandomNumber(inConstValue);
+	}
 }
 
-void ExpertAction::GenerateRandomNumber(int range)
+void ExpertAction::Log(const std::string& inTextString)
 {
-	FuncGenerateRandomNumber(range);
+	SetCustomString(inTextString);
+	FuncLog(expert_conf::CONST_CUSTOM_STRING_ID);
 }
 
-void ExpertAction::Log(int text)
+void ExpertAction::LogTrace(int inConstValue)
 {
-	FuncLog(text);
+	FuncLogTrace(inConstValue);
 }
 
-void ExpertAction::LogTrace(int traceNumber)
+void ExpertAction::ReleaseEscrow(int inConstResource)
 {
-	FuncLogTrace(traceNumber);
+	FuncReleaseEscrow(inConstResource);
 }
 
-void ExpertAction::ReleaseEscrow(int resourceType)
+void ExpertAction::Research(int inConstTechId)
 {
-	FuncReleaseEscrow(resourceType);
-}
-
-void ExpertAction::Research(int researchType)
-{
-	FuncResearch(researchType);
+	if (ExpertFact::CanResearchWithEscrow(inConstTechId)) // fixes a potential crash, at least in aoc
+	{
+		FuncResearch(inConstTechId);
+	}
 }
 
 void ExpertAction::Resign()
@@ -435,64 +533,846 @@ void ExpertAction::Resign()
 	FuncResign();
 }
 
-void ExpertAction::SellCommodity(int commodityType)
+void ExpertAction::SellCommodity(int inConstCommodity)
 {
-	FuncSellCommodity(commodityType);
+	if (ExpertFact::CanSellCommodity(inConstCommodity))
+	{
+		FuncSellCommodity(inConstCommodity);
+	}
 }
 
-void ExpertAction::SetAuthorName(int name)
+void ExpertAction::SetAuthorName(const std::string& inTextString)
 {
-	FuncSetAuthorName(name);
+	
 }
 
-void ExpertAction::SetAuthorEmail(int email)
+void ExpertAction::SetAuthorEmail(const std::string& inTextString)
 {
-	FuncSetAuthorEmail(email);
+	
 }
 
-void ExpertAction::SetAuthorVersion(int version)
+void ExpertAction::SetAuthorVersion(const std::string& inTextString)
 {
-	FuncSetAuthorVersion(version);
+	
 }
 
-void ExpertAction::SetDifficultyParameter(int difficultyParameter, int value)
+void ExpertAction::SetDifficultyParameter(int inConstDiffParameterId, int inConstValue)
 {
-	FuncSetDifficultyParameter(difficultyParameter, value);
+	FuncSetDifficultyParameter(inConstDiffParameterId, inConstValue);
 }
 
-void ExpertAction::SetDoctrine(int doctrine)
+void ExpertAction::SetDoctrine(int inConstValue)
 {
-	FuncSetDoctrine(doctrine);
+	FuncSetDoctrine(inConstValue);
 }
 
-void ExpertAction::SetEscrowPercentage(int resourceType, int percentage)
+void ExpertAction::SetEscrowPercentage(int inConstResource, int inConstValue)
 {
-	FuncSetEscrowPercentage(resourceType, percentage);
+	FuncSetEscrowPercentage(inConstResource, inConstValue);
 }
 
-void ExpertAction::SetGoal(int goalId, int goalValue)
+void ExpertAction::SetGoal(int inConstGoalId, int inConstValue)
 {
-	FuncSetGoal(goalId, goalValue);
+	FuncSetGoal(inConstGoalId, inConstValue);
 }
 
-void ExpertAction::SetSharedGoal(int goalId, int goal)
+void ExpertAction::SetSharedGoal(int inConstGoalId, int inConstValue)
 {
-	FuncSetSharedGoal(goalId, goal);
+	FuncSetSharedGoal(inConstGoalId, inConstValue);
 }
 
-void ExpertAction::SetSignal(int signalId)
+void ExpertAction::SetSignal(int inConstSignalId)
 {
-	FuncSetSignal(signalId);
+	FuncSetSignal(inConstSignalId);
 }
 
-void ExpertAction::SetStance(int playerNumber, int stance)
+void ExpertAction::SetStance(int inPlayerAnyPlayer, int inConstESPlayerStance)
 {
-	FuncSetStance(playerNumber, stance);
+	FuncSetStance(inPlayerAnyPlayer, inConstESPlayerStance);
 }
 
-void ExpertAction::SetStrategicNumber(int strategicNumber, int value)
+void ExpertAction::SetStrategicNumber(int inConstSnId, int inConstValue)
 {
-	FuncSetStrategicNumber(strategicNumber, value);
+	FuncSetStrategicNumber(inConstSnId, inConstValue);
+}
+
+void ExpertAction::Spy()
+{
+	if (ExpertFact::CanSpyWithEscrow())
+	{
+		FuncSpy();
+	}
+}
+
+void ExpertAction::Taunt(int inConstTauntId)
+{
+	FuncTaunt(inConstTauntId);
+}
+
+void ExpertAction::TauntUsingRange(int inConstTauntId, int inConstValue)
+{
+	if (inConstValue != 0) // crashes otherwise
+	{
+		FuncTauntUsingRange(inConstTauntId, inConstValue);
+	}
+}
+
+void ExpertAction::Train(int inConstUnitId)
+{
+	if (ExpertFact::CanTrainWithEscrow(inConstUnitId))
+	{
+		FuncTrain(inConstUnitId);
+	}
+}
+
+void ExpertAction::TributeToPlayer(int inPlayerAnyPlayer, int inConstResource, int inConstValue)
+{
+	FuncTributeToPlayer(inPlayerAnyPlayer, inConstResource, inConstValue);
+}
+
+void ExpertAction::UpAddCostData(int inGoalId, int typeOp, int inOpValue)
+{
+	FuncUpAddCostData(inGoalId, typeOp, inOpValue);
+}
+
+void ExpertAction::UpAddObjectById(int inConstSearchSource, int typeOp, int inOpId)
+{
+	FuncUpAddObjectById(inConstSearchSource, typeOp, inOpId);
+}
+
+void ExpertAction::UpAddObjectCost(int typeOp1, int inOp1ObjectId, int typeOp2, int inOp2Value)
+{
+	FuncUpAddObjectCost(typeOp1, inOp1ObjectId, typeOp2, inOp2Value);
+}
+
+void ExpertAction::UpAddPoint(int inGoalPoint1, int inGoalPoint2, int typeOp, int inOpCount)
+{
+	FuncUpAddPoint(inGoalPoint1, inGoalPoint2, typeOp, inOpCount);
+}
+
+void ExpertAction::UpAddResearchCost(int typeOp1, int inOp1TechId, int typeOp2, int inOp2Value)
+{
+	FuncUpAddResearchCost(typeOp1, inOp1TechId, typeOp2, inOp2Value);
+}
+
+void ExpertAction::UpAssignBuilders(int typeOp1, int inOp1BuildingId, int typeOp2, int inOp2Value)
+{
+	FuncUpAssignBuilders(typeOp1, inOp1BuildingId, typeOp2, inOp2Value);
+}
+
+void ExpertAction::UpBoundPoint(int inGoalPoint1, int inGoalPoint2)
+{
+	FuncUpBoundPoint(inGoalPoint1, inGoalPoint2);
+}
+
+void ExpertAction::UpBoundPrecisePoint(int inGoalPoint, int inConstPrecise, int typeOp, int inOpBorder)
+{
+	FuncUpBoundPrecisePoint(inGoalPoint, inConstPrecise, typeOp, inOpBorder);
+}
+
+void ExpertAction::UpBuild(int inConstPlacementType, int inGoalEscrowState, int typeOp, int inOpBuildingId)
+{
+	if (ExpertFact::UpCanBuild(inGoalEscrowState, typeOp, inOpBuildingId))
+	{
+		FuncUpBuild(inConstPlacementType, inGoalEscrowState, typeOp, inOpBuildingId);
+	}
+}
+
+void ExpertAction::UpBuildLine(int inGoalPoint1, int inGoalPoint2, int typeOp, int inOpBuildingId)
+{
+	int cachedGoal = ExpertFact::Goal(512);
+	ExpertAction::SetGoal(512, 0); // with-escrow
+
+	if (ExpertFact::UpCanBuildLine(512, inGoalPoint1, typeOp, inOpBuildingId))
+	{
+		ExpertAction::SetGoal(512, cachedGoal);
+		FuncUpBuildLine(inGoalPoint1, inGoalPoint2, typeOp, inOpBuildingId);
+		return;
+	}
+
+	ExpertAction::SetGoal(512, cachedGoal);
+}
+
+void ExpertAction::UpBuyCommodity(int typeOp1, int inOp1ResourceAmount, int typeOp2, int inOp2Value)
+{
+	FuncUpBuyCommodity(typeOp1, inOp1ResourceAmount, typeOp2, inOp2Value);
+}
+
+void ExpertAction::UpCcAddResource(int typeOp1, int inOp1ResourceAmount, int typeOp2, int inOp2Value)
+{
+	FuncUpCcAddResource(typeOp1, inOp1ResourceAmount, typeOp2, inOp2Value);
+}
+
+void ExpertAction::UpCcSendCheat(const std::string& inTextCode)
+{
+	SetCustomString(inTextCode);
+	FuncUpCcSendCheat(expert_conf::CONST_CUSTOM_STRING_ID);
+}
+
+void ExpertAction::UpChangeName(const std::string& inTextNewName)
+{
+	SetCustomString(inTextNewName);
+	FuncUpChangeName(expert_conf::CONST_CUSTOM_STRING_ID);
+}
+
+void ExpertAction::UpChatDataToAll(const std::string& inTextFormattedString, int typeOp, int inOpValue)
+{
+	SetCustomString(inTextFormattedString);
+	FuncUpChatDataToAll(expert_conf::CONST_CUSTOM_STRING_ID, typeOp, inOpValue);
+}
+
+void ExpertAction::UpChatDataToPlayer(int inPlayerAnyPlayer, const std::string& inTextFormattedString, int typeOp, int inOpValue)
+{
+	SetCustomString(inTextFormattedString);
+	FuncUpChatDataToPlayer(inPlayerAnyPlayer, expert_conf::CONST_CUSTOM_STRING_ID, typeOp, inOpValue);
+}
+
+void ExpertAction::UpChatDataToSelf(const std::string& inTextFormattedString, int typeOp, int inOpValue)
+{
+	SetCustomString(inTextFormattedString);
+	FuncUpChatDataToSelf(expert_conf::CONST_CUSTOM_STRING_ID, typeOp, inOpValue);
+}
+
+void ExpertAction::UpCleanSearch(int inConstSearchSource, int inConstObjectData, int inConstSearchOrder)
+{
+#if defined GAME_DE
+	if (inConstSearchSource != 0) // crashes otherwise
+#endif
+	{
+		FuncUpCleanSearch(inConstSearchSource, inConstObjectData, inConstSearchOrder);
+	}
+}
+
+void ExpertAction::UpCopyPoint(int outGoalPoint, int inGoalPoint)
+{
+	FuncUpCopyPoint(outGoalPoint, inGoalPoint);
+}
+
+void ExpertAction::UpCreateGroup(int inGoalIndex, int inGoalCount, int typeOp, int inOpGroupId)
+{
+	FuncUpCreateGroup(inGoalIndex, inGoalCount, typeOp, inOpGroupId);
+}
+
+void ExpertAction::UpCrossTiles(int ioGoalPoint, int inGoalPoint, int typeOp, int inOpTiles)
+{
+	FuncUpCrossTiles(ioGoalPoint, inGoalPoint, typeOp, inOpTiles);
+}
+
+void ExpertAction::UpDeleteDistantFarms(int typeOp, int inOpValue)
+{
+	FuncUpDeleteDistantFarms(typeOp, inOpValue);
+}
+
+void ExpertAction::UpDeleteIdleUnits(int inConstIdleType)
+{
+	FuncUpDeleteIdleUnits(inConstIdleType);
+}
+
+void ExpertAction::UpDeleteObjects(int typeOp1, int inOpUnitId, int typeOp2, int inOpHitPoints)
+{
+	FuncUpDeleteObjects(typeOp1, inOpUnitId, typeOp2, inOpHitPoints);
+}
+
+void ExpertAction::UpDisbandGroupType(int inConstGroupType)
+{
+	FuncUpDisbandGroupType(inConstGroupType);
+}
+
+void ExpertAction::UpDropResources(int inConstResource, int typeOp, int inOpValue)
+{
+	FuncUpDropResources(inConstResource, typeOp, inOpValue);
+}
+
+void ExpertAction::UpFilterDistance(int typeOp1, int inOp1MinDistance, int typeOp2, int inOp2MaxDistance)
+{
+	FuncUpFilterDistance(typeOp1, inOp1MinDistance, typeOp2, inOp2MaxDistance);
+}
+
+void ExpertAction::UpFilterExclude(int inConstCmdId, int inConstActionId, int inConstOrderId, int inConstClassId)
+{
+	FuncUpFilterExclude(inConstCmdId, inConstActionId, inConstOrderId, inConstClassId);
+}
+
+void ExpertAction::UpFilterGarrison(int typeOp1, int inOp1MinGarrison, int typeOp2, int inOp2MaxGarrison)
+{
+	FuncUpFilterGarrison(typeOp1, inOp1MinGarrison, typeOp2, inOp2MaxGarrison);
+}
+
+void ExpertAction::UpFilterInclude(int inConstCmdId, int inConstActionId, int inConstOrderId, int inConstOnMainland)
+{
+	FuncUpFilterInclude(inConstCmdId, inConstActionId, inConstOrderId, inConstOnMainland);
+}
+
+void ExpertAction::UpFilterRange(int inConstMinGarrison, int inConstMaxGarrison, int inConstMinDistance, int inConstMaxDistance)
+{
+	FuncUpFilterRange(inConstMinGarrison, inConstMaxGarrison, inConstMinDistance, inConstMaxDistance);
+}
+
+void ExpertAction::UpFilterStatus(int typeOp1, int inOp1ObjectStatus, int typeOp2, int inOp2ObjectList)
+{
+	FuncUpFilterStatus(typeOp1, inOp1ObjectStatus, typeOp2, inOp2ObjectList);
+}
+
+void ExpertAction::UpFindFlare(int outGoalPoint)
+{
+	FuncUpFindFlare(outGoalPoint);
+}
+
+void ExpertAction::UpFindLocal(int typeOp1, int inOp1UnitId, int typeOp2, int inOp2Count)
+{
+	FuncUpFindLocal(typeOp1, inOp1UnitId, typeOp2, inOp2Count);
+}
+
+void ExpertAction::UpFindNextPlayer(int inConstPlayerStance, int inConstFindPlayerMethod, int ioGoalPlayerId)
+{
+	FuncUpFindNextPlayer(inConstPlayerStance, inConstFindPlayerMethod, ioGoalPlayerId);
+}
+
+void ExpertAction::UpFindPlayer(int inConstPlayerStance, int inConstFindPlayerMethod, int outGoalPlayerId)
+{
+	FuncUpFindPlayer(inConstPlayerStance, inConstFindPlayerMethod, outGoalPlayerId);
+}
+
+void ExpertAction::UpFindPlayerFlare(int inPlayerAnyPlayer, int outGoalPoint)
+{
+#if defined GAME_AOC
+	if (outGoalPoint >= 40 && outGoalPoint <= 510) // crashes otherwise
+#endif
+	{
+		FuncUpFindPlayerFlare(inPlayerAnyPlayer, outGoalPoint);
+	}
+}
+
+void ExpertAction::UpFindRemote(int typeOp1, int inOp1UnitId, int typeOp2, int inOp2Count)
+{
+	FuncUpFindRemote(typeOp1, inOp1UnitId, typeOp2, inOp2Count);
+}
+
+void ExpertAction::UpFindResource(int typeOp1, int inOp1Resource, int typeOp2, int inOp2Count)
+{
+	FuncUpFindResource(typeOp1, inOp1Resource, typeOp2, inOp2Count);
+}
+
+void ExpertAction::UpFindStatusLocal(int typeOp1, int inOp1UnitId, int typeOp2, int inOp2Count)
+{
+	FuncUpFindStatusLocal(typeOp1, inOp1UnitId, typeOp2, inOp2Count);
+}
+
+void ExpertAction::UpFindStatusRemote(int typeOp1, int inOp1UnitId, int typeOp2, int inOp2Count)
+{
+	FuncUpFindStatusRemote(typeOp1, inOp1UnitId, typeOp2, inOp2Count);
+}
+
+void ExpertAction::UpFullResetSearch()
+{
+	FuncUpFullResetSearch();
+}
+
+void ExpertAction::UpGarrison(int inConstObjectId, int typeOp, int inOpUnitId)
+{
+	FuncUpGarrison(inConstObjectId, typeOp, inOpUnitId);
+}
+
+void ExpertAction::UpGatherInside(int typeOp1, int inOp1BuildingId, int typeOp2, int inOp2State)
+{
+	FuncUpGatherInside(typeOp1, inOp1BuildingId, typeOp2, inOp2State);
+}
+
+void ExpertAction::UpGetAttackerClass(int outGoalSourceClass)
+{
+	FuncUpGetAttackerClass(outGoalSourceClass);
+}
+
+void ExpertAction::UpGetCostDelta(int outGoalId)
+{
+	FuncUpGetCostDelta(outGoalId);
+}
+
+void ExpertAction::UpGetEvent(int typeOp, int inOpEventId, int outGoalValue)
+{
+	FuncUpGetEvent(typeOp, inOpEventId, outGoalValue);
+}
+
+void ExpertAction::UpGetFact(int inConstFactId, int inConstParam, int outGoalData)
+{
+	FuncUpGetFact(inConstFactId, inConstParam, outGoalData);
+}
+
+void ExpertAction::UpGetFactMax(int player, int factId, int param, int goalData)
+{
+	FuncUpGetFactMax(player, factId, param, goalData);
+}
+
+void ExpertAction::UpGetFactMin(int inPlayerAnyPlayer, int inConstFactId, int inConstParam, int outGoalData)
+{
+	FuncUpGetFactMin(inPlayerAnyPlayer, inConstFactId, inConstParam, outGoalData);
+}
+
+void ExpertAction::UpGetFactSum(int inPlayerAnyPlayer, int inConstFactId, int inConstParam, int outGoalData)
+{
+	FuncUpGetFactSum(inPlayerAnyPlayer, inConstFactId, inConstParam, outGoalData);
+}
+
+void ExpertAction::UpGetFocusFact(int inConstFactId, int inConstParam, int outGoalData)
+{
+	FuncUpGetFocusFact(inConstFactId, inConstParam, outGoalData);
+}
+
+void ExpertAction::UpGetGroupSize(int typeOp, int inOpGroupId, int outGoalSize)
+{
+	FuncUpGetGroupSize(typeOp, inOpGroupId, outGoalSize);
+}
+
+void ExpertAction::UpGetIndirectGoal(int typeOp, int inOpGoalId, int outGoalValue)
+{
+	FuncUpGetIndirectGoal(typeOp, inOpGoalId, outGoalValue);
+}
+
+void ExpertAction::UpGetObjectData(int inConstObjectData, int outGoalData)
+{
+	FuncUpGetObjectData(inConstObjectData, outGoalData);
+}
+
+void ExpertAction::UpGetObjectTargetData(int inConstObjectData, int outGoalData)
+{
+	FuncUpGetObjectTargetData(inConstObjectData, outGoalData);
+}
+
+void ExpertAction::UpGetObjectTypeData(int typeOp, int inOpTypeId, int inConstObjectData, int outGoalData)
+{
+	FuncUpGetObjectTypeData(typeOp, inOpTypeId, inConstObjectData, outGoalData);
+}
+
+void ExpertAction::UpGetPathDistance(int inGoalPoint, int inConstStrict, int outGoalData)
+{
+	FuncUpGetPathDistance(inGoalPoint, inConstStrict, outGoalData);
+}
+
+void ExpertAction::UpGetPlayerColor(int inPlayerAnyPlayer, int outGoalColorId)
+{
+	FuncUpGetPlayerColor(inPlayerAnyPlayer, outGoalColorId);
+}
+
+void ExpertAction::UpGetPlayerFact(int inPlayerAnyPlayer, int inConstFactId, int inConstParam, int outGoalData)
+{
+	FuncUpGetPlayerFact(inPlayerAnyPlayer, inConstFactId, inConstParam, outGoalData);
+}
+
+void ExpertAction::UpGetPoint(int inConstPositionType, int outGoalPoint)
+{
+	FuncUpGetPoint(inConstPositionType, outGoalPoint);
+}
+
+void ExpertAction::UpGetPointContains(int inGoalPoint, int outGoalGoalId, int typeOp, int inOpObjectId)
+{
+	FuncUpGetPointContains(inGoalPoint, outGoalGoalId, typeOp, inOpObjectId);
+}
+
+void ExpertAction::UpGetPointDistance(int inGoalPoint1, int inGoalPoint2, int outGoalDistance)
+{
+	FuncUpGetPointDistance(inGoalPoint1, inGoalPoint2, outGoalDistance);
+}
+
+void ExpertAction::UpGetPointElevation(int inGoalPoint, int outGoalData)
+{
+	FuncUpGetPointElevation(inGoalPoint, outGoalData);
+}
+
+void ExpertAction::UpGetPointTerrain(int inGoalPoint, int outGoalTerrain)
+{
+	FuncUpGetPointTerrain(inGoalPoint, outGoalTerrain);
+}
+
+void ExpertAction::UpGetPointZone(int inGoalPoint, int outGoalData)
+{
+	FuncUpGetPointZone(inGoalPoint, outGoalData);
+}
+
+void ExpertAction::UpGetPreciseTime(int inGoalStart, int outGoalTime)
+{
+	FuncUpGetPreciseTime(inGoalStart, outGoalTime);
+}
+
+void ExpertAction::UpGetProjectilePlayer(int inConstProjectileType, int outGoalPlayerId)
+{
+	FuncUpGetProjectilePlayer(inConstProjectileType, outGoalPlayerId);
+}
+
+void ExpertAction::UpGetRuleId(int outGoalRuleId)
+{
+	FuncUpGetRuleId(outGoalRuleId);
+}
+
+void ExpertAction::UpGetSearchState(int outGoalState)
+{
+	FuncUpGetSearchState(outGoalState);
+}
+
+void ExpertAction::UpGetSharedGoal(int typeOp, int inOpSharedGoalId, int outGoalValue)
+{
+	FuncUpGetSharedGoal(typeOp, inOpSharedGoalId, outGoalValue);
+}
+
+void ExpertAction::UpGetSignal(int typeOp, int inOpSignalId, int outGoalValue)
+{
+	FuncUpGetSignal(typeOp, inOpSignalId, outGoalValue);
+}
+
+void ExpertAction::UpGetTargetFact(int inConstFactId, int inConstParam, int outGoalData)
+{
+	FuncUpGetTargetFact(inConstFactId, inConstParam, outGoalData);
+}
+
+void ExpertAction::UpGetThreatData(int outGoalElapsedTime, int outGoalPlayerId, int outGoalSourceClass, int outGoalTargetClass)
+{
+	FuncUpGetThreatData(outGoalElapsedTime, outGoalPlayerId, outGoalSourceClass, outGoalTargetClass);
+}
+
+void ExpertAction::UpGetTimer(int typeOp, int inOpTimerId, int outGoalValue)
+{
+	FuncUpGetTimer(typeOp, inOpTimerId, outGoalValue);
+}
+
+void ExpertAction::UpGetVictoryData(int outGoalPlayerId, int outGoalType, int outGoalTime)
+{
+	FuncUpGetVictoryData(outGoalPlayerId, outGoalType, outGoalTime);
+}
+
+void ExpertAction::UpGetVictoryLimit(int outGoalLimit)
+{
+	FuncUpGetVictoryLimit(outGoalLimit);
+}
+
+void ExpertAction::UpGuardUnit(int inConstObjectId, int typeOp, int inOpUnitId)
+{
+	FuncUpGuardUnit(inConstObjectId, typeOp, inOpUnitId);
+}
+
+void ExpertAction::UpJumpDirect(int typeOp, int inOpRuleId)
+{
+	// crashes with invalid paramters, currently unneeded
+	//FuncUpJumpDirect(typeOp, inOpRuleId);
+}
+
+void ExpertAction::UpJumpDynamic(int typeOp, int inOpRuleDelta)
+{
+	// crashes with invalid paramters, currently unneeded
+	//FuncUpJumpDynamic(typeOp, inOpRuleDelta);
+}
+
+void ExpertAction::UpJumpRule(int inConstRuleDelta)
+{
+	// crashes with invalid paramters, currently unneeded
+	//FuncUpJumpRule(inConstRuleDelta);
+}
+
+void ExpertAction::UpLerpPercent(int ioGoalPoint, int inGoalPoint, int typeOp, int inOpPercent)
+{
+	FuncUpLerpPercent(ioGoalPoint, inGoalPoint, typeOp, inOpPercent);
+}
+
+void ExpertAction::UpLerpTiles(int ioGoalPoint, int inGoalPoint, int typeOp, int inOpTiles)
+{
+	FuncUpLerpTiles(ioGoalPoint, inGoalPoint, typeOp, inOpTiles);
+}
+
+void ExpertAction::UpLogData(int inConstPlain, const std::string& inTextFormattedString, int typeOp, int inOpValue)
+{
+	SetCustomString(inTextFormattedString);
+	FuncUpLogData(inConstPlain, expert_conf::CONST_CUSTOM_STRING_ID, typeOp, inOpValue);
+}
+
+void ExpertAction::UpModifyEscrow(int inConstResource, int mathOp, int inOpValue)
+{
+	FuncUpModifyEscrow(inConstResource, mathOp, inOpValue);
+}
+
+void ExpertAction::UpModifyFlag(int ioGoalId, int mathOp, int inOpFlag)
+{
+	FuncUpModifyFlag(ioGoalId, mathOp, inOpFlag);
+}
+
+void ExpertAction::UpModifyGoal(int ioGoalId, int mathOp, int inOpValue)
+{
+	FuncUpModifyGoal(ioGoalId, mathOp, inOpValue);
+}
+
+void ExpertAction::UpModifyGroupFlag(int inConstOn, int typeOp, int inOpGroupId)
+{
+	FuncUpModifyGroupFlag(inConstOn, typeOp, inOpGroupId);
+}
+
+void ExpertAction::UpModifySn(int ioSnId, int mathOp, int inOpValue)
+{
+	FuncUpModifySn(ioSnId, mathOp, inOpValue);
+}
+
+void ExpertAction::UpReleaseEscrow()
+{
+	FuncUpReleaseEscrow();
+}
+
+void ExpertAction::UpRemoveObjects(int inConstSearchSource, int inConstObjectData, int typeOp, int inOpValue)
+{
+	FuncUpRemoveObjects(inConstSearchSource, inConstObjectData, typeOp, inOpValue);
+}
+
+void ExpertAction::UpRequestHunters(int typeOp, int inOpValue)
+{
+	FuncUpRequestHunters(typeOp, inOpValue);
+}
+
+void ExpertAction::UpResearch(int inGoalEscrowState, int typeOp, int inOpTechId)
+{
+	if (ExpertFact::UpCanResearch(inGoalEscrowState, typeOp, inOpTechId))
+	{
+		FuncUpResearch(inGoalEscrowState, typeOp, inOpTechId);
+	}
+}
+
+void ExpertAction::UpResetAttackNow()
+{
+	FuncUpResetAttackNow();
+}
+
+void ExpertAction::UpResetBuilding(int inConstPreserveResearch, int typeOp, int inOpBuildingId)
+{
+	FuncUpResetBuilding(inConstPreserveResearch, typeOp, inOpBuildingId);
+}
+
+void ExpertAction::UpResetCostData(int outGoalId)
+{
+	FuncUpResetCostData(outGoalId);
+}
+
+void ExpertAction::UpResetFilters()
+{
+	FuncUpResetFilters();
+}
+
+void ExpertAction::UpResetGroup(int typeOp, int inOpGroupId)
+{
+	FuncUpResetGroup(typeOp, inOpGroupId);
+}
+
+void ExpertAction::UpResetPlacement(int typeOp, int inOpBuildingId)
+{
+	FuncUpResetPlacement(typeOp, inOpBuildingId);
+}
+
+void ExpertAction::UpResetScouts()
+{
+	FuncUpResetScouts();
+}
+
+void ExpertAction::UpResetSearch(int inConstLocalIndex, int inConstLocalList, int inConstRemoteIndex, int inConstRemoteList)
+{
+	FuncUpResetSearch(inConstLocalIndex, inConstLocalList, inConstRemoteIndex, inConstRemoteList);
+}
+
+void ExpertAction::UpResetTargetPriorities(int inConstPriorityType, int inConstMode)
+{
+	FuncUpResetTargetPriorities(inConstPriorityType, inConstMode);
+}
+
+void ExpertAction::UpResetUnit(int typeOp, int inOpUnitId)
+{
+	FuncUpResetUnit(typeOp, inOpUnitId);
+}
+
+void ExpertAction::UpRetaskGatherers(int inConstResource, int typeOp, int inOpValue)
+{
+	FuncUpRetaskGatherers(inConstResource, typeOp, inOpValue);
+}
+
+void ExpertAction::UpRetreatNow()
+{
+	FuncUpRetreatNow();
+}
+
+void ExpertAction::UpRetreatTo(int inConstObjectId, int typeOp, int inOpUnitId)
+{
+	FuncUpRetreatTo(inConstObjectId, typeOp, inOpUnitId);
+}
+
+void ExpertAction::UpSellCommodity(int typeOp1, int inOp1ResourceAmount, int typeOp2, int inOp2Value)
+{
+	FuncUpSellCommodity(typeOp1, inOp1ResourceAmount, typeOp2, inOp2Value);
+}
+
+void ExpertAction::UpSendFlare(int inGoalPoint)
+{
+	FuncUpSendFlare(inGoalPoint);
+}
+
+void ExpertAction::UpSendScout(int inConstGroupType, int inConstScoutMethod)
+{
+	FuncUpSendScout(inConstGroupType, inConstScoutMethod);
+}
+
+void ExpertAction::UpSetAttackStance(int inConstUnitId, int typeOp, int inOpAttackStance)
+{
+	FuncUpSetAttackStance(inConstUnitId, typeOp, inOpAttackStance);
+}
+
+void ExpertAction::UpSetDefensePriority(int typeOp1, int inOp1BuildingId, int typeOp2, int inOp2Value)
+{
+	FuncUpSetDefensePriority(typeOp1, inOp1BuildingId, typeOp2, inOp2Value);
+}
+
+void ExpertAction::UpSetEvent(int typeOp1, int inOp1EventId, int typeOp2, int inOp2Value)
+{
+	FuncUpSetEvent(typeOp1, inOp1EventId, typeOp2, inOp2Value);
+}
+
+void ExpertAction::UpSetGroup(int inConstSearchSource, int typeOp, int inOpGroupId)
+{
+	FuncUpSetGroup(inConstSearchSource, typeOp, inOpGroupId);
+}
+
+void ExpertAction::UpSetIndirectGoal(int typeOp1, int inOp1GoalId, int typeOp2, int inOp2Value)
+{
+	FuncUpSetIndirectGoal(typeOp1, inOp1GoalId, typeOp2, inOp2Value);
+}
+
+void ExpertAction::UpSetOffensePriority(int typeOp1, int inOp1ObjectId, int typeOp2, int inOp2Value)
+{
+	FuncUpSetOffensePriority(typeOp1, inOp1ObjectId, typeOp2, inOp2Value);
+}
+
+void ExpertAction::UpSetPlacementData(int inPlayerAllyPlayer, int inConstObjectId, int typeOp, int inOpValue)
+{
+	FuncUpSetPlacementData(inPlayerAllyPlayer, inConstObjectId, typeOp, inOpValue);
+}
+
+void ExpertAction::UpSetPreciseTargetPoint(int inGoalPoint)
+{
+	FuncUpSetPreciseTargetPoint(inGoalPoint);
+}
+
+void ExpertAction::UpSetSharedGoal(int typeOp1, int inOp1SharedGoalId, int typeOp2, int inOp2Value)
+{
+	FuncUpSetSharedGoal(typeOp1, inOp1SharedGoalId, typeOp2, inOp2Value);
+}
+
+void ExpertAction::UpSetSignal(int typeOp1, int inOp1SignalId, int typeOp2, int inOp2Value)
+{
+	FuncUpSetSignal(typeOp1, inOp1SignalId, typeOp2, inOp2Value);
+}
+
+void ExpertAction::UpSetTargetById(int typeOp, int inOpId)
+{
+	FuncUpSetTargetById(typeOp, inOpId);
+}
+
+void ExpertAction::UpSetTargetObject(int inConstSearchSource, int typeOp, int inOpIndex)
+{
+#if defined GAME_DE
+	if (inConstSearchSource != 0) // crashes otherwise
+#endif
+	{
+		FuncUpSetTargetObject(inConstSearchSource, typeOp, inOpIndex);
+	}
+}
+
+void ExpertAction::UpSetTargetPoint(int inGoalPoint)
+{
+	FuncUpSetTargetPoint(inGoalPoint);
+}
+
+void ExpertAction::UpSetTimer(int typeOp1, int inOp1TimerId, int typeOp2, int inOp2Value)
+{
+#if defined GAME_AOC
+	if (inOp2Value != 0) // crashes otherwise
+#endif
+	{
+		FuncUpSetTimer(typeOp1, inOp1TimerId, typeOp2, inOp2Value);
+	}
+}
+
+void ExpertAction::UpSetupCostData(int inConstResetCost, int ioGoalId)
+{
+	FuncUpSetupCostData(inConstResetCost, ioGoalId);
+}
+
+void ExpertAction::UpStoreMapName(int inConstExtension)
+{
+	FuncUpStoreMapName(inConstExtension);
+}
+
+void ExpertAction::UpStoreObjectName()
+{
+	FuncUpStoreObjectName();
+}
+
+void ExpertAction::UpStorePlayerChat(int inPlayerAnyPlayer)
+{
+	FuncUpStorePlayerChat(inPlayerAnyPlayer);
+}
+
+void ExpertAction::UpStorePlayerName(int inPlayerAnyPlayer)
+{
+	FuncUpStorePlayerName(inPlayerAnyPlayer);
+}
+
+void ExpertAction::UpStoreTechName(int typeOp, int inOpTechId)
+{
+	FuncUpStoreTechName(typeOp, inOpTechId);
+}
+
+void ExpertAction::UpStoreText(int typeOp, int inOpLanguageId)
+{
+	FuncUpStoreText(typeOp, inOpLanguageId);
+}
+
+void ExpertAction::UpStoreTypeName(int typeOp, int inOpTypeId)
+{
+	FuncUpStoreTypeName(typeOp, inOpTypeId);
+}
+
+void ExpertAction::UpTargetObjects(int inConstTarget, int inConstTargetAction, int inConstFormation, int inConstAttackStance)
+{
+	FuncUpTargetObjects(inConstTarget, inConstTargetAction, inConstFormation, inConstAttackStance);
+}
+
+void ExpertAction::UpTargetPoint(int inGoalPoint, int inConstTargetAction, int inConstFormation, int inConstAttackStance)
+{
+	FuncUpTargetPoint(inGoalPoint, inConstTargetAction, inConstFormation, inConstAttackStance);
+}
+
+void ExpertAction::UpTrain(int inGoalEscrowState, int typeOp, int inOpUnitId)
+{
+	if (ExpertFact::UpCanTrain(inGoalEscrowState, typeOp, inOpUnitId))
+	{
+		FuncUpTrain(inGoalEscrowState, typeOp, inOpUnitId);
+	}
+}
+
+void ExpertAction::UpTributeToPlayer(int inPlayerAnyPlayer, int inConstResourceAmount, int typeOp, int inOpValue)
+{
+	FuncUpTributeToPlayer(inPlayerAnyPlayer, inConstResourceAmount, typeOp, inOpValue);
+}
+
+void ExpertAction::UpUngarrison(int typeOp, int inOpObjectId)
+{
+	FuncUpUngarrison(typeOp, inOpObjectId);
+}
+
+void ExpertAction::UpUpdateTargets()
+{
+	FuncUpUpdateTargets();
+}
+
+#if defined GAME_DE
+void ExpertAction::ChatDebug(const std::string& inTextString)
+{
+	SetCustomString(inTextString);
+	FuncChatDebug(expert_conf::CONST_CUSTOM_STRING_ID);
+}
+
+void ExpertAction::FeBreakPoint(int param1, int param2, int param3, int param4)
+{
+	FuncFeBreakPoint(param1, param2, param3, param4);
 }
 
 void ExpertAction::SkyboxClearSignal(int param)
@@ -505,719 +1385,19 @@ void ExpertAction::SkyboxSetNameMode(int param)
 	FuncSkyboxSetNameMode(param);
 }
 
-void ExpertAction::Spy()
+void ExpertAction::UpChatDataToAllUsingId(int param1, int param2, int param3)
 {
-	FuncSpy();
+	FuncUpChatDataToAllUsingId(param1, param2, param3);
 }
 
-void ExpertAction::Taunt(int tauntNumber)
+void ExpertAction::UpChatDataToPlayerUsingId(int param1, int param2, int param3, int param4)
 {
-	FuncTaunt(tauntNumber);
-}
-
-void ExpertAction::TauntUsingRange(int tauntIdStart, int tauntIdRange)
-{
-	FuncTauntUsingRange(tauntIdStart, tauntIdRange);
-}
-
-void ExpertAction::Train(int unitType)
-{
-	FuncTrain(unitType);
-}
-
-void ExpertAction::TributeToPlayer(int playerNumber, int resourceType, int tributeAmount)
-{
-	FuncTributeToPlayer(playerNumber, resourceType, tributeAmount);
-}
-
-void ExpertAction::UpAddCostData(int goalId, int typeOp, int opValue)
-{
-	FuncUpAddCostData(goalId, typeOp, opValue);
-}
-
-void ExpertAction::UpAddObjectById(int searchSource, int typeOp, int opId)
-{
-	FuncUpAddObjectById(searchSource, typeOp, opId);
-}
-
-void ExpertAction::UpAddObjectCost(int typeOp1, int objectId, int typeOp2, int value)
-{
-	FuncUpAddObjectCost(typeOp1, objectId, typeOp2, value);
-}
-
-void ExpertAction::UpAddPoint(int goalPoint1, int goalPoint2, int typeOp, int count)
-{
-	FuncUpAddPoint(goalPoint1, goalPoint2, typeOp, count);
-}
-
-void ExpertAction::UpAddResearchCost(int typeOp1, int techId, int typeOp2, int value)
-{
-	FuncUpAddResearchCost(typeOp1, techId, typeOp2, value);
-}
-
-void ExpertAction::UpAssignBuilders(int typeOp1, int buildingId, int typeOp2, int value)
-{
-	FuncUpAssignBuilders(typeOp1, buildingId, typeOp2, value);
-}
-
-void ExpertAction::UpBoundPoint(int goalPoint1, int goalPoint2)
-{
-	FuncUpBoundPoint(goalPoint1, goalPoint2);
-}
-
-void ExpertAction::UpBoundPrecisePoint(int goalPoint, int precise, int typeOp, int border)
-{
-	FuncUpBoundPrecisePoint(goalPoint, precise, typeOp, border);
-}
-
-void ExpertAction::UpBuild(int placementType, int escrowState, int typeOp, int buildingId)
-{
-	FuncUpBuild(placementType, escrowState, typeOp, buildingId);
-}
-
-void ExpertAction::UpBuildLine(int goalPoint1, int goalPoint2, int typeOp, int buildingId)
-{
-	FuncUpBuildLine(goalPoint1, goalPoint2, typeOp, buildingId);
-}
-
-void ExpertAction::UpBuyCommodity(int typeOp1, int resourceAmount, int typeOp2, int value)
-{
-	FuncUpBuyCommodity(typeOp1, resourceAmount, typeOp2, value);
-}
-
-void ExpertAction::UpCcAddResource(int typeOp1, int resourceAmount, int typeOp2, int value)
-{
-	FuncUpCcAddResource(typeOp1, resourceAmount, typeOp2, value);
-}
-
-void ExpertAction::UpCcSendCheat(int code)
-{
-	FuncUpCcSendCheat(code);
-}
-
-void ExpertAction::UpChangeName(int newName)
-{
-	FuncUpChangeName(newName);
-}
-
-void ExpertAction::UpChatDataToAll(int format, int typeOp, int value)
-{
-	FuncUpChatDataToAll(format, typeOp, value);
-}
-
-void ExpertAction::UpChatDataToAllUsingId(int param1, int stringId, int param3)
-{
-	FuncUpChatDataToAllUsingId(param1, stringId, param3);
-}
-
-void ExpertAction::UpChatDataToPlayerUsingId(int stringId, int playerId, int param3, int param4)
-{
-	FuncUpChatDataToPlayerUsingId(stringId, playerId, param3, param4);
-}
-
-void ExpertAction::UpChatDataToPlayer(int player, int format, int typeOp, int value)
-{
-	FuncUpChatDataToPlayer(player, format, typeOp, value);
-}
-
-void ExpertAction::UpChatDataToSelf(int format, int typeOp, int value)
-{
-	FuncUpChatDataToSelf(format, typeOp, value);
-}
-
-void ExpertAction::UpCleanSearch(int searchSource, int objectData, int searchOrder)
-{
-	FuncUpCleanSearch(searchSource, objectData, searchOrder);
-}
-
-void ExpertAction::UpCopyPoint(int goalPoint1, int goalPoint2)
-{
-	FuncUpCopyPoint(goalPoint1, goalPoint2);
-}
-
-void ExpertAction::UpCreateGroup(int goalIndex, int goalCount, int typeOp, int groupId)
-{
-	FuncUpCreateGroup(goalIndex, goalCount, typeOp, groupId);
-}
-
-void ExpertAction::UpCrossTiles(int goalPoint1, int goalPoint2, int typeOp, int tiles)
-{
-	FuncUpCrossTiles(goalPoint1, goalPoint2, typeOp, tiles);
-}
-
-void ExpertAction::UpDeleteDistantFarms(int typeOp, int value)
-{
-	FuncUpDeleteDistantFarms(typeOp, value);
-}
-
-void ExpertAction::UpDeleteIdleUnits(int idleType)
-{
-	FuncUpDeleteIdleUnits(idleType);
-}
-
-void ExpertAction::UpDeleteObjects(int typeOp1, int unitId, int typeOp2, int hitpoints)
-{
-	FuncUpDeleteObjects(typeOp1, unitId, typeOp2, hitpoints);
-}
-
-void ExpertAction::UpDisbandGroupType(int groupType)
-{
-	FuncUpDisbandGroupType(groupType);
-}
-
-void ExpertAction::UpDropResources(int resource, int typeOp, int value)
-{
-	FuncUpDropResources(resource, typeOp, value);
-}
-
-void ExpertAction::UpFilterDistance(int typeOp1, int minDistance, int typeOp2, int maxDistance)
-{
-	FuncUpFilterDistance(typeOp1, minDistance, typeOp2, maxDistance);
-}
-
-void ExpertAction::UpFilterExclude(int cmdId, int actionId, int orderId, int classId)
-{
-	FuncUpFilterExclude(cmdId, actionId, orderId, classId);
-}
-
-void ExpertAction::UpFilterGarrison(int typeOp1, int minGarrison, int typeOp2, int maxGarrison)
-{
-	FuncUpFilterGarrison(typeOp1, minGarrison, typeOp2, maxGarrison);
-}
-
-void ExpertAction::UpFilterInclude(int cmdId, int actionId, int orderId, int onMainland)
-{
-	FuncUpFilterInclude(cmdId, actionId, orderId, onMainland);
-}
-
-void ExpertAction::UpFilterRange(int minGarrison, int maxGarrison, int minDistance, int maxDistance)
-{
-	FuncUpFilterRange(minGarrison, maxGarrison, minDistance, maxDistance);
-}
-
-void ExpertAction::UpFilterStatus(int typeOp1, int objectStatus, int typeOp2, int objectList)
-{
-	FuncUpFilterStatus(typeOp1, objectStatus, typeOp2, objectList);
-}
-
-void ExpertAction::UpFindFlare(int goalPoint)
-{
-	FuncUpFindFlare(goalPoint);
-}
-
-void ExpertAction::UpFindLocal(int typeOp1, int unitId, int typeOp2, int count)
-{
-	FuncUpFindLocal(typeOp1, unitId, typeOp2, count);
-}
-
-void ExpertAction::UpFindNextPlayer(int playerStance, int findPlayerMethod, int goalPlayerId)
-{
-	FuncUpFindNextPlayer(playerStance, findPlayerMethod, goalPlayerId);
-}
-
-void ExpertAction::UpFindPlayer(int playerStance, int findPlayerMethod, int goalPlayerId)
-{
-	FuncUpFindPlayer(playerStance, findPlayerMethod, goalPlayerId);
-}
-
-void ExpertAction::UpFindPlayerFlare(int player, int goalPoint)
-{
-	FuncUpFindPlayerFlare(player, goalPoint);
-}
-
-void ExpertAction::UpFindRemote(int typeOp1, int unitId, int typeOp2, int count)
-{
-	FuncUpFindRemote(typeOp1, unitId, typeOp2, count);
-}
-
-void ExpertAction::UpFindResource(int typeOp1, int resource, int typeOp2, int count)
-{
-	FuncUpFindResource(typeOp1, resource, typeOp2, count);
-}
-
-void ExpertAction::UpFindStatusLocal(int typeOp1, int unitId, int typeOp2, int count)
-{
-	FuncUpFindStatusLocal(typeOp1, unitId, typeOp2, count);
-}
-
-void ExpertAction::UpFindStatusRemote(int typeOp1, int unitId, int typeOp2, int count)
-{
-	FuncUpFindStatusRemote(typeOp1, unitId, typeOp2, count);
-}
-
-void ExpertAction::UpFullResetSearch()
-{
-	FuncUpFullResetSearch();
-}
-
-void ExpertAction::UpGarrison(int objectId, int typeOp, int unitId)
-{
-	FuncUpGarrison(objectId, typeOp, unitId);
-}
-
-void ExpertAction::UpGatherInside(int typeOp1, int buildingId, int typeOp2, int state)
-{
-	FuncUpGatherInside(typeOp1, buildingId, typeOp2, state);
-}
-
-void ExpertAction::UpGetAttackerClass(int goalSourceClass)
-{
-	FuncUpGetAttackerClass(goalSourceClass);
-}
-
-void ExpertAction::UpGetCostDelta(int goalId)
-{
-	FuncUpGetCostDelta(goalId);
-}
-
-void ExpertAction::UpGetEvent(int typeOp, int eventId, int goalValue)
-{
-	FuncUpGetEvent(typeOp, eventId, goalValue);
-}
-
-void ExpertAction::UpGetFact(int factId, int factParam, int goalId)
-{
-	FuncUpGetFact(factId, factParam, goalId);
-}
-
-void ExpertAction::UpGetFactMax(int player, int factId, int param, int goalData)
-{
-	FuncUpGetFactMax(player, factId, param, goalData);
-}
-
-void ExpertAction::UpGetFactMin(int player, int factId, int param, int goalData)
-{
-	FuncUpGetFactMin(player, factId, param, goalData);
-}
-
-void ExpertAction::UpGetFactSum(int player, int factId, int param, int goalData)
-{
-	FuncUpGetFactSum(player, factId, param, goalData);
-}
-
-void ExpertAction::UpGetFocusFact(int factId, int param, int goalData)
-{
-	FuncUpGetFocusFact(factId, param, goalData);
-}
-
-void ExpertAction::UpGetGroupSize(int typeOp, int groupId, int goalSize)
-{
-	FuncUpGetGroupSize(typeOp, groupId, goalSize);
-}
-
-/*void ExpertAction::UpGetGuardState(int goalState)
-{
-	FuncUpGetGuardState(goalState);
-}*/
-
-void ExpertAction::UpGetIndirectGoal(int typeOp1, int goalId, int goalValue)
-{
-	FuncUpGetIndirectGoal(typeOp1, goalId, goalValue);
-}
-
-void ExpertAction::UpGetObjectData(int objectData, int goalData)
-{
-	FuncUpGetObjectData(objectData, goalData);
-}
-
-void ExpertAction::UpGetObjectTargetData(int objectData, int goalData)
-{
-	FuncUpGetObjectTargetData(objectData, goalData);
-}
-
-void ExpertAction::UpGetObjectTypeData(int typeOp, int objectTypeId, int objectData, int goalData)
-{
-	FuncUpGetObjectTypeData(typeOp, objectTypeId, objectData, goalData);
-}
-
-void ExpertAction::UpGetPathDistance(int goalPoint, int strict, int goalData)
-{
-	FuncUpGetPathDistance(goalPoint, strict, goalData);
-}
-
-void ExpertAction::UpGetPlayerColor(int player, int goalColorId)
-{
-	FuncUpGetPlayerColor(player, goalColorId);
-}
-
-void ExpertAction::UpGetPlayerFact(int player, int factId, int param, int goalData)
-{
-	FuncUpGetPlayerFact(player, factId, param, goalData);
-}
-
-void ExpertAction::UpGetPoint(int positionType, int goalPoint)
-{
-	FuncUpGetPoint(positionType, goalPoint);
-}
-
-void ExpertAction::UpGetPointContains(int goalPoint, int goalId, int typeOp, int objectId)
-{
-	FuncUpGetPointContains(goalPoint, goalId, typeOp, objectId);
-}
-
-void ExpertAction::UpGetPointDistance(int goalPoint1, int goalPoint2, int goalDistance)
-{
-	FuncUpGetPointDistance(goalPoint1, goalPoint2, goalDistance);
-}
-
-void ExpertAction::UpGetPointElevation(int goalPoint, int goalData)
-{
-	FuncUpGetPointElevation(goalPoint, goalData);
-}
-
-void ExpertAction::UpGetPointTerrain(int goalPoint, int goalTerrain)
-{
-	FuncUpGetPointTerrain(goalPoint, goalTerrain);
-}
-
-void ExpertAction::UpGetPointZone(int goalPoint, int goalData)
-{
-	FuncUpGetPointZone(goalPoint, goalData);
-}
-
-void ExpertAction::UpGetPreciseTime(int goalStart, int goalTime)
-{
-	FuncUpGetPreciseTime(goalStart, goalTime);
-}
-
-void ExpertAction::UpGetProjectilePlayer(int projectileType, int goalPlayerId)
-{
-	FuncUpGetProjectilePlayer(projectileType, goalPlayerId);
-}
-
-void ExpertAction::UpGetRuleId(int goalRuleId)
-{
-	FuncUpGetRuleId(goalRuleId);
-}
-
-void ExpertAction::UpGetSearchState(int goalState)
-{
-	FuncUpGetSearchState(goalState);
-}
-
-void ExpertAction::UpGetSharedGoal(int typeOp, int sharedGoalId, int goalValue)
-{
-	FuncUpGetSharedGoal(typeOp, sharedGoalId, goalValue);
-}
-
-void ExpertAction::UpGetSignal(int typeOp, int signalId, int goalValue)
-{
-	FuncUpGetSignal(typeOp, signalId, goalValue);
-}
-
-void ExpertAction::UpGetTargetFact(int factId, int param, int goalData)
-{
-	FuncUpGetTargetFact(factId, param, goalData);
-}
-
-void ExpertAction::UpGetThreatData(int goalElapsedTime, int goalPlayerId, int goalSourceClass, int goalTargetClass)
-{
-	FuncUpGetThreatData(goalElapsedTime, goalPlayerId, goalSourceClass, goalTargetClass);
-}
-
-void ExpertAction::UpGetTimer(int typeOp, int timerId, int goalValue)
-{
-	FuncUpGetTimer(typeOp, timerId, goalValue);
+	FuncUpChatDataToPlayerUsingId(param1, param2, param3, param4);
 }
 
 void ExpertAction::UpGetTreatyData(int param)
 {
 	FuncUpGetTreatyData(param);
-}
-
-/*void ExpertAction::UpGetUpgradeId(int player, int count, int goalTypeId, int goalUpgradeId)
-{
-	FuncUpGetUpgradeId(player, count, goalTypeId, goalUpgradeId);
-}*/
-
-void ExpertAction::UpGetVictoryData(int goalPlayerId, int goalType, int goalTime)
-{
-	FuncUpGetVictoryData(goalPlayerId, goalType, goalTime);
-}
-
-void ExpertAction::UpGetVictoryLimit(int goalLimit)
-{
-	FuncUpGetVictoryLimit(goalLimit);
-}
-
-void ExpertAction::UpGuardUnit(int objectId, int typeOp, int unitId)
-{
-	FuncUpGuardUnit(objectId, typeOp, unitId);
-}
-
-void ExpertAction::UpJumpDirect(int typeOp, int ruleId)
-{
-	FuncUpJumpDirect(typeOp, ruleId);
-}
-
-void ExpertAction::UpJumpDynamic(int typeOp, int ruleDelta)
-{
-	FuncUpJumpDynamic(typeOp, ruleDelta);
-}
-
-void ExpertAction::UpJumpRule(int ruleDelta)
-{
-	FuncUpJumpRule(ruleDelta);
-}
-
-void ExpertAction::UpLerpPercent(int goalPoint1, int goalPoint2, int typeOp, int percent)
-{
-	FuncUpLerpPercent(goalPoint1, goalPoint2, typeOp, percent);
-}
-
-void ExpertAction::UpLerpTiles(int goalPoint1, int goalPoint2, int typeOp, int tiles)
-{
-	FuncUpLerpTiles(goalPoint1, goalPoint2, typeOp, tiles);
-}
-
-void ExpertAction::UpLogData(int plain, int format, int typeOp, int value)
-{
-	FuncUpLogData(plain, format, typeOp, value);
-}
-
-void ExpertAction::UpModifyEscrow(int resource, int mathOp, int value)
-{
-	FuncUpModifyEscrow(resource, mathOp, value);
-}
-
-void ExpertAction::UpModifyFlag(int goalId, int mathOp, int value)
-{
-	FuncUpModifyFlag(goalId, mathOp, value);
-}
-
-void ExpertAction::UpModifyGoal(int goalId, int mathOp, int value)
-{
-	FuncUpModifyGoal(goalId, mathOp, value);
-}
-
-void ExpertAction::UpModifyGroupFlag(int on, int typeOp, int groupId)
-{
-	FuncUpModifyGroupFlag(on, typeOp, groupId);
-}
-
-void ExpertAction::UpModifySn(int snId, int mathOp, int value)
-{
-	FuncUpModifySn(snId, mathOp, value);
-}
-
-void ExpertAction::UpReleaseEscrow()
-{
-	FuncUpReleaseEscrow();
-}
-
-void ExpertAction::UpRemoveObjects(int searchSource, int objectData, int typeOp, int value)
-{
-	FuncUpRemoveObjects(searchSource, objectData, typeOp, value);
-}
-
-void ExpertAction::UpRequestHunters(int typeOp, int value)
-{
-	FuncUpRequestHunters(typeOp, value);
-}
-
-void ExpertAction::UpResearch(int escrowState, int typeOp, int techId)
-{
-	FuncUpResearch(escrowState, typeOp, techId);
-}
-
-void ExpertAction::UpResetAttackNow()
-{
-	FuncUpResetAttackNow();
-}
-
-void ExpertAction::UpResetBuilding(int preserveResearch, int typeOp, int buildingId)
-{
-	FuncUpResetBuilding(preserveResearch, typeOp, buildingId);
-}
-
-void ExpertAction::UpResetCostData(int goalId)
-{
-	FuncUpResetCostData(goalId);
-}
-
-void ExpertAction::UpResetFilters()
-{
-	FuncUpResetFilters();
-}
-
-void ExpertAction::UpResetGroup(int typeOp, int groupId)
-{
-	FuncUpResetGroup(typeOp, groupId);
-}
-
-void ExpertAction::UpResetPlacement(int typeOp, int buildingId)
-{
-	FuncUpResetPlacement(typeOp, buildingId);
-}
-
-void ExpertAction::UpResetScouts()
-{
-	FuncUpResetScouts();
-}
-
-void ExpertAction::UpResetSearch(int localIndex, int localList, int remoteIndex, int remoteList)
-{
-	FuncUpResetSearch(localIndex, localList, remoteIndex, remoteList);
-}
-
-void ExpertAction::UpResetTargetPriorities(int priorityType, int mode)
-{
-	FuncUpResetTargetPriorities(priorityType, mode);
-}
-
-void ExpertAction::UpResetUnit(int typeOp, int unitId)
-{
-	FuncUpResetUnit(typeOp, unitId);
-}
-
-void ExpertAction::UpRetaskGatherers(int resource, int typeOp, int value)
-{
-	FuncUpRetaskGatherers(resource, typeOp, value);
-}
-
-void ExpertAction::UpRetreatNow()
-{
-	FuncUpRetreatNow();
-}
-
-void ExpertAction::UpRetreatTo(int objectId, int typeOp, int unitId)
-{
-	FuncUpRetreatTo(objectId, typeOp, unitId);
-}
-
-void ExpertAction::UpSellCommodity(int typeOp1, int resourceAmount, int typeOp2, int value)
-{
-	FuncUpSellCommodity(typeOp1, resourceAmount, typeOp2, value);
-}
-
-void ExpertAction::UpSendFlare(int goalPoint)
-{
-	FuncUpSendFlare(goalPoint);
-}
-
-void ExpertAction::UpSendScout(int groupType, int positionType)
-{
-	FuncUpSendScout(groupType, positionType);
-}
-
-void ExpertAction::UpSetAttackStance(int unitId, int typeOp, int attackStance)
-{
-	FuncUpSetAttackStance(unitId, typeOp, attackStance);
-}
-
-void ExpertAction::UpSetDefensePriority(int typeOp1, int buildingId, int typeOp2, int value)
-{
-	FuncUpSetDefensePriority(typeOp1, buildingId, typeOp2, value);
-}
-
-void ExpertAction::UpSetEvent(int typeOp1, int eventId, int typeOp2, int value)
-{
-	FuncUpSetEvent(typeOp1, eventId, typeOp2, value);
-}
-
-void ExpertAction::UpSetGroup(int searchSource, int typeOp, int groupId)
-{
-	FuncUpSetGroup(searchSource, typeOp, groupId);
-}
-
-void ExpertAction::UpSetIndirectGoal(int typeOp1, int goalId, int typeOp2, int value)
-{
-	FuncUpSetIndirectGoal(typeOp1, goalId, typeOp2, value);
-}
-
-void ExpertAction::UpSetOffensePriority(int typeOp1, int objectId, int typeOp2, int value)
-{
-	FuncUpSetOffensePriority(typeOp1, objectId, typeOp2, value);
-}
-
-void ExpertAction::UpSetPlacementData(int playerAlly, int objectId, int typeOp, int value)
-{
-	FuncUpSetPlacementData(playerAlly, objectId, typeOp, value);
-}
-
-void ExpertAction::UpSetPreciseTargetPoint(int goalPoint)
-{
-	FuncUpSetPreciseTargetPoint(goalPoint);
-}
-
-void ExpertAction::UpSetSharedGoal(int typeOp1, int sharedGoalId, int typeOp2, int value)
-{
-	FuncUpSetSharedGoal(typeOp1, sharedGoalId, typeOp2, value);
-}
-
-void ExpertAction::UpSetSignal(int typeOp1, int signalId, int typeOp2, int value)
-{
-	FuncUpSetSignal(typeOp1, signalId, typeOp2, value);
-}
-
-void ExpertAction::UpSetTargetById(int typeOp, int id)
-{
-	FuncUpSetTargetById(typeOp, id);
-}
-
-void ExpertAction::UpSetTargetObject(int searchSource, int typeOp, int index)
-{
-	FuncUpSetTargetObject(searchSource, typeOp, index);
-}
-
-void ExpertAction::UpSetTargetPoint(int goalPoint)
-{
-	FuncUpSetTargetPoint(goalPoint);
-}
-
-void ExpertAction::UpSetTimer(int typeOp1, int timerId, int typeOp2, int value)
-{
-	FuncUpSetTimer(typeOp1, timerId, typeOp2, value);
-}
-
-void ExpertAction::UpSetupCostData(int resetCost, int goalId)
-{
-	FuncUpSetupCostData(resetCost, goalId);
-}
-
-void ExpertAction::UpStoreMapName(int extension)
-{
-	FuncUpStoreMapName(extension);
-}
-
-void ExpertAction::UpStoreObjectName()
-{
-	FuncUpStoreObjectName();
-}
-
-void ExpertAction::UpStorePlayerChat(int player)
-{
-	FuncUpStorePlayerChat(player);
-}
-
-void ExpertAction::UpStorePlayerName(int player)
-{
-	FuncUpStorePlayerName(player);
-}
-
-void ExpertAction::UpStoreTechName(int typeOp, int techId)
-{
-	FuncUpStoreTechName(typeOp, techId);
-}
-
-void ExpertAction::UpStoreText(int typeOp, int languageId)
-{
-	FuncUpStoreText(typeOp, languageId);
-}
-
-void ExpertAction::UpStoreTypeName(int typeOp, int objectTypeId)
-{
-	FuncUpStoreTypeName(typeOp, objectTypeId);
-}
-
-void ExpertAction::UpTargetObjects(int target, int action, int formation, int attackStance)
-{
-	FuncUpTargetObjects(target, action, formation, attackStance);
-}
-
-void ExpertAction::UpTargetPoint(int goalPoint, int action, int formation, int attackStance)
-{
-	FuncUpTargetPoint(goalPoint, action, formation, attackStance);
 }
 
 void ExpertAction::UpTestharnessReport(int param1, int param2, int param3)
@@ -1229,23 +1409,24 @@ void ExpertAction::UpTestharnessTest(int param1, int param2, int param3, int par
 {
 	FuncUpTestharnessTest(param1, param2, param3, param4);
 }
-
-void ExpertAction::UpTrain(int escrowState, int typeOp, int unitId)
+#elif defined GAME_AOC
+void ExpertAction::UpGetAlliedTarget(int param1, int param2)
 {
-	FuncUpTrain(escrowState, typeOp, unitId);
+	FuncUpGetAlliedTarget(param1, param2);
 }
 
-void ExpertAction::UpTributeToPlayer(int player, int resourceAmount, int typeOp, int value)
+void ExpertAction::UpGetGuardState(int outGoalState)
 {
-	FuncUpTributeToPlayer(player, resourceAmount, typeOp, value);
+	FuncUpGetGuardState(outGoalState);
 }
 
-void ExpertAction::UpUngarrison(int typeOp, int objectId)
+void ExpertAction::UpGetUpgradeId(int inPlayerAnyPlayer, int inConstCount, int inGoalTypeId, int outGoalUpgradeId)
 {
-	FuncUpUngarrison(typeOp, objectId);
+	FuncUpGetUpgradeId(inPlayerAnyPlayer, inConstCount, inGoalTypeId, outGoalUpgradeId);
 }
 
-void ExpertAction::UpUpdateTargets()
+void ExpertAction::UpOutOfSync()
 {
-	FuncUpUpdateTargets();
+	FuncUpOutOfSync();
 }
+#endif

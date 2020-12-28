@@ -19,4 +19,5 @@ private:
 	AIModule* aiModule;
 	std::unique_ptr<grpc::Server> server;
 	std::unique_ptr<std::thread> serverThread;
+	int assignedServerPort;
 };
