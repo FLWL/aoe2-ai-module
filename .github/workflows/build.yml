@@ -2,6 +2,11 @@ name: Build
 
 on:
   workflow_dispatch:
+    inputs:
+      releaseVersion:
+        description: 'Release version (ie 0.1.5)'
+        required: true
+    
     branches:
     - main
   
@@ -44,7 +49,7 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@c26a08ba26249b81327e26f6ef381897b6a8754d
       
-      - name: Bootstrap vcpkg
+      - name: Compile vcpkg
         if: steps.cache-vcpkg.outputs.cache-hit != 'true'
         run: '.\vcpkg\bootstrap-vcpkg.bat'
         shell: cmd
@@ -70,7 +75,7 @@ jobs:
         run: 'msbuild .\aimodule\aimodule.vcxproj /p:Configuration=Release /p:Platform=x64'
         shell: cmd
       
-      - name: Update latest-dev release with metadata
+      - name: Create latest-dev release with metadata
         if: endsWith(github.ref, 'dev')
         uses: marvinpinto/action-automatic-releases@4e86dbcfb19c3e408a4984b2b7d9a6de082f3c3f
         with:
@@ -96,5 +101,44 @@ jobs:
           file: 'aimodule/x64/Release/aimodule.dll'
           asset_name: 'aimodule-de.dll'
           tag: 'latest-dev'
+      
+      - name: Create main release
+        id: create-main-release
+        if: endsWith(github.ref, 'main')
+        uses: actions/create-release@c38d3a140cc22e67e265c5d5b6b4888d1f02533f
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.event.inputs.releaseVersion }}
+          release_name: Release ${{ github.event.inputs.releaseVersion }}
+          draft: true
+      
+      - name: Update main release with x86 binary
+        if: endsWith(github.ref, 'main')
+        uses: actions/upload-release-asset@e9f0662bdf9868f4aac644f0eedc2b56567fdba8
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create-main-release.outputs.upload_url }}
+          asset_path: 'aimodule/Release/aimodule.dll'
+          asset_name: 'aimodule-aoc.dll'
+          asset_content_type: 'application/octet-stream'
+      
+      - name: Update main release with x64 binary
+        if: endsWith(github.ref, 'main')
+        uses: actions/upload-release-asset@e9f0662bdf9868f4aac644f0eedc2b56567fdba8
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create-main-release.outputs.upload_url }}
+          asset_path: 'aimodule/x64/Release/aimodule.dll'
+          asset_name: 'aimodule-de.dll'
+          asset_content_type: 'application/octet-stream'
+      
+      
+      
+      
+      
+      
       
       
