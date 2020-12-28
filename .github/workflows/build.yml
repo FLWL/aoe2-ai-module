@@ -49,6 +49,7 @@ jobs:
         shell: cmd
       
       - name: Archive error log
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: error-log-archive
