@@ -4,9 +4,11 @@ on:
   push:
     branches:
     - dev
-    paths-ignore:
-    - '**.md'
-    - '**.py'
+    paths:
+    - '.github/workflows/build.yml'
+    - 'aimodule/**'
+    - 'protos/**.proto'
+    - 'protos/make-protos.bat'
 
 jobs:
   build:
