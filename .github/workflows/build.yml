@@ -58,7 +58,7 @@ jobs:
       
       - name: Build AI Module x86
         run: 'msbuild .\aimodule\aimodule.vcxproj /p:Configuration=Release /p:Platform=x86'
-      
+        shell: cmd
       
       
       
