@@ -10,17 +10,19 @@ This project is aimed at extending the possibilities of AI scripting in Age of E
 
 The AI module consists of a DLL file that has to be loaded into the Age of Empires process, after which it starts a gRPC server on port 37412 by default. Available gRPC definitions can be seen in the `protos` folder and in the project's wiki. These can be used from virtually any scripting environment the gRPC framework is available on. A Python example has been provided in the `client_python` folder. Note that right now the only DLL loader included is for the AoC version (32-bit) in `client_python/load_module_aoc.py`.
 
-At the moment the 32-bit version of the module supports AoC with Userpatch 1.5 and the 64-bit one Definitive Edition build 42848. For caveats with specific versions see below and the project's Wiki.
+At the moment the 32-bit version of the module supports AoC with Userpatch 1.5 and the 64-bit one Definitive Edition build 43210. For caveats with specific versions see below and the project's Wiki.
+
+Note that this library is still under development and is not an easy to use solution just yet. There may be bugs, unsupported functionality and the pre-release binaries might not always be up to date.
 
 # Compiling
 * Clone this repository.
 * Install Microsoft Visual Studio 2019 with support for "Desktop development with C++" component.
 * Install Microsoft vcpkg package manager (https://github.com/microsoft/vcpkg#quick-start-windows). By default the build scripts assume that it is installed in `aoe2-ai-module/vcpkg`, where `aoe2-ai-module` is the top level directory of this repository.
-* Install necessary C++ libraries with the command `vcpkg install @../aimodule/vcpkg_dependencies.txt` in vcpkg directory.
-* Run `protos/make-protos.bat` to convert .proto files in the `protos` directory to useful C++ and Python includes into folders `aimodule/protos` and `client_python/protos` respectively. Edit paths in `make-protos.bat` if using a different directory structure.
+* Install necessary C++ libraries with the command `.\vcpkg\vcpkg install --recurse @.\aimodule\vcpkg_dependencies.txt --clean-after-build`.
+* Run `.\protos\make-protos.bat` to convert .proto files in the `protos` directory to useful C++ and Python includes into folders `aimodule/protos` and `client_python/protos` respectively. Edit paths in `.\protos\make-protos.bat` if using a different directory structure.
 * Open `aimodule/aimodule.sln` with Visual Studio.
-* Build an x64 (for DE) or x86 (for AoC) Release build for the `aimodule` project.
-* DLLs will be available in `aimodule/x64/Release/aimodule.dll` and `aimodule/Release/aimodule.dll` respectively.
+* Build an x86 (for AoC) or x64 (for DE) Release build for the `aimodule` project.
+* DLLs will be available in `aimodule/Release/aimodule.dll` and `aimodule/x64/Release/aimodule.dll` respectively.
 
 There are also automated builds by GitHub Actions available under the Releases section.
 
@@ -30,7 +32,6 @@ There are also automated builds by GitHub Actions available under the Releases s
 * Microsoft Detours
 
 # Known issues
-* AoC: About 20 Expert API facts are unimplemented, mostly Userpatch ones.
 * DE: The module can trip the anti-tampering mechanism of the game.
 
 # Disclaimer
