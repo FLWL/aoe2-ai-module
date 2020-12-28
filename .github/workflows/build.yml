@@ -48,15 +48,16 @@ jobs:
         run: '.\vcpkg\vcpkg install --recurse @.\aimodule\vcpkg_dependencies.txt --clean-after-build'
         shell: cmd
       
-      - name: Archive error log
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: error-log-archive
-          path: '.\vcpkg\buildtrees\grpc\*.log'
-          retention-days: 1
+      - name: Integrate vcpkg
+        run: '.\vcpkg\vcpkg integrate install'
+        shell: cmd
       
+      - name: Generate protobuf+grpc include files
+        run: '.\protos\make-protos.bat'
+        shell: cmd
       
+      - name: Build AI Module x86
+        run: 'msbuild .\aimodule\aimodule.vcxproj /p:Configuration=Release /p:Platform=x86'
       
       
       
