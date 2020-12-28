@@ -60,5 +60,38 @@ jobs:
         run: 'msbuild .\aimodule\aimodule.vcxproj /p:Configuration=Release /p:Platform=x86'
         shell: cmd
       
+      - name: Build AI Module x64
+        run: 'msbuild .\aimodule\aimodule.vcxproj /p:Configuration=Release /p:Platform=x64'
+        shell: cmd
+      
+      - name: Update latest-dev release metadata
+        if: endsWith(github.ref, 'dev')
+        uses: marvinpinto/action-automatic-releases@4e86dbcfb19c3e408a4984b2b7d9a6de082f3c3f
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: 'latest-dev'
+          prerelease: true
+          title: 'Latest Development Build ${{ github.run_number }}'
+      
+      - name: Upload x86 build to release latest-dev
+        if: endsWith(github.ref, 'dev')
+        uses: svenstaro/upload-release-action@4e5de2077753aa547cb9ca80caa0f77bf18f6bfb
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: 'aimodule/Release/aimodule.dll'
+          asset_name: 'aimodule-aoc.dll'
+          tag: 'latest-dev'
+      
+      - name: Upload x64 build to release latest-dev
+        if: endsWith(github.ref, 'dev')
+        uses: svenstaro/upload-release-action@4e5de2077753aa547cb9ca80caa0f77bf18f6bfb
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: 'aimodule/x64/Release/aimodule.dll'
+          asset_name: 'aimodule-de.dll'
+          tag: 'latest-dev'
+      
+      
+      
       
       
