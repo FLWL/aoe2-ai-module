@@ -23,7 +23,16 @@ jobs:
           repository: ${{ github.repository }}.wiki
           path: documentation
       
+      - name: Restore (cache) protoc-gen-doc
+        id: cache-protoc-gen-doc
+        uses: actions/cache@0781355a23dac32fd3bac414512f4b903437991a
+        with:
+          path: |
+            .\protoc-gen-doc
+          key: cache-protoc-gen-doc-f06de7ac0ef41acabeac9ac02f6f30ef15f6405f }}
+      
       - name: Checkout protoc-gen-doc
+        if: steps.cache-protoc-gen-doc.outputs.cache-hit != 'true'
         uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
         with:
           repository: pseudomuto/protoc-gen-doc
@@ -31,6 +40,7 @@ jobs:
           path: protoc-gen-doc
       
       - name: Compile protoc-gen-doc
+        if: steps.cache-protoc-gen-doc.outputs.cache-hit != 'true'
         run: 'cd protoc-gen-doc && go build ./cmd/... & cd ..'
         shell: cmd
       
