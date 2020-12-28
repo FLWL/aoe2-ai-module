@@ -45,14 +45,14 @@ jobs:
       
       - name: Install dependencies with vcpkg
         if: steps.cache-vcpkg.outputs.cache-hit != 'true'
-        run: '.\vcpkg\vcpkg install --recurse grpc:x86-windows-static'
+        run: '.\vcpkg\vcpkg install --recurse @.\aimodule\vcpkg_dependencies.txt'
         shell: cmd
       
       - name: Archive error log
         uses: actions/upload-artifact@v2
         with:
           name: error-log-archive
-          path: .\vcpkg\buildtrees\grpc\install-x86-windows-static-dbg-out.log
+          path: '.\vcpkg\buildtrees\grpc\*.log'
           retention-days: 1
       
       

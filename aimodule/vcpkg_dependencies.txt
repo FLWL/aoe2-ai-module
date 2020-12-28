@@ -1,4 +1,4 @@
-grpc:x64-windows-static
 grpc:x86-windows-static
-detours:x64-windows-static
+grpc:x64-windows-static
 detours:x86-windows-static
+detours:x64-windows-static
