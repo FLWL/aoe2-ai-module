@@ -73,4 +73,30 @@ jobs:
         run: '.\vcpkg\vcpkg install --recurse protobuf:x64-windows-static --clean-after-build'
         shell: cmd
       
+      - name: Generate protobuf documentation
+        run: |
+          IF %GITHUB_REF:~-3%==dev (SET WIKI_PREFIX=Dev-Branch-Documentation#)
+          IF %GITHUB_REF:~-4%==main (SET WIKI_PREFIX=Documentation#)
+          
+          IF DEFINED WIKI_PREFIX (
+            .\vcpkg\installed\x64-windows-static\tools\protobuf\protoc.exe -I . -I .\vcpkg\installed\x64-windows-static\include --doc_out .\documentation\ --plugin=protoc-gen-doc=.\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,%WIKI_PREFIX%-AI-Module-API.md protos/ai_module_api.proto
+            .\vcpkg\installed\x64-windows-static\tools\protobuf\protoc.exe -I . -I .\vcpkg\installed\x64-windows-static\include --doc_out .\documentation\ --plugin=protoc-gen-doc=.\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,%WIKI_PREFIX%-Expert-API.md protos/expert/expert_api.proto
+            .\vcpkg\installed\x64-windows-static\tools\protobuf\protoc.exe -I . -I .\vcpkg\installed\x64-windows-static\include --doc_out .\documentation\ --plugin=protoc-gen-doc=.\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,%WIKI_PREFIX%-Expert-Actions.md protos/expert/action/action.proto
+            .\vcpkg\installed\x64-windows-static\tools\protobuf\protoc.exe -I . -I .\vcpkg\installed\x64-windows-static\include --doc_out .\documentation\ --plugin=protoc-gen-doc=.\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,%WIKI_PREFIX%-Expert-Facts.md protos/expert/fact/fact.proto
+          )
+        shell: cmd
+      
+      - name: Commit and push wiki files
+        run: |
+          cd documentation
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Add automated documentation changes" && git push
+          cd ..
+        shell: cmd
+      
+      
+      
+      
       
