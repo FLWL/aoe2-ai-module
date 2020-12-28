@@ -45,7 +45,7 @@ jobs:
         run: '.\vcpkg\bootstrap-vcpkg.bat'
         shell: cmd
       
-      - name: Install dependencies with vcpkg
+      - name: Install vcpkg libraries
         if: steps.cache-vcpkg.outputs.cache-hit != 'true'
         run: '.\vcpkg\vcpkg install --recurse @.\aimodule\vcpkg_dependencies.txt --clean-after-build'
         shell: cmd
