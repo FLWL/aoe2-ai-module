@@ -933,8 +933,8 @@ message UpAttackerClassResult {
 message UpBuildingTypeInTown {
   oneof buildingId {
     int32 inConstBuildingId = 1;
-	int32 inGoalBuildingId = 2;
-	int32 inSnBuildingId = 3;
+    int32 inGoalBuildingId = 2;
+    int32 inSnBuildingId = 3;
   }
 }
 message UpBuildingTypeInTownResult {
@@ -945,8 +945,8 @@ message UpCanBuild {
   int32 inGoalEscrowState = 1;
   oneof buildingId {
     int32 inConstBuildingId = 2;
-	int32 inGoalBuildingId = 3;
-	int32 inSnBuildingId = 4;
+    int32 inGoalBuildingId = 3;
+    int32 inSnBuildingId = 4;
   }
 }
 message UpCanBuildResult {
@@ -958,8 +958,8 @@ message UpCanBuildLine {
   int32 inGoalPoint = 2;
   oneof buildingId {
     int32 inConstBuildingId = 3;
-	int32 inGoalBuildingId = 4;
-	int32 inSnBuildingId = 5;
+    int32 inGoalBuildingId = 4;
+    int32 inSnBuildingId = 5;
   }
 }
 message UpCanBuildLineResult {
@@ -970,8 +970,8 @@ message UpCanResearch {
   int32 inGoalEscrowState = 1;
   oneof techId {
     int32 inConstTechId = 2;
-	int32 inGoalTechId = 3;
-	int32 inSnTechId = 4;
+    int32 inGoalTechId = 3;
+    int32 inSnTechId = 4;
   }
 }
 message UpCanResearchResult {
@@ -989,8 +989,8 @@ message UpCanTrain {
   int32 inGoalEscrowState = 1;
   oneof unitId {
     int32 inConstUnitId = 2;
-	int32 inGoalUnitId = 3;
-	int32 inSnUnitId = 4;
+    int32 inGoalUnitId = 3;
+    int32 inSnUnitId = 4;
   }
 }
 message UpCanTrainResult {
@@ -1042,8 +1042,8 @@ message UpGaiaTypeCountTotalResult {
 message UpGroupSize {
   oneof groupId {
     int32 inConstGroupId = 1;
-	int32 inGoalGroupId = 2;
-	int32 inSnGroupId = 3;
+    int32 inGoalGroupId = 2;
+    int32 inSnGroupId = 3;
   }
 }
 message UpGroupSizeResult {
@@ -1087,8 +1087,8 @@ message UpObjectTargetDataResult {
 message UpObjectTypeCount {
   oneof objectId {
     int32 inConstObjectId = 1;
-	int32 inGoalObjectId = 2;
-	int32 inSnObjectId = 3;
+    int32 inGoalObjectId = 2;
+    int32 inSnObjectId = 3;
   }
 }
 message UpObjectTypeCountResult {
@@ -1098,8 +1098,8 @@ message UpObjectTypeCountResult {
 message UpObjectTypeCountTotal {
   oneof objectId {
     int32 inConstObjectId = 1;
-	int32 inGoalObjectId = 2;
-	int32 inSnObjectId = 3;
+    int32 inGoalObjectId = 2;
+    int32 inSnObjectId = 3;
   }
 }
 message UpObjectTypeCountTotalResult {
@@ -1117,8 +1117,8 @@ message UpPathDistanceResult {
 message UpPendingObjects {
   oneof objectId {
     int32 inConstObjectId = 1;
-	int32 inGoalObjectId = 2;
-	int32 inSnObjectId = 3;
+    int32 inGoalObjectId = 2;
+    int32 inSnObjectId = 3;
   }
 }
 message UpPendingObjectsResult {
@@ -1128,8 +1128,8 @@ message UpPendingObjectsResult {
 message UpPendingPlacement {
   oneof buildingId {
     int32 inConstBuildingId = 1;
-	int32 inGoalBuildingId = 2;
-	int32 inSnBuildingId = 3;
+    int32 inGoalBuildingId = 2;
+    int32 inSnBuildingId = 3;
   }
 }
 message UpPendingPlacementResult {
@@ -1154,8 +1154,8 @@ message UpPointContains {
   int32 inGoalPoint = 1;
   oneof objectId {
     int32 inConstObjectId = 2;
-	int32 inGoalObjectId = 3;
-	int32 inSnObjectId = 4;
+    int32 inGoalObjectId = 3;
+    int32 inSnObjectId = 4;
   }
 }
 message UpPointContainsResult {
@@ -1222,8 +1222,8 @@ message UpRemainingBoarAmountResult {
 message UpResearchStatus {
   oneof techId {
     int32 inConstTechId = 1;
-	int32 inGoalTechId = 2;
-	int32 inSnTechId = 3;
+    int32 inGoalTechId = 2;
+    int32 inSnTechId = 3;
   }
 }
 message UpResearchStatusResult {
@@ -1269,8 +1269,8 @@ message UpTimerStatusResult {
 message UpTrainSiteReady {
   oneof unitId {
     int32 inConstUnitId = 1;
-	int32 inGoalUnitId = 2;
-	int32 inSnUnitId = 3;
+    int32 inGoalUnitId = 2;
+    int32 inSnUnitId = 3;
   }
 }
 message UpTrainSiteReadyResult {
@@ -1280,8 +1280,8 @@ message UpTrainSiteReadyResult {
 message UpUnitTypeInTown {
   oneof unitId {
     int32 inConstUnitId = 1;
-	int32 inGoalUnitId = 2;
-	int32 inSnUnitId = 3;
+    int32 inGoalUnitId = 2;
+    int32 inSnUnitId = 3;
   }
 }
 message UpUnitTypeInTownResult {
@@ -1291,8 +1291,8 @@ message UpUnitTypeInTownResult {
 message UpVillagerTypeInTown {
   oneof unitId {
     int32 inConstUnitId = 1;
-	int32 inGoalUnitId = 2;
-	int32 inSnUnitId = 3;
+    int32 inGoalUnitId = 2;
+    int32 inSnUnitId = 3;
   }
 }
 message UpVillagerTypeInTownResult {
