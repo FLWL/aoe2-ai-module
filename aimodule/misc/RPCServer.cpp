@@ -8,18 +8,40 @@ RPCServer::RPCServer(AIModule* aiModule) :
 	aiModule(aiModule),
 	assignedServerPort(-1)
 {
-	grpc::ServerBuilder builder;
-	builder.AddListeningPort(aimodule_conf::RPC_SERVER_ADDRESS, grpc::InsecureServerCredentials(), &assignedServerPort);
-	builder.RegisterService(aiModule->GetService());
-	builder.RegisterService(aiModule->GetExpert()->GetService());
+	server = BuildAndStart(aimodule_conf::RPC_SERVER_ADDRESS, assignedServerPort);
+	if (!server)
+	{
+#if defined DEBUG_MODE
+		std::cout << "[RPC Server] Failed to bind to " << aimodule_conf::RPC_SERVER_ADDRESS << std::endl;
+#endif
+
+		server = BuildAndStart("0.0.0.0:0", assignedServerPort);
+	}
 	
-	// start rpc server on another thread
-	server = builder.BuildAndStart();
-	serverThread = std::make_unique<std::thread>(&RPCServer::ServerThread, this);
+	if (server)
+	{
+		serverThread = std::make_unique<std::thread>(&RPCServer::ServerThread, this);
 
 #if defined DEBUG_MODE
-	std::cout << "[RPC Server] Started on port " << assignedServerPort << std::endl;
+		std::cout << "[RPC Server] Listening on port " << assignedServerPort << std::endl;
 #endif
+	}
+	else
+	{
+#if defined DEBUG_MODE
+		std::cout << "[RPC Server] Failed to start" << std::endl;
+#endif
+	}
+}
+
+std::unique_ptr<grpc::Server> RPCServer::BuildAndStart(const std::string& uri, int& assignedServerPort)
+{
+	grpc::ServerBuilder builder;
+	builder.AddListeningPort(uri, grpc::InsecureServerCredentials(), &assignedServerPort);
+	builder.RegisterService(aiModule->GetService());
+	builder.RegisterService(aiModule->GetExpert()->GetService());
+
+	return builder.BuildAndStart();
 }
 
 void RPCServer::ServerThread()
@@ -30,6 +52,9 @@ void RPCServer::ServerThread()
 RPCServer::~RPCServer()
 {
 	// don't accept any new RPC calls and wait for existing to finish or timeout
-	server->Shutdown();
-	serverThread->join();
+	if (server)
+	{
+		server->Shutdown();
+		serverThread->join();
+	}
 }
