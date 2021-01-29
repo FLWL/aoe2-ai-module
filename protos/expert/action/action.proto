@@ -588,8 +588,8 @@ message UpAssignBuildersResult {
 }
 
 message UpBoundPoint {
-  int32 inGoalPoint1 = 1;
-  int32 inGoalPoint2 = 2;
+  int32 outGoalPoint = 1;
+  int32 inGoalPoint = 2;
 }
 message UpBoundPointResult {
   
