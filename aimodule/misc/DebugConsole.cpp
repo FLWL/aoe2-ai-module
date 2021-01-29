@@ -3,7 +3,9 @@
 #include <iostream>
 #include <io.h>
 
-#include "../misc/Statics.h"
+#include "misc/Statics.h"
+#include "misc/MemoryUtils.h"
+#include "structs/Game.h"
 
 #include "AIModule.h"
 
@@ -22,10 +24,10 @@ void DebugConsole::Enable()
 		// save old stdin and stdout values
 		savedInputFileHandle = _dup(0);
 		savedOutputFileHandle = _dup(1);
-
+		
 		// create a console and redirect stdin and stdout to it
 		AllocConsole();
-		SetConsoleTitle(L"AoE2 AI Module");
+		UpdateTitle();
 		freopen_s(&input, "CONIN$", "r", stdin);
 		freopen_s(&output, "CONOUT$", "w", stdout);
 
@@ -33,8 +35,14 @@ void DebugConsole::Enable()
 		isEnabled = true;
 		inputThread = std::make_unique<std::thread>(&DebugConsole::Run, this);
 
-		std::cout << "[Debug Console] Enabled" << std::endl;
+		std::cout << "[Console] Enabled." << std::endl;
 	}
+}
+
+void DebugConsole::UpdateTitle()
+{
+	std::wstring title = L"AoE2 AI Module " + aimodule_conf::VERSION;
+	SetConsoleTitle(title.c_str());
 }
 
 bool DebugConsole::IsEnabled()
@@ -53,14 +61,18 @@ void DebugConsole::Run()
 	}
 }
 
-void DebugConsole::ProcessUserCommand(std::string const& command)
+void DebugConsole::ProcessUserCommand(const std::string& command)
 {
 	if (IsEnabled())
 	{
 		if (command == "unload")
 		{
 			aiModule->RequestUnload();
-			std::cout << "[AI Module] Requested unload" << std::endl;
+			std::cout << "[AI Module] Requested unload." << std::endl;
+		}
+		else if (command == "test")
+		{
+
 		}
 	}
 }
