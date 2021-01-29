@@ -5,9 +5,10 @@
 #include <Windows.h>
 #include <detours/detours.h>
 
+#include "expert/action/ExpertAction.h"
 #include "misc/Statics.h"
 #include "misc/MemoryUtils.h"
-#include "expert/action/ExpertAction.h"
+#include "structs/Game.h"
 
 #if defined GAME_AOC
 intptr_t gUpEvaluateRelOpAddr;
@@ -35,139 +36,66 @@ intptr_t gCcPlayersUnitTypeCountEvaluateRelOp2RetAddr;
 void DetouredCcPlayersUnitTypeCountEvaluateRelOp2();
 #endif
 
-ExpertFact::ExpertFact()
+ExpertFact::~ExpertFact()
 {
+	DisableDetours();
+	ClearFactFunctions();
+}
+
+void ExpertFact::Initialize(const structs::AIExpert* aiExpert)
+{
+	LoadFactFunctions(aiExpert);
 	UpdateAddresses();
 	EnableDetours();
 }
 
-ExpertFact::~ExpertFact()
+void ExpertFact::LoadFactFunctions(const structs::AIExpert* aiExpert)
 {
-	DisableDetours();
+#if defined GAME_DE
+	for (int factId = 0; factId < aiExpert->numFacts; factId++)
+	{
+		FactFunction* factFunction = new FactFunction{ (uintptr_t)aiExpert->fact[factId].factFn, aiExpert->fact[factId].argc };
+		factFunctionMap.insert({ std::string(aiExpert->factNames[factId]), factFunction });
+	}
+#elif defined GAME_AOC
+	for (int tableIndex = 0; tableIndex < aiExpert->globalSymbolTableSize; tableIndex++)
+	{
+		structs::SymbolHashNode* node = aiExpert->bucket[tableIndex];
+
+		while (node)
+		{
+			if (node->type == 3)
+			{
+				FactFunction* factFunction = new FactFunction{ (uintptr_t)aiExpert->fact[node->id].factFn, aiExpert->fact[node->id].argc };
+				factFunctionMap.insert({ std::string(node->symbolText), factFunction });
+			}
+
+			node = node->next;
+		}
+	}
+#endif
+
+	std::cout << "[Expert] Loaded " << factFunctionMap.size() << " fact functions." << std::endl;
+}
+
+void ExpertFact::ClearFactFunctions()
+{
+	for (auto& element : factFunctionMap)
+		delete element.second;
+
+	factFunctionMap.clear();
 }
 
 void ExpertFact::UpdateAddresses()
 {
-	statics::SetFuncAddr(FuncBuildingAvailable, statics::TranslateAddr(expert_conf::ADDR_FUNC_BUILDING_AVAILABLE));
-	statics::SetFuncAddr(FuncCanAffordBuilding, statics::TranslateAddr(expert_conf::ADDR_FUNC_CAN_AFFORD_BUILDING));
-	statics::SetFuncAddr(FuncCanAffordCompleteWall, statics::TranslateAddr(expert_conf::ADDR_FUNC_CAN_AFFORD_COMPLETE_WALL));
-	statics::SetFuncAddr(FuncCanAffordResearch, statics::TranslateAddr(expert_conf::ADDR_FUNC_CAN_AFFORD_RESEARCH));
-	statics::SetFuncAddr(FuncCanAffordUnit, statics::TranslateAddr(expert_conf::ADDR_FUNC_CAN_AFFORD_UNIT));
-	statics::SetFuncAddr(FuncCanBuild, statics::TranslateAddr(expert_conf::ADDR_FUNC_CAN_BUILD));
-	statics::SetFuncAddr(FuncCanBuildGate, statics::TranslateAddr(expert_conf::ADDR_FUNC_CAN_BUILD_GATE));
-	statics::SetFuncAddr(FuncCanBuildGateWithEscrow, statics::TranslateAddr(expert_conf::ADDR_FUNC_CAN_BUILD_GATE_WITH_ESCROW));
-	statics::SetFuncAddr(FuncCanBuildWall, statics::TranslateAddr(expert_conf::ADDR_FUNC_CAN_BUILD_WALL));
-	statics::SetFuncAddr(FuncCanBuildWallWithEscrow, statics::TranslateAddr(expert_conf::ADDR_FUNC_CAN_BUILD_WALL_WITH_ESCROW));
-	statics::SetFuncAddr(FuncCanBuildWithEscrow, statics::TranslateAddr(expert_conf::ADDR_FUNC_CAN_BUILD_WITH_ESCROW));
-	statics::SetFuncAddr(FuncCanBuyCommodity, statics::TranslateAddr(expert_conf::ADDR_FUNC_CAN_BUY_COMMODITY));
-	statics::SetFuncAddr(FuncCanResearch, statics::TranslateAddr(expert_conf::ADDR_FUNC_CAN_RESEARCH));
-	statics::SetFuncAddr(FuncCanResearchWithEscrow, statics::TranslateAddr(expert_conf::ADDR_FUNC_CAN_RESEARCH_WITH_ESCROW));
-	statics::SetFuncAddr(FuncCanSellCommodity, statics::TranslateAddr(expert_conf::ADDR_FUNC_CAN_SELL_COMMODITY));
-	statics::SetFuncAddr(FuncCanSpy, statics::TranslateAddr(expert_conf::ADDR_FUNC_CAN_SPY));
-	statics::SetFuncAddr(FuncCanSpyWithEscrow, statics::TranslateAddr(expert_conf::ADDR_FUNC_CAN_SPY_WITH_ESCROW));
-	statics::SetFuncAddr(FuncCanTrain, statics::TranslateAddr(expert_conf::ADDR_FUNC_CAN_TRAIN));
-	statics::SetFuncAddr(FuncCanTrainWithEscrow, statics::TranslateAddr(expert_conf::ADDR_FUNC_CAN_TRAIN_WITH_ESCROW));
-	statics::SetFuncAddr(FuncCcPlayersBuildingCount, statics::TranslateAddr(expert_conf::ADDR_FUNC_CC_PLAYERS_BUILDING_COUNT));
-	statics::SetFuncAddr(FuncCcPlayersBuildingTypeCount, statics::TranslateAddr(expert_conf::ADDR_FUNC_CC_PLAYERS_BUILDING_TYPE_COUNT));
-	statics::SetFuncAddr(FuncCcPlayersUnitCount, statics::TranslateAddr(expert_conf::ADDR_FUNC_CC_PLAYERS_UNIT_COUNT));
-	statics::SetFuncAddr(FuncCcPlayersUnitTypeCount, statics::TranslateAddr(expert_conf::ADDR_FUNC_CC_PLAYERS_UNIT_TYPE_COUNT));
-	statics::SetFuncAddr(FuncCheatsEnabled, statics::TranslateAddr(expert_conf::ADDR_FUNC_CHEATS_ENABLED));
-	statics::SetFuncAddr(FuncDeathMatchGame, statics::TranslateAddr(expert_conf::ADDR_FUNC_DEATH_MATCH_GAME));
-	statics::SetFuncAddr(FuncDoctrine, statics::TranslateAddr(expert_conf::ADDR_FUNC_DOCTRINE));
-	statics::SetFuncAddr(FuncEnemyBuildingsInTown, statics::TranslateAddr(expert_conf::ADDR_FUNC_ENEMY_BUILDINGS_IN_TOWN));
-	statics::SetFuncAddr(FuncEnemyCapturedRelics, statics::TranslateAddr(expert_conf::ADDR_FUNC_ENEMY_CAPTURED_RELICS));
-	statics::SetFuncAddr(FuncEventDetected, statics::TranslateAddr(expert_conf::ADDR_FUNC_EVENT_DETECTED));
-	statics::SetFuncAddr(FuncHoldKohRuin, statics::TranslateAddr(expert_conf::ADDR_FUNC_HOLD_KOH_RUIN));
-	statics::SetFuncAddr(FuncHoldRelics, statics::TranslateAddr(expert_conf::ADDR_FUNC_HOLD_RELICS));
-	statics::SetFuncAddr(FuncMapSize, statics::TranslateAddr(expert_conf::ADDR_FUNC_MAP_SIZE));
-	statics::SetFuncAddr(FuncMapType, statics::TranslateAddr(expert_conf::ADDR_FUNC_MAP_TYPE));
-	statics::SetFuncAddr(FuncPlayerComputer, statics::TranslateAddr(expert_conf::ADDR_FUNC_PLAYER_COMPUTER));
-	statics::SetFuncAddr(FuncPlayerHuman, statics::TranslateAddr(expert_conf::ADDR_FUNC_PLAYER_HUMAN));
-	statics::SetFuncAddr(FuncPlayerInGame, statics::TranslateAddr(expert_conf::ADDR_FUNC_PLAYER_IN_GAME));
-	statics::SetFuncAddr(FuncPlayerNumber, statics::TranslateAddr(expert_conf::ADDR_FUNC_PLAYER_NUMBER));
-	statics::SetFuncAddr(FuncPlayerResigned, statics::TranslateAddr(expert_conf::ADDR_FUNC_PLAYER_RESIGNED));
-	statics::SetFuncAddr(FuncPlayerValid, statics::TranslateAddr(expert_conf::ADDR_FUNC_PLAYER_VALID));
-	statics::SetFuncAddr(FuncPlayersAchievements, statics::TranslateAddr(expert_conf::ADDR_FUNC_PLAYERS_ACHIEVEMENTS));
-	statics::SetFuncAddr(FuncPlayersCiv, statics::TranslateAddr(expert_conf::ADDR_FUNC_PLAYERS_CIV));
-	statics::SetFuncAddr(FuncPlayersStance, statics::TranslateAddr(expert_conf::ADDR_FUNC_PLAYERS_STANCE));
-	statics::SetFuncAddr(FuncRegicideGame, statics::TranslateAddr(expert_conf::ADDR_FUNC_REGICIDE_GAME));
-	statics::SetFuncAddr(FuncResearchAvailable, statics::TranslateAddr(expert_conf::ADDR_FUNC_RESEARCH_AVAILABLE));
-	statics::SetFuncAddr(FuncResearchCompleted, statics::TranslateAddr(expert_conf::ADDR_FUNC_RESEARCH_COMPLETED));
-	statics::SetFuncAddr(FuncResourceFound, statics::TranslateAddr(expert_conf::ADDR_FUNC_RESOURCE_FOUND));
-	statics::SetFuncAddr(FuncSharedGoal, statics::TranslateAddr(expert_conf::ADDR_FUNC_SHARED_GOAL));
-	statics::SetFuncAddr(FuncSheepAndForageTooFar, statics::TranslateAddr(expert_conf::ADDR_FUNC_SHEEP_AND_FORAGE_TOO_FAR));
-	statics::SetFuncAddr(FuncStanceToward, statics::TranslateAddr(expert_conf::ADDR_FUNC_STANCE_TOWARD));
-	statics::SetFuncAddr(FuncTauntDetected, statics::TranslateAddr(expert_conf::ADDR_FUNC_TAUNT_DETECTED));
-	statics::SetFuncAddr(FuncTimerTriggered, statics::TranslateAddr(expert_conf::ADDR_FUNC_TIMER_TRIGGERED));
-	statics::SetFuncAddr(FuncTownUnderAttack, statics::TranslateAddr(expert_conf::ADDR_FUNC_TOWN_UNDER_ATTACK));
-	statics::SetFuncAddr(FuncTraceFact, statics::TranslateAddr(expert_conf::ADDR_FUNC_TRACE_FACT));
-	statics::SetFuncAddr(FuncUnitAvailable, statics::TranslateAddr(expert_conf::ADDR_FUNC_UNIT_AVAILABLE));
-	statics::SetFuncAddr(FuncUpAlliedGoal, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_ALLIED_GOAL));
-	statics::SetFuncAddr(FuncUpAlliedResourceAmount, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_ALLIED_RESOURCE_AMOUNT));
-	statics::SetFuncAddr(FuncUpAlliedResourcePercent, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_ALLIED_RESOURCE_PERCENT));
-	statics::SetFuncAddr(FuncUpAlliedSn, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_ALLIED_SN));
-	statics::SetFuncAddr(FuncUpAttackerClass, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_ATTACKER_CLASS));
-	statics::SetFuncAddr(FuncUpBuildingTypeInTown, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_BUILDING_TYPE_IN_TOWN));
-	statics::SetFuncAddr(FuncUpCanBuild, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CAN_BUILD));
-	statics::SetFuncAddr(FuncUpCanBuildLine, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CAN_BUILD_LINE));
-	statics::SetFuncAddr(FuncUpCanResearch, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CAN_RESEARCH));
-	statics::SetFuncAddr(FuncUpCanSearch, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CAN_SEARCH));
-	statics::SetFuncAddr(FuncUpCanTrain, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_CAN_TRAIN));
-	statics::SetFuncAddr(FuncUpCompareGoal, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_COMPARE_GOAL));
-	statics::SetFuncAddr(FuncUpDefenderCount, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_DEFENDER_COUNT));
-	statics::SetFuncAddr(FuncUpEnemyBuildingsInTown, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_ENEMY_BUILDINGS_IN_TOWN));
-	statics::SetFuncAddr(FuncUpEnemyUnitsInTown, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_ENEMY_UNITS_IN_TOWN));
-	statics::SetFuncAddr(FuncUpEnemyVillagersInTown, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_ENEMY_VILLAGERS_IN_TOWN));
-	statics::SetFuncAddr(FuncUpGaiaTypeCount, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GAIA_TYPE_COUNT));
-	statics::SetFuncAddr(FuncUpGaiaTypeCountTotal, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GAIA_TYPE_COUNT_TOTAL));
-	statics::SetFuncAddr(FuncUpGroupSize, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GROUP_SIZE));
-	statics::SetFuncAddr(FuncUpIdleUnitCount, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_IDLE_UNIT_COUNT));
-	statics::SetFuncAddr(FuncUpObjectData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_OBJECT_DATA));
-	statics::SetFuncAddr(FuncUpObjectTargetData, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_OBJECT_TARGET_DATA));
-	statics::SetFuncAddr(FuncUpObjectTypeCount, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_OBJECT_TYPE_COUNT));
-	statics::SetFuncAddr(FuncUpObjectTypeCountTotal, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_OBJECT_TYPE_COUNT_TOTAL));
-	statics::SetFuncAddr(FuncUpPathDistance, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_PATH_DISTANCE));
-	statics::SetFuncAddr(FuncUpPendingObjects, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_PENDING_OBJECTS));
-	statics::SetFuncAddr(FuncUpPendingPlacement, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_PENDING_PLACEMENT));
-	statics::SetFuncAddr(FuncUpPlayerDistance, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_PLAYER_DISTANCE));
-	statics::SetFuncAddr(FuncUpPlayersInGame, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_PLAYERS_IN_GAME));
-	statics::SetFuncAddr(FuncUpPointContains, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_POINT_CONTAINS));
-	statics::SetFuncAddr(FuncUpPointDistance, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_POINT_DISTANCE));
-	statics::SetFuncAddr(FuncUpPointElevation, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_POINT_ELEVATION));
-	statics::SetFuncAddr(FuncUpPointExplored, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_POINT_EXPLORED));
-	statics::SetFuncAddr(FuncUpPointTerrain, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_POINT_TERRAIN));
-	statics::SetFuncAddr(FuncUpPointZone, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_POINT_ZONE));
-	statics::SetFuncAddr(FuncUpProjectileDetected, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_PROJECTILE_DETECTED));
-	statics::SetFuncAddr(FuncUpProjectileTarget, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_PROJECTILE_TARGET));
-	statics::SetFuncAddr(FuncUpRemainingBoarAmount, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_REMAINING_BOAR_AMOUNT));
-	statics::SetFuncAddr(FuncUpResearchStatus, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_RESEARCH_STATUS));
-	statics::SetFuncAddr(FuncUpResourceAmount, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_RESOURCE_AMOUNT));
-	statics::SetFuncAddr(FuncUpResourcePercent, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_RESOURCE_PERCENT));
-	statics::SetFuncAddr(FuncUpTimerStatus, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TIMER_STATUS));
-	statics::SetFuncAddr(FuncUpTrainSiteReady, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_TRAIN_SITE_READY));
-	statics::SetFuncAddr(FuncUpUnitTypeInTown, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_UNIT_TYPE_IN_TOWN));
-	statics::SetFuncAddr(FuncUpVillagerTypeInTown, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_VILLAGER_TYPE_IN_TOWN));
-	statics::SetFuncAddr(FuncVictoryCondition, statics::TranslateAddr(expert_conf::ADDR_FUNC_VICTORY_CONDITION));
-	statics::SetFuncAddr(FuncWallCompletedPercentage, statics::TranslateAddr(expert_conf::ADDR_FUNC_WALL_COMPLETED_PERCENTAGE));
-	statics::SetFuncAddr(FuncWallInvisiblePercentage, statics::TranslateAddr(expert_conf::ADDR_FUNC_WALL_INVISIBLE_PERCENTAGE));
 #if defined GAME_DE
-	statics::SetFuncAddr(FuncBuildingCountTotal, statics::TranslateAddr(expert_conf::ADDR_FUNC_BUILDING_COUNT_TOTAL));
-	statics::SetFuncAddr(FuncDifficulty, statics::TranslateAddr(expert_conf::ADDR_FUNC_DIFFICULTY));
-	statics::SetFuncAddr(FuncEndingAge, statics::TranslateAddr(expert_conf::ADDR_FUNC_ENDING_AGE));
-	statics::SetFuncAddr(FuncFeCanBuildAtPoint, statics::TranslateAddr(expert_conf::ADDR_FUNC_FE_CAN_BUILD_AT_POINT));
-	statics::SetFuncAddr(FuncFeSubGameType, statics::TranslateAddr(expert_conf::ADDR_FUNC_FE_SUB_GAME_TYPE));
-	statics::SetFuncAddr(FuncGameType, statics::TranslateAddr(expert_conf::ADDR_FUNC_GAME_TYPE));
-	statics::SetFuncAddr(FuncGateCount, statics::TranslateAddr(expert_conf::ADDR_FUNC_GATE_COUNT));
-	statics::SetFuncAddr(FuncStartingAge, statics::TranslateAddr(expert_conf::ADDR_FUNC_STARTING_AGE));
-	statics::SetFuncAddr(FuncStartingResources, statics::TranslateAddr(expert_conf::ADDR_FUNC_STARTING_RESOURCES));
-	statics::SetFuncAddr(FuncStrategicNumber, statics::TranslateAddr(expert_conf::ADDR_FUNC_STRATEGIC_NUMBER));
-	statics::SetFuncAddr(FuncUnitCountTotal, statics::TranslateAddr(expert_conf::ADDR_FUNC_UNIT_COUNT_TOTAL));
-	statics::SetFuncAddr(FuncUpAttackerClass, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_ATTACKER_CLASS));
-	statics::SetFuncAddr(FuncUpBuildingTypeInTown, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_BUILDING_TYPE_IN_TOWN));
-	statics::SetFuncAddr(FuncUpGaiaTypeCount, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GAIA_TYPE_COUNT));
-	statics::SetFuncAddr(FuncUpGaiaTypeCountTotal, statics::TranslateAddr(expert_conf::ADDR_FUNC_UP_GAIA_TYPE_COUNT_TOTAL));
-
-	statics::SetFuncAddr(FuncEvaluateRelOp, statics::TranslateAddr(expert_conf::ADDR_FUNC_EVALUATE_REL_OP));
+	try
+	{
+		uintptr_t callInstructionToEvaluateRelOpAddress = factFunctionMap.at("current-score")->address + 45;
+		std::vector<uint8_t> callInstructionToEvaluateRelOpData = memory_utils::ReadMemory(callInstructionToEvaluateRelOpAddress, 5);
+		statics::SetFuncAddr(FuncEvaluateRelOp, memory_utils::GetInstructionImmMemOperand(callInstructionToEvaluateRelOpAddress, callInstructionToEvaluateRelOpData));
+	}
+	catch (const std::exception&) {}
 #elif defined GAME_AOC
 	statics::SetFuncAddr(FuncInternalGameType, statics::TranslateAddr(expert_conf::ADDR_FUNC_INTERNAL_GAME_TYPE));
 	statics::SetFuncAddr(FuncInternalGetGateCount, statics::TranslateAddr(expert_conf::ADDR_FUNC_INTERNAL_GET_GATE_COUNT));
@@ -201,7 +129,16 @@ void ExpertFact::EnableDetours()
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());
 	DetourAttach(&(PVOID&)FuncEvaluateRelOp, DetouredEvaluateRelOp);
-	DetourTransactionCommit();
+	LONG transactionResult = DetourTransactionCommit();
+
+	if (transactionResult != NO_ERROR)
+	{
+		std::cout << "[Expert] Error: failed to detour function 'EvaluateRelOp'."
+			<< " Error code " << transactionResult
+			<< ", game module base address 0x" << std::hex << statics::GetGameModuleBaseAddr() << std::dec
+			<< ", function address 0x" << std::hex << (uintptr_t) FuncEvaluateRelOp << std::dec
+			<< ". Some facts will return invalid results and certain actions will not work." << std::endl;
+	}
 #elif defined GAME_AOC
 	memory_utils::RegisterJump(gUpEvaluateRelOpAddr, &DetouredUpEvaluateRelOp);
 	memory_utils::RegisterJump(gCcPlayersBuildingCountEvaluateRelOpAddr, &DetouredCcPlayersBuildingCountEvaluateRelOp);
@@ -239,7 +176,8 @@ int64_t ExpertFact::DetouredEvaluateRelOp(int relOp, int arg1, int arg2, char a4
 #elif defined GAME_AOC
 void __declspec(naked) DetouredUpEvaluateRelOp()
 {
-	__asm {
+	__asm
+	{
 		mov ExpertFact::lastRelOpValue, esi
 
 		xor eax, eax
@@ -251,7 +189,8 @@ void __declspec(naked) DetouredUpEvaluateRelOp()
 
 void __declspec(naked) DetouredCcPlayersBuildingCountEvaluateRelOp()
 {
-	__asm {
+	__asm
+	{
 		mov ExpertFact::lastRelOpValue, ecx
 
 		xor eax, eax
@@ -263,7 +202,8 @@ void __declspec(naked) DetouredCcPlayersBuildingCountEvaluateRelOp()
 
 void __declspec(naked) DetouredCcPlayersBuildingTypeCountEvaluateRelOp()
 {
-	__asm {
+	__asm
+	{
 		mov ExpertFact::lastRelOpValue, esi
 
 		xor eax, eax
@@ -275,7 +215,8 @@ void __declspec(naked) DetouredCcPlayersBuildingTypeCountEvaluateRelOp()
 
 void __declspec(naked) DetouredCcPlayersUnitCountEvaluateRelOp()
 {
-	__asm {
+	__asm
+	{
 		mov ExpertFact::lastRelOpValue, ecx
 
 		xor eax, eax
@@ -287,7 +228,8 @@ void __declspec(naked) DetouredCcPlayersUnitCountEvaluateRelOp()
 
 void __declspec(naked) DetouredCcPlayersUnitTypeCountEvaluateRelOp1()
 {
-	__asm {
+	__asm
+	{
 		movsx ecx, [edi+0x11CC]
 		
 		mov ExpertFact::lastRelOpValue, ecx
@@ -298,7 +240,8 @@ void __declspec(naked) DetouredCcPlayersUnitTypeCountEvaluateRelOp1()
 
 void __declspec(naked) DetouredCcPlayersUnitTypeCountEvaluateRelOp2()
 {
-	__asm {
+	__asm
+	{
 		mov ExpertFact::lastRelOpValue, esi
 
 		xor eax, eax
@@ -308,6 +251,20 @@ void __declspec(naked) DetouredCcPlayersUnitTypeCountEvaluateRelOp2()
 	}
 }
 #endif
+
+int ExpertFact::ExecuteFactFunction(const FactFunction& factFunction, const int arg1, const int arg2, const int arg3, const int arg4)
+{
+	switch (factFunction.argc)
+	{
+		case 0: return ((int(*)(void))factFunction.address)();
+		case 1: return ((int(*)(int))factFunction.address)(arg1);
+		case 2: return ((int(*)(int, int))factFunction.address)(arg1, arg2);
+		case 3: return ((int(*)(int, int, int))factFunction.address)(arg1, arg2, arg3);
+		case 4: return ((int(*)(int, int, int, int))factFunction.address)(arg1, arg2, arg3, arg4);
+	}
+
+	return 0;
+}
 
 int ExpertFact::AttackSoldierCount()
 {
@@ -321,7 +278,8 @@ int ExpertFact::AttackWarboatCount()
 
 bool ExpertFact::BuildingAvailable(int inConstBuildingId)
 {
-	return FuncBuildingAvailable(inConstBuildingId);
+	static const FactFunction factFunction = *factFunctionMap.at("building-available");
+	return ExecuteFactFunction(factFunction, inConstBuildingId);
 }
 
 int ExpertFact::BuildingCount()
@@ -333,7 +291,8 @@ int ExpertFact::BuildingCountTotal()
 {
 #if defined GAME_DE
 	lastRelOpValue = -1;
-	FuncBuildingCountTotal(0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("building-count-total");
+	ExecuteFactFunction(factFunction, 0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
 	return *(int16_t*)(*(int8_t**)expert_conf::ADDR_PTR_THIS_PLAYER + 0x128E);
@@ -352,125 +311,148 @@ int ExpertFact::BuildingTypeCountTotal(int inConstBuildingId)
 
 bool ExpertFact::CanAffordBuilding(int inConstBuildingId)
 {
-	return FuncCanAffordBuilding(inConstBuildingId);
+	static const FactFunction factFunction = *factFunctionMap.at("can-afford-building");
+	return ExecuteFactFunction(factFunction, inConstBuildingId);
 }
 
 bool ExpertFact::CanAffordCompleteWall(int inConstPerimeter, int inConstWallId)
 {
-	return FuncCanAffordCompleteWall(inConstPerimeter, inConstWallId);
+	static const FactFunction factFunction = *factFunctionMap.at("can-afford-complete-wall");
+	return ExecuteFactFunction(factFunction, inConstPerimeter, inConstWallId);
 }
 
 bool ExpertFact::CanAffordResearch(int inConstTechId)
 {
-	return FuncCanAffordResearch(inConstTechId);
+	static const FactFunction factFunction = *factFunctionMap.at("can-afford-research");
+	return ExecuteFactFunction(factFunction, inConstTechId);
 }
 
 bool ExpertFact::CanAffordUnit(int inConstUnitId)
 {
-	return FuncCanAffordUnit(inConstUnitId);
+	static const FactFunction factFunction = *factFunctionMap.at("can-afford-unit");
+	return ExecuteFactFunction(factFunction, inConstUnitId);
 }
 
 bool ExpertFact::CanBuild(int inConstBuildingId)
 {
-	return FuncCanBuild(inConstBuildingId);
+	static const FactFunction factFunction = *factFunctionMap.at("can-build");
+	return ExecuteFactFunction(factFunction, inConstBuildingId);
 }
 
 bool ExpertFact::CanBuildGate(int inConstPerimeter)
 {
-	return FuncCanBuildGate(inConstPerimeter);
+	static const FactFunction factFunction = *factFunctionMap.at("can-build-gate");
+	return ExecuteFactFunction(factFunction, inConstPerimeter);
 }
 
 bool ExpertFact::CanBuildGateWithEscrow(int inConstPerimeter)
 {
-	return FuncCanBuildGateWithEscrow(inConstPerimeter);
+	static const FactFunction factFunction = *factFunctionMap.at("can-build-gate-with-escrow");
+	return ExecuteFactFunction(factFunction, inConstPerimeter);
 }
 
 bool ExpertFact::CanBuildWall(int inConstPerimeter, int inConstWallId)
 {
-	return FuncCanBuildWall(inConstPerimeter, inConstWallId);
+	static const FactFunction factFunction = *factFunctionMap.at("can-build-wall");
+	return ExecuteFactFunction(factFunction, inConstPerimeter, inConstWallId);
 }
 
 bool ExpertFact::CanBuildWallWithEscrow(int inConstPerimeter, int inConstWallId)
 {
-	return FuncCanBuildWallWithEscrow(inConstPerimeter, inConstWallId);
+	static const FactFunction factFunction = *factFunctionMap.at("can-build-wall-with-escrow");
+	return ExecuteFactFunction(factFunction, inConstPerimeter, inConstWallId);
 }
 
 bool ExpertFact::CanBuildWithEscrow(int inConstBuildingId)
 {
-	return FuncCanBuildWithEscrow(inConstBuildingId);
+	static const FactFunction factFunction = *factFunctionMap.at("can-build-with-escrow");
+	return ExecuteFactFunction(factFunction, inConstBuildingId);
 }
 
 bool ExpertFact::CanBuyCommodity(int inConstCommodity)
 {
-	return FuncCanBuyCommodity(inConstCommodity);
+	static const FactFunction factFunction = *factFunctionMap.at("can-buy-commodity");
+	return ExecuteFactFunction(factFunction, inConstCommodity);
 }
 
 bool ExpertFact::CanResearch(int inConstTechId)
 {
-	return FuncCanResearch(inConstTechId);
+	static const FactFunction factFunction = *factFunctionMap.at("can-research");
+	return ExecuteFactFunction(factFunction, inConstTechId);
 }
 
 bool ExpertFact::CanResearchWithEscrow(int inConstTechId)
 {
-	return FuncCanResearchWithEscrow(inConstTechId);
+	static const FactFunction factFunction = *factFunctionMap.at("can-research-with-escrow");
+	return ExecuteFactFunction(factFunction, inConstTechId);
 }
 
 bool ExpertFact::CanSellCommodity(int inConstCommodity)
 {
-	return FuncCanSellCommodity(inConstCommodity);
+	static const FactFunction factFunction = *factFunctionMap.at("can-sell-commodity");
+	return ExecuteFactFunction(factFunction, inConstCommodity);
 }
 
 bool ExpertFact::CanSpy()
 {
-	return FuncCanSpy();
+	static const FactFunction factFunction = *factFunctionMap.at("can-spy");
+	return ExecuteFactFunction(factFunction);
 }
 
 bool ExpertFact::CanSpyWithEscrow()
 {
-	return FuncCanSpyWithEscrow();
+	static const FactFunction factFunction = *factFunctionMap.at("can-spy-with-escrow");
+	return ExecuteFactFunction(factFunction);
 }
 
 bool ExpertFact::CanTrain(int inConstUnitId)
 {
-	return FuncCanTrain(inConstUnitId);
+	static const FactFunction factFunction = *factFunctionMap.at("can-train");
+	return ExecuteFactFunction(factFunction, inConstUnitId);
 }
 
 bool ExpertFact::CanTrainWithEscrow(int inConstUnitId)
 {
-	return FuncCanTrainWithEscrow(inConstUnitId);
+	static const FactFunction factFunction = *factFunctionMap.at("can-train-with-escrow");
+	return ExecuteFactFunction(factFunction, inConstUnitId);
 }
 
 int ExpertFact::CcPlayersBuildingCount(int inPlayerAnyPlayer)
 {
 	lastRelOpValue = -1;
-	FuncCcPlayersBuildingCount(inPlayerAnyPlayer, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("cc-players-building-count");
+	ExecuteFactFunction(factFunction, inPlayerAnyPlayer, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::CcPlayersBuildingTypeCount(int inPlayerAnyPlayer, int inConstBuildingId)
 {
 	lastRelOpValue = -1;
-	FuncCcPlayersBuildingTypeCount(inPlayerAnyPlayer, inConstBuildingId, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("cc-players-building-type-count");
+	ExecuteFactFunction(factFunction, inPlayerAnyPlayer, inConstBuildingId, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::CcPlayersUnitCount(int inPlayerAnyPlayer)
 {
 	lastRelOpValue = -1;
-	FuncCcPlayersUnitCount(inPlayerAnyPlayer, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("cc-players-unit-count");
+	ExecuteFactFunction(factFunction, inPlayerAnyPlayer, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::CcPlayersUnitTypeCount(int inPlayerAnyPlayer, int inConstUnitId)
 {
 	lastRelOpValue = -1;
-	FuncCcPlayersUnitTypeCount(inPlayerAnyPlayer, inConstUnitId, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("cc-players-unit-type-count");
+	ExecuteFactFunction(factFunction, inPlayerAnyPlayer, inConstUnitId, 0, 0);
 	return lastRelOpValue;
 }
 
 bool ExpertFact::CheatsEnabled()
 {
-	return FuncCheatsEnabled();
+	static const FactFunction factFunction = *factFunctionMap.at("cheats-enabled");
+	return ExecuteFactFunction(factFunction);
 }
 
 int ExpertFact::CivSelected()
@@ -510,7 +492,8 @@ int ExpertFact::CurrentScore()
 
 bool ExpertFact::DeathMatchGame()
 {
-	return FuncDeathMatchGame();
+	static const FactFunction factFunction = *factFunctionMap.at("death-match-game");
+	return ExecuteFactFunction(factFunction);
 }
 
 int ExpertFact::DefendSoldierCount()
@@ -527,7 +510,8 @@ int ExpertFact::Difficulty()
 {
 #if defined GAME_DE
 	lastRelOpValue = -1;
-	FuncDifficulty(0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("difficulty");
+	ExecuteFactFunction(factFunction, 0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
 	return *(int32_t*)expert_conf::ADDR_VAR_DIFFICULTY;
@@ -536,7 +520,8 @@ int ExpertFact::Difficulty()
 
 bool ExpertFact::Doctrine(int inConstValue)
 {
-	return FuncDoctrine(inConstValue);
+	static const FactFunction factFunction = *factFunctionMap.at("doctrine");
+	return ExecuteFactFunction(factFunction, inConstValue);
 }
 
 int ExpertFact::DropsiteMinDistance(int inConstResource)
@@ -546,12 +531,14 @@ int ExpertFact::DropsiteMinDistance(int inConstResource)
 
 bool ExpertFact::EnemyBuildingsInTown()
 {
-	return FuncEnemyBuildingsInTown();
+	static const FactFunction factFunction = *factFunctionMap.at("enemy-buildings-in-town");
+	return ExecuteFactFunction(factFunction);
 }
 
 bool ExpertFact::EnemyCapturedRelics()
 {
-	return FuncEnemyCapturedRelics();
+	static const FactFunction factFunction = *factFunctionMap.at("enemy-captured-relics");
+	return ExecuteFactFunction(factFunction);
 }
 
 int ExpertFact::EscrowAmount(int inConstResource)
@@ -561,12 +548,14 @@ int ExpertFact::EscrowAmount(int inConstResource)
 
 bool ExpertFact::EventDetected(int inConstEventType, int inConstEventId)
 {
-	return FuncEventDetected(inConstEventType, inConstEventId);
+	static const FactFunction factFunction = *factFunctionMap.at("event-detected");
+	return ExecuteFactFunction(factFunction, inConstEventType, inConstEventId);
 }
 
 bool ExpertFact::False()
 {
-	return false;
+	static const FactFunction factFunction = *factFunctionMap.at("false");
+	return ExecuteFactFunction(factFunction);
 }
 
 int ExpertFact::FoodAmount()
@@ -583,7 +572,8 @@ int ExpertFact::GameType()
 {
 #if defined GAME_DE
 	lastRelOpValue = -1;
-	FuncGameType(0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("game-type");
+	ExecuteFactFunction(factFunction, 0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
 	return FuncInternalGameType(*(void**)expert_conf::ADDR_PTR_BASE_GAME) & 0xFF;
@@ -594,7 +584,8 @@ int ExpertFact::GateCount(int inConstPerimeter)
 {
 #if defined GAME_DE
 	lastRelOpValue = -1;
-	FuncGateCount(inConstPerimeter, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("gate-count");
+	ExecuteFactFunction(factFunction, inConstPerimeter, 0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
 	if (inConstPerimeter != 1 && inConstPerimeter != 2)
@@ -608,7 +599,8 @@ int ExpertFact::Goal(int inConstGoalId)
 {
 	// call up-compare-goal instead as the usual goal fact doesn't call EvaluateRelOp
 	lastRelOpValue = -1;
-	FuncUpCompareGoal(inConstGoalId, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-compare-goal");
+	ExecuteFactFunction(factFunction, inConstGoalId, 0, 0);
 	return lastRelOpValue;
 }
 
@@ -628,12 +620,14 @@ int ExpertFact::GoldAmount()
 
 bool ExpertFact::HoldKohRuin()
 {
-	return FuncHoldKohRuin();
+	static const FactFunction factFunction = *factFunctionMap.at("hold-koh-ruin");
+	return ExecuteFactFunction(factFunction);
 }
 
 bool ExpertFact::HoldRelics()
 {
-	return FuncHoldRelics();
+	static const FactFunction factFunction = *factFunctionMap.at("hold-relics");
+	return ExecuteFactFunction(factFunction);
 }
 
 int ExpertFact::HousingHeadroom()
@@ -648,8 +642,10 @@ int ExpertFact::IdleFarmCount()
 
 int ExpertFact::MapSize()
 {
+	static const FactFunction factFunction = *factFunctionMap.at("map-size");
+
 	for (int i = 0; i <= 6; i++)
-		if (FuncMapSize(i))
+		if (ExecuteFactFunction(factFunction, i))
 			return i;
 
 	return -1;
@@ -657,8 +653,10 @@ int ExpertFact::MapSize()
 
 int ExpertFact::MapType()
 {
+	static const FactFunction factFunction = *factFunctionMap.at("map-type");
+
 	for (int i = -1; i <= 200; i++)
-		if (FuncMapType(i))
+		if (ExecuteFactFunction(factFunction, i))
 			return i;
 
 	return 0;
@@ -671,37 +669,44 @@ int ExpertFact::MilitaryPopulation()
 
 bool ExpertFact::PlayerComputer(int inPlayerAnyPlayer)
 {
-	return FuncPlayerComputer(inPlayerAnyPlayer);
+	static const FactFunction factFunction = *factFunctionMap.at("player-computer");
+	return ExecuteFactFunction(factFunction, inPlayerAnyPlayer);
 }
 
 bool ExpertFact::PlayerHuman(int inPlayerAnyPlayer)
 {
-	return FuncPlayerHuman(inPlayerAnyPlayer);
+	static const FactFunction factFunction = *factFunctionMap.at("player-human");
+	return ExecuteFactFunction(factFunction, inPlayerAnyPlayer);
 }
 
 bool ExpertFact::PlayerInGame(int inPlayerAnyPlayer)
 {
-	return FuncPlayerInGame(inPlayerAnyPlayer);
+	static const FactFunction factFunction = *factFunctionMap.at("player-in-game");
+	return ExecuteFactFunction(factFunction, inPlayerAnyPlayer);
 }
 
 bool ExpertFact::PlayerNumber(int inPlayerAnyPlayer)
 {
-	return FuncPlayerNumber(inPlayerAnyPlayer);
+	static const FactFunction factFunction = *factFunctionMap.at("player-number");
+	return ExecuteFactFunction(factFunction, inPlayerAnyPlayer);
 }
 
 bool ExpertFact::PlayerResigned(int inPlayerAnyPlayer)
 {
-	return FuncPlayerResigned(inPlayerAnyPlayer);
+	static const FactFunction factFunction = *factFunctionMap.at("player-resigned");
+	return ExecuteFactFunction(factFunction, inPlayerAnyPlayer);
 }
 
 bool ExpertFact::PlayerValid(int inPlayerAnyPlayer)
 {
-	return FuncPlayerValid(inPlayerAnyPlayer);
+	static const FactFunction factFunction = *factFunctionMap.at("player-valid");
+	return ExecuteFactFunction(factFunction, inPlayerAnyPlayer);
 }
 
 bool ExpertFact::PlayersAchievements(int param1, int param2, int param3, int param4)
 {
-	return FuncPlayersAchievements(param1, param2, param3, param4);
+	static const FactFunction factFunction = *factFunctionMap.at("players-achievements");
+	return ExecuteFactFunction(factFunction, param1, param2, param3, param4);
 }
 
 int ExpertFact::PlayersBuildingCount(int inPlayerAnyPlayer)
@@ -716,7 +721,8 @@ int ExpertFact::PlayersBuildingTypeCount(int inPlayerAnyPlayer, int inConstBuild
 
 bool ExpertFact::PlayersCiv(int inPlayerAnyPlayer)
 {
-	return FuncPlayersCiv(inPlayerAnyPlayer);
+	static const FactFunction factFunction = *factFunctionMap.at("players-civ");
+	return ExecuteFactFunction(factFunction, inPlayerAnyPlayer);
 }
 
 int ExpertFact::PlayersCivilianPopulation(int inPlayerAnyPlayer)
@@ -751,7 +757,8 @@ int ExpertFact::PlayersScore(int inPlayerAnyPlayer)
 
 bool ExpertFact::PlayersStance(int inPlayerAnyPlayer, int inConstESPlayerStance)
 {
-	return FuncPlayersStance(inPlayerAnyPlayer, inConstESPlayerStance);
+	static const FactFunction factFunction = *factFunctionMap.at("players-stance");
+	return ExecuteFactFunction(factFunction, inPlayerAnyPlayer, inConstESPlayerStance);
 }
 
 int ExpertFact::PlayersTribute(int inPlayerAnyPlayer, int inConstResource)
@@ -796,32 +803,38 @@ int ExpertFact::RandomNumber()
 
 bool ExpertFact::RegicideGame()
 {
-	return FuncRegicideGame();
+	static const FactFunction factFunction = *factFunctionMap.at("regicide-game");
+	return ExecuteFactFunction(factFunction);
 }
 
 bool ExpertFact::ResearchAvailable(int inConstTechId)
 {
-	return FuncResearchAvailable(inConstTechId);
+	static const FactFunction factFunction = *factFunctionMap.at("research-available");
+	return ExecuteFactFunction(factFunction, inConstTechId);
 }
 
 bool ExpertFact::ResearchCompleted(int inConstTechId)
 {
-	return FuncResearchCompleted(inConstTechId);
+	static const FactFunction factFunction = *factFunctionMap.at("research-completed");
+	return ExecuteFactFunction(factFunction, inConstTechId);
 }
 
 bool ExpertFact::ResourceFound(int inConstResource)
 {
-	return FuncResourceFound(inConstResource);
+	static const FactFunction factFunction = *factFunctionMap.at("resource-found");
+	return ExecuteFactFunction(factFunction, inConstResource);
 }
 
 bool ExpertFact::SharedGoal(int inConstSharedGoalId, int inConstValue)
 {
-	return FuncSharedGoal(inConstSharedGoalId, inConstValue);
+	static const FactFunction factFunction = *factFunctionMap.at("shared-goal");
+	return ExecuteFactFunction(factFunction, inConstSharedGoalId, inConstValue);
 }
 
 bool ExpertFact::SheepAndForageTooFar()
 {
-	return FuncSheepAndForageTooFar();
+	static const FactFunction factFunction = *factFunctionMap.at("sheep-and-forage-too-far");
+	return ExecuteFactFunction(factFunction);
 }
 
 int ExpertFact::SoldierCount()
@@ -831,14 +844,16 @@ int ExpertFact::SoldierCount()
 
 bool ExpertFact::StanceToward(int inPlayerAnyPlayer, int inConstESPlayerStance)
 {
-	return FuncStanceToward(inPlayerAnyPlayer, inConstESPlayerStance);
+	static const FactFunction factFunction = *factFunctionMap.at("stance-toward");
+	return ExecuteFactFunction(factFunction, inPlayerAnyPlayer, inConstESPlayerStance);
 }
 
 int ExpertFact::StartingAge()
 {
 #if defined GAME_DE
 	lastRelOpValue = -1;
-	FuncStartingAge(0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("starting-age");
+	ExecuteFactFunction(factFunction, 0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
 	switch (*(int*)expert_conf::ADDR_VAR_STARTING_AGE)
@@ -858,7 +873,8 @@ int ExpertFact::StartingResources()
 {
 #if defined GAME_DE
 	lastRelOpValue = -1;
-	FuncStartingResources(0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("starting-resources");
+	ExecuteFactFunction(factFunction, 0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
 	return *(int*)expert_conf::ADDR_VAR_STARTING_RESOURCES;
@@ -874,7 +890,8 @@ int ExpertFact::StrategicNumber(int inConstSnId)
 {
 #if defined GAME_DE
 	lastRelOpValue = -1;
-	FuncStrategicNumber(inConstSnId, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("strategic-number");
+	ExecuteFactFunction(factFunction, inConstSnId, 0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
 	return FuncInternalStrategicNumber(*(void**)expert_conf::ADDR_PTR_THIS_TACTICAL_AI, inConstSnId);
@@ -892,32 +909,38 @@ std::vector<int> ExpertFact::StrategicNumberList()
 
 bool ExpertFact::TauntDetected(int inPlayerAnyPlayer, int inConstTauntId)
 {
-	return FuncTauntDetected(inPlayerAnyPlayer, inConstTauntId);
+	static const FactFunction factFunction = *factFunctionMap.at("taunt-detected");
+	return ExecuteFactFunction(factFunction, inPlayerAnyPlayer, inConstTauntId);
 }
 
 bool ExpertFact::TimerTriggered(int inConstTimerId)
 {
-	return FuncTimerTriggered(inConstTimerId);
+	static const FactFunction factFunction = *factFunctionMap.at("timer-triggered");
+	return ExecuteFactFunction(factFunction, inConstTimerId);
 }
 
 bool ExpertFact::TownUnderAttack()
 {
-	return FuncTownUnderAttack();
+	static const FactFunction factFunction = *factFunctionMap.at("town-under-attack");
+	return ExecuteFactFunction(factFunction);
 }
 
 bool ExpertFact::TraceFact(int param)
 {
-	return FuncTraceFact(param);
+	static const FactFunction factFunction = *factFunctionMap.at("trace-fact");
+	return ExecuteFactFunction(factFunction, param);
 }
 
 bool ExpertFact::True()
 {
-	return true;
+	static const FactFunction factFunction = *factFunctionMap.at("true");
+	return ExecuteFactFunction(factFunction);
 }
 
 bool ExpertFact::UnitAvailable(int inConstUnitId)
 {
-	return FuncUnitAvailable(inConstUnitId);
+	static const FactFunction factFunction = *factFunctionMap.at("unit-available");
+	return ExecuteFactFunction(factFunction, inConstUnitId);
 }
 
 int ExpertFact::UnitCount()
@@ -929,7 +952,8 @@ int ExpertFact::UnitCountTotal()
 {
 #if defined GAME_DE
 	lastRelOpValue = -1;
-	FuncUnitCountTotal(0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("unit-count-total");
+	ExecuteFactFunction(factFunction, 0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
 	return *(int16_t*)(*(int8_t**)expert_conf::ADDR_PTR_THIS_PLAYER + 0x128C);
@@ -949,35 +973,40 @@ int ExpertFact::UnitTypeCountTotal(int inConstUnitId)
 int ExpertFact::UpAlliedGoal(int inPlayerComputerAllyPlayer, int inGoalId)
 {
 	lastRelOpValue = -1;
-	FuncUpAlliedGoal(inPlayerComputerAllyPlayer, inGoalId, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-allied-goal");
+	ExecuteFactFunction(factFunction, inPlayerComputerAllyPlayer, inGoalId, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpAlliedResourceAmount(int inPlayerAllyPlayer, int inConstResourceAmount)
 {
 	lastRelOpValue = -1;
-	FuncUpAlliedResourceAmount(inPlayerAllyPlayer, inConstResourceAmount, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-allied-resource-amount");
+	ExecuteFactFunction(factFunction, inPlayerAllyPlayer, inConstResourceAmount, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpAlliedResourcePercent(int inPlayerAllyPlayer, int inConstResourceAmount)
 {
 	lastRelOpValue = -1;
-	FuncUpAlliedResourcePercent(inPlayerAllyPlayer, inConstResourceAmount, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-allied-resource-percent");
+	ExecuteFactFunction(factFunction, inPlayerAllyPlayer, inConstResourceAmount, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpAlliedSn(int inPlayerComputerAllyPlayer, int inSnId)
 {
 	lastRelOpValue = -1;
-	FuncUpAlliedSn(inPlayerComputerAllyPlayer, inSnId, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-allied-sn");
+	ExecuteFactFunction(factFunction, inPlayerComputerAllyPlayer, inSnId, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpAttackerClass()
 {
 	lastRelOpValue = -1;
-	FuncUpAttackerClass(0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-attacker-class");
+	ExecuteFactFunction(factFunction, 0, 0);
 	return lastRelOpValue;
 }
 
@@ -988,7 +1017,8 @@ int ExpertFact::UpBuildingTypeInTown(int typeOp, int inOpBuildingId)
 #endif
 
 	lastRelOpValue = -1;
-	FuncUpBuildingTypeInTown(typeOp, inOpBuildingId, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-building-type-in-town");
+	ExecuteFactFunction(factFunction, typeOp, inOpBuildingId, 0, 0);
 	return lastRelOpValue;
 }
 
@@ -998,7 +1028,8 @@ bool ExpertFact::UpCanBuild(int inGoalEscrowState, int typeOp, int inOpBuildingI
 	ChangeTypeOpToConst(typeOp, inOpBuildingId);
 #endif
 
-	return FuncUpCanBuild(inGoalEscrowState, typeOp, inOpBuildingId);
+	static const FactFunction factFunction = *factFunctionMap.at("up-can-build");
+	return ExecuteFactFunction(factFunction, inGoalEscrowState, typeOp, inOpBuildingId);
 }
 
 bool ExpertFact::UpCanBuildLine(int inGoalEscrowState, int inGoalPoint, int typeOp, int inOpBuildingId)
@@ -1007,7 +1038,8 @@ bool ExpertFact::UpCanBuildLine(int inGoalEscrowState, int inGoalPoint, int type
 	ChangeTypeOpToConst(typeOp, inOpBuildingId);
 #endif
 
-	return FuncUpCanBuildLine(inGoalEscrowState, inGoalPoint, typeOp, inOpBuildingId);
+	static const FactFunction factFunction = *factFunctionMap.at("up-can-build-line");
+	return ExecuteFactFunction(factFunction, inGoalEscrowState, inGoalPoint, typeOp, inOpBuildingId);
 }
 
 bool ExpertFact::UpCanResearch(int inGoalEscrowState, int typeOp, int inOpTechId)
@@ -1016,12 +1048,14 @@ bool ExpertFact::UpCanResearch(int inGoalEscrowState, int typeOp, int inOpTechId
 	ChangeTypeOpToConst(typeOp, inOpTechId);
 #endif
 
-	return FuncUpCanResearch(inGoalEscrowState, typeOp, inOpTechId);
+	static const FactFunction factFunction = *factFunctionMap.at("up-can-research");
+	return ExecuteFactFunction(factFunction, inGoalEscrowState, typeOp, inOpTechId);
 }
 
 bool ExpertFact::UpCanSearch(int inConstSearchSource)
 {
-	return FuncUpCanSearch(inConstSearchSource);
+	static const FactFunction factFunction = *factFunctionMap.at("up-can-search");
+	return ExecuteFactFunction(factFunction, inConstSearchSource);
 }
 
 bool ExpertFact::UpCanTrain(int inGoalEscrowState, int typeOp, int inOpUnitId)
@@ -1030,72 +1064,79 @@ bool ExpertFact::UpCanTrain(int inGoalEscrowState, int typeOp, int inOpUnitId)
 	ChangeTypeOpToConst(typeOp, inOpUnitId);
 #endif
 
-	return FuncUpCanTrain(inGoalEscrowState, typeOp, inOpUnitId);
+	static const FactFunction factFunction = *factFunctionMap.at("up-can-train");
+	return ExecuteFactFunction(factFunction, inGoalEscrowState, typeOp, inOpUnitId);
 }
 
 int ExpertFact::UpDefenderCount()
 {
 	lastRelOpValue = -1;
-	FuncUpDefenderCount(0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-defender-count");
+	ExecuteFactFunction(factFunction, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpEnemyBuildingsInTown()
 {
 	lastRelOpValue = -1;
-	FuncUpEnemyBuildingsInTown(0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-enemy-buildings-in-town");
+	ExecuteFactFunction(factFunction, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpEnemyUnitsInTown()
 {
 	lastRelOpValue = -1;
-	FuncUpEnemyUnitsInTown(0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-enemy-units-in-town");
+	ExecuteFactFunction(factFunction, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpEnemyVillagersInTown()
 {
 	lastRelOpValue = -1;
-	FuncUpEnemyVillagersInTown(0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-enemy-villagers-in-town");
+	ExecuteFactFunction(factFunction, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpGaiaTypeCount(int inConstResource)
 {
 	lastRelOpValue = -1;
-	FuncUpGaiaTypeCount(0, inConstResource, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-gaia-type-count");
+	ExecuteFactFunction(factFunction, 0, inConstResource, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpGaiaTypeCountTotal(int inConstResource)
 {
 	lastRelOpValue = -1;
-	FuncUpGaiaTypeCountTotal(0, inConstResource, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-gaia-type-count-total");
+	ExecuteFactFunction(factFunction, 0, inConstResource, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpGetFact(int inConstFactId, int inConstParam)
 {
 	// Cache goal, read new fact into goal
-	int cachedGoal = ExpertFact::Goal(512);
-	ExpertAction::UpGetFact(inConstFactId, inConstParam, 512);
-	int result = ExpertFact::Goal(512);
+	int cachedGoal = ExpertFact::Goal(expert_conf::CONST_TEMP_GOAL_ID);
+	ExpertAction::UpGetFact(inConstFactId, inConstParam, expert_conf::CONST_TEMP_GOAL_ID);
+	int result = ExpertFact::Goal(expert_conf::CONST_TEMP_GOAL_ID);
 
 	// Restore goal and return result
-	ExpertAction::SetGoal(512, cachedGoal);
+	ExpertAction::SetGoal(expert_conf::CONST_TEMP_GOAL_ID, cachedGoal);
 	return result;
 }
 
 int ExpertFact::UpGetPlayerFact(int inPlayerAnyPlayer, int inConstFactId, int inConstParam)
 {
 	// Cache goal, read new fact into goal
-	int cachedGoal = ExpertFact::Goal(512);
-	ExpertAction::UpGetPlayerFact(inPlayerAnyPlayer, inConstFactId, inConstParam, 512);
-	int result = ExpertFact::Goal(512);
+	int cachedGoal = ExpertFact::Goal(expert_conf::CONST_TEMP_GOAL_ID);
+	ExpertAction::UpGetPlayerFact(inPlayerAnyPlayer, inConstFactId, inConstParam, expert_conf::CONST_TEMP_GOAL_ID);
+	int result = ExpertFact::Goal(expert_conf::CONST_TEMP_GOAL_ID);
 
 	// Restore goal and return result
-	ExpertAction::SetGoal(512, cachedGoal);
+	ExpertAction::SetGoal(expert_conf::CONST_TEMP_GOAL_ID, cachedGoal);
 	return result;
 }
 
@@ -1105,14 +1146,14 @@ std::array<int, 4> ExpertFact::UpGetSearchState()
 
 	// cache 4 goals that will be overwritten
 	int cachedGoals[4];
-	for (int i = 0; i < 4; i++) cachedGoals[i] = ExpertFact::Goal(400 + i);
+	for (int i = 0; i < 4; i++) cachedGoals[i] = ExpertFact::Goal(expert_conf::CONST_TEMP_GOAL_ID + i);
 
 	// get search state into these 4 goals and populate the result
-	ExpertAction::UpGetSearchState(400);
-	for (int i = 0; i < 4; i++) result[i] = ExpertFact::Goal(400 + i);
+	ExpertAction::UpGetSearchState(expert_conf::CONST_TEMP_GOAL_ID);
+	for (int i = 0; i < 4; i++) result[i] = ExpertFact::Goal(expert_conf::CONST_TEMP_GOAL_ID + i);
 
 	// restore cached goals and return the result
-	for (int i = 0; i < 4; i++) ExpertAction::SetGoal(400 + i, cachedGoals[i]);
+	for (int i = 0; i < 4; i++) ExpertAction::SetGoal(expert_conf::CONST_TEMP_GOAL_ID + i, cachedGoals[i]);
 	return result;
 }
 
@@ -1123,21 +1164,24 @@ int ExpertFact::UpGroupSize(int typeOp, int inOpGroupId)
 #endif
 
 	lastRelOpValue = -1;
-	FuncUpGroupSize(typeOp, inOpGroupId, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-group-size");
+	ExecuteFactFunction(factFunction, typeOp, inOpGroupId, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpIdleUnitCount(int inConstIdleType)
 {
 	lastRelOpValue = -1;
-	FuncUpIdleUnitCount(inConstIdleType, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-idle-unit-count");
+	ExecuteFactFunction(factFunction, inConstIdleType, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpObjectData(int inConstObjectData)
 {
 	lastRelOpValue = -1;
-	FuncUpObjectData(inConstObjectData, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-object-data");
+	ExecuteFactFunction(factFunction, inConstObjectData, 0, 0);
 	return lastRelOpValue;
 }
 
@@ -1165,7 +1209,8 @@ std::vector<int> ExpertFact::UpObjectDataList()
 int ExpertFact::UpObjectTargetData(int inConstObjectData)
 {
 	lastRelOpValue = -1;
-	FuncUpObjectTargetData(inConstObjectData, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-object-target-data");
+	ExecuteFactFunction(factFunction, inConstObjectData, 0, 0);
 	return lastRelOpValue;
 }
 
@@ -1176,7 +1221,8 @@ int ExpertFact::UpObjectTypeCount(int typeOp, int inOpObjectId)
 #endif
 
 	lastRelOpValue = -1;
-	FuncUpObjectTypeCount(typeOp, inOpObjectId, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-object-type-count");
+	ExecuteFactFunction(factFunction, typeOp, inOpObjectId, 0, 0);
 	return lastRelOpValue;
 }
 
@@ -1187,14 +1233,16 @@ int ExpertFact::UpObjectTypeCountTotal(int typeOp, int inOpObjectId)
 #endif
 
 	lastRelOpValue = -1;
-	FuncUpObjectTypeCountTotal(typeOp, inOpObjectId, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-object-type-count-total");
+	ExecuteFactFunction(factFunction, typeOp, inOpObjectId, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpPathDistance(int inGoalPoint, int inConstStrict)
 {
 	lastRelOpValue = -1;
-	FuncUpPathDistance(inGoalPoint, inConstStrict, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-path-distance");
+	ExecuteFactFunction(factFunction, inGoalPoint, inConstStrict, 0, 0);
 	return lastRelOpValue;
 }
 
@@ -1205,7 +1253,8 @@ int ExpertFact::UpPendingObjects(int typeOp, int inOpObjectId)
 #endif
 
 	lastRelOpValue = -1;
-	FuncUpPendingObjects(typeOp, inOpObjectId, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-pending-objects");
+	ExecuteFactFunction(factFunction, typeOp, inOpObjectId, 0, 0);
 	return lastRelOpValue;
 }
 
@@ -1215,20 +1264,23 @@ bool ExpertFact::UpPendingPlacement(int typeOp, int inOpBuildingId)
 	ChangeTypeOpToConst(typeOp, inOpBuildingId);
 #endif
 
-	return FuncUpPendingPlacement(typeOp, inOpBuildingId);
+	static const FactFunction factFunction = *factFunctionMap.at("up-pending-placement");
+	return ExecuteFactFunction(factFunction, typeOp, inOpBuildingId);
 }
 
 int ExpertFact::UpPlayerDistance(int inPlayerAnyPlayer)
 {
 	lastRelOpValue = -1;
-	FuncUpPlayerDistance(inPlayerAnyPlayer, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-player-distance");
+	ExecuteFactFunction(factFunction, inPlayerAnyPlayer, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpPlayersInGame(int inConstPlayerStance)
 {
 	lastRelOpValue = -1;
-	FuncUpPlayersInGame(inConstPlayerStance, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-players-in-game");
+	ExecuteFactFunction(factFunction, inConstPlayerStance, 0, 0);
 	return lastRelOpValue;
 }
 
@@ -1238,62 +1290,71 @@ bool ExpertFact::UpPointContains(int inGoalPoint, int typeOp, int inOpObjectId)
 	ChangeTypeOpToConst(typeOp, inOpObjectId);
 #endif
 
-	return FuncUpPointContains(inGoalPoint, typeOp, inOpObjectId);
+	static const FactFunction factFunction = *factFunctionMap.at("up-point-contains");
+	return ExecuteFactFunction(factFunction, inGoalPoint, typeOp, inOpObjectId);
 }
 
 int ExpertFact::UpPointDistance(int inGoalPoint1, int inGoalPoint2)
 {
 	lastRelOpValue = -1;
-	FuncUpPointDistance(inGoalPoint1, inGoalPoint2, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-point-distance");
+	ExecuteFactFunction(factFunction, inGoalPoint1, inGoalPoint2, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpPointElevation(int inGoalPoint)
 {
 	lastRelOpValue = -1;
-	FuncUpPointElevation(inGoalPoint, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-point-elevation");
+	ExecuteFactFunction(factFunction, inGoalPoint, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpPointExplored(int inGoalPoint)
 {
 	lastRelOpValue = -1;
-	FuncUpPointExplored(inGoalPoint, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-point-explored");
+	ExecuteFactFunction(factFunction, inGoalPoint, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpPointTerrain(int inGoalPoint)
 {
 	lastRelOpValue = -1;
-	FuncUpPointTerrain(inGoalPoint, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-point-terrain");
+	ExecuteFactFunction(factFunction, inGoalPoint, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpPointZone(int inGoalPoint)
 {
 	lastRelOpValue = -1;
-	FuncUpPointZone(inGoalPoint, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-point-zone");
+	ExecuteFactFunction(factFunction, inGoalPoint, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpProjectileDetected(int inConstProjectileType)
 {
 	lastRelOpValue = -1;
-	FuncUpProjectileDetected(inConstProjectileType, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-projectile-detected");
+	ExecuteFactFunction(factFunction, inConstProjectileType, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpProjectileTarget(int inConstProjectileType)
 {
 	lastRelOpValue = -1;
-	FuncUpProjectileTarget(inConstProjectileType, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-projectile-target");
+	ExecuteFactFunction(factFunction, inConstProjectileType, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpRemainingBoarAmount()
 {
 	lastRelOpValue = -1;
-	FuncUpRemainingBoarAmount(0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-remaining-boar-amount");
+	ExecuteFactFunction(factFunction, 0, 0);
 	return lastRelOpValue;
 }
 
@@ -1304,21 +1365,24 @@ int ExpertFact::UpResearchStatus(int typeOp, int inOpTechId)
 #endif
 
 	lastRelOpValue = -1;
-	FuncUpResearchStatus(typeOp, inOpTechId, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-research-status");
+	ExecuteFactFunction(factFunction, typeOp, inOpTechId, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpResourceAmount(int inConstResourceAmount)
 {
 	lastRelOpValue = -1;
-	FuncUpResourceAmount(inConstResourceAmount, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-resource-amount");
+	ExecuteFactFunction(factFunction, inConstResourceAmount, 0, 0);
 	return lastRelOpValue;
 }
 
 int ExpertFact::UpResourcePercent(int inConstResourceAmount)
 {
 	lastRelOpValue = -1;
-	FuncUpResourcePercent(inConstResourceAmount, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-resource-percent");
+	ExecuteFactFunction(factFunction, inConstResourceAmount, 0, 0);
 	return lastRelOpValue;
 }
 
@@ -1351,7 +1415,8 @@ std::vector<int> ExpertFact::UpSearchObjectIdList(int inConstSearchSource)
 int ExpertFact::UpTimerStatus(int inConstTimerId)
 {
 	lastRelOpValue = -1;
-	FuncUpTimerStatus(inConstTimerId, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-timer-status");
+	ExecuteFactFunction(factFunction, inConstTimerId, 0, 0);
 	return lastRelOpValue;
 }
 
@@ -1361,7 +1426,8 @@ bool ExpertFact::UpTrainSiteReady(int typeOp, int inOpUnitId)
 	ChangeTypeOpToConst(typeOp, inOpUnitId);
 #endif
 
-	return FuncUpTrainSiteReady(typeOp, inOpUnitId);
+	static const FactFunction factFunction = *factFunctionMap.at("up-train-site-ready");
+	return ExecuteFactFunction(factFunction, typeOp, inOpUnitId);
 }
 
 int ExpertFact::UpUnitTypeInTown(int typeOp, int inOpUnitId)
@@ -1371,7 +1437,8 @@ int ExpertFact::UpUnitTypeInTown(int typeOp, int inOpUnitId)
 #endif
 
 	lastRelOpValue = -1;
-	FuncUpUnitTypeInTown(typeOp, inOpUnitId, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-unit-type-in-town");
+	ExecuteFactFunction(factFunction, typeOp, inOpUnitId, 0, 0);
 	return lastRelOpValue;
 }
 
@@ -1382,20 +1449,23 @@ int ExpertFact::UpVillagerTypeInTown(int typeOp, int inOpUnitId)
 #endif
 
 	lastRelOpValue = -1;
-	FuncUpVillagerTypeInTown(typeOp, inOpUnitId, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("up-villager-type-in-town");
+	ExecuteFactFunction(factFunction, typeOp, inOpUnitId, 0, 0);
 	return lastRelOpValue;
 }
 
 bool ExpertFact::VictoryCondition(int inConstVictory)
 {
-	return FuncVictoryCondition(inConstVictory);
+	static const FactFunction factFunction = *factFunctionMap.at("victory-condition");
+	return ExecuteFactFunction(factFunction, inConstVictory);
 }
 
 int ExpertFact::WallCompletedPercentage(int inConstPerimeter)
 {
 #if defined GAME_DE
 	lastRelOpValue = -1;
-	FuncWallCompletedPercentage(inConstPerimeter, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("wall-completed-percentage");
+	ExecuteFactFunction(factFunction, inConstPerimeter, 0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
 	if (inConstPerimeter != 1 && inConstPerimeter != 2)
@@ -1409,7 +1479,8 @@ int ExpertFact::WallInvisiblePercentage(int inConstPerimeter)
 {
 #if defined GAME_DE
 	lastRelOpValue = -1;
-	FuncWallInvisiblePercentage(inConstPerimeter, 0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("wall-invisible-percentage");
+	ExecuteFactFunction(factFunction, inConstPerimeter, 0, 0);
 	return lastRelOpValue;
 #elif defined GAME_AOC
 	if (inConstPerimeter != 1 && inConstPerimeter != 2)
@@ -1429,28 +1500,27 @@ int ExpertFact::WoodAmount()
 	return ExpertFact::UpGetFact(6, 0);
 }
 
-#if defined GAME_DE
 int ExpertFact::EndingAge()
 {
 	lastRelOpValue = -1;
-	FuncEndingAge(0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("ending-age");
+	ExecuteFactFunction(factFunction, 0, 0);
 	return lastRelOpValue;
 }
 
 bool ExpertFact::FeCanBuildAtPoint(int param1, int param2, int param3, int param4)
 {
-	return FuncFeCanBuildAtPoint(param1, param2, param3, param4);
+	static const FactFunction factFunction = *factFunctionMap.at("fe-can-build-at-point");
+	return ExecuteFactFunction(factFunction, param1, param2, param3, param4);
 }
 
 int ExpertFact::FeSubGameType()
 {
 	lastRelOpValue = -1;
-	FuncFeSubGameType(0, 0);
+	static const FactFunction factFunction = *factFunctionMap.at("fe-sub-game-type");
+	ExecuteFactFunction(factFunction, 0, 0);
 	return lastRelOpValue;
 }
-#elif defined GAME_AOC
-
-#endif
 
 void ExpertFact::ChangeTypeOpToConst(int& typeOp, int& opValue)
 {
@@ -1469,4 +1539,23 @@ void ExpertFact::ChangeTypeOpToConst(int& typeOp, int& opValue)
 	}
 
 	typeOp = expert_conf::CONST_TYPE_OP_CONST;
+}
+
+std::array<int, 2> ExpertFact::ModMapDimensions()
+{
+	std::array<int, 2> result;
+	
+	// cache goals
+	int cachedGoals[2];
+	for (int i = 0; i < 2; i++) cachedGoals[i] = ExpertFact::Goal(expert_conf::CONST_TEMP_GOAL_ID + i);
+
+	// set a goal pair to a coordinate out of map, bound it, add 1 to max x and y to get map dimensions
+	ExpertAction::SetGoal(expert_conf::CONST_TEMP_GOAL_ID, 999);
+	ExpertAction::SetGoal(expert_conf::CONST_TEMP_GOAL_ID + 1, 999);
+	ExpertAction::UpBoundPoint(expert_conf::CONST_TEMP_GOAL_ID, expert_conf::CONST_TEMP_GOAL_ID);
+	for (int i = 0; i < 2; i++) result[i] = ExpertFact::Goal(expert_conf::CONST_TEMP_GOAL_ID + i) + 1;
+
+	// restore goals
+	for (int i = 0; i < 2; i++) ExpertAction::SetGoal(expert_conf::CONST_TEMP_GOAL_ID + i, cachedGoals[i]);
+	return result;
 }

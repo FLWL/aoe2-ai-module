@@ -6,6 +6,7 @@
 #include "google/protobuf/any.pb.h"
 
 #include "misc/Configuration.h"
+#include "structs/world/ai_expert/AIExpert.h"
 #include "expert/ExpertService.h"
 #include "expert/ExpertCommandQueue.h"
 #include "expert/action/ExpertAction.h"
@@ -29,6 +30,7 @@ private:
 	void DisableDetours();
 	int ProcessCommands();
 	int ProcessCommandList(const protos::expert::CommandList* commandList, protos::expert::CommandResultList* commandResultList);
+	bool factsAndActionsInitialized;
 
 	// submodules initialized in this order
 	AIModule* aiModule;
@@ -41,10 +43,10 @@ private:
 	std::unordered_map<std::string, void(*)(const google::protobuf::Any&, google::protobuf::Any*)> commandMap;
 
 #if defined GAME_DE
-	static int64_t DetouredRunList(void* aiExpertEngine, int listId, void* statsOutput);
-	inline static int64_t(*FuncRunList)(void* aiExpertEngine, int listId, void* statsOutput) = 0;
+	static int64_t DetouredRunList(structs::AIExpert* aiExpert, int listId, void* statsOutput);
+	inline static int64_t(*FuncRunList)(structs::AIExpert* aiExpert, int listId, void* statsOutput) = 0;
 #elif defined GAME_AOC
-	static int32_t __fastcall DetouredRunList(void* aiExpertEngine, void* unused, int listId, void* statsOutput);
-	inline static int32_t(__thiscall* FuncRunList)(void* aiExpertEngine, int listId, void* statsOutput) = 0;
+	static int32_t __fastcall DetouredRunList(structs::AIExpert* aiExpert, void* unused, int listId, void* statsOutput);
+	inline static int32_t(__thiscall* FuncRunList)(structs::AIExpert* aiExpert, int listId, void* statsOutput) = 0;
 #endif
 };

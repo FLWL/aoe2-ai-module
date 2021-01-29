@@ -6,6 +6,7 @@
 class ExpertActionHandler
 {
 public:
+	// actions
 	static void AcknowledgeEvent(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void AcknowledgeTaunt(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void AttackNow(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
@@ -202,7 +203,7 @@ public:
 	static void UpTributeToPlayer(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpUngarrison(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpUpdateTargets(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
-#if defined GAME_DE
+	// DE-only actions
 	static void ChatDebug(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void FeBreakPoint(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void SkyboxClearSignal(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
@@ -212,12 +213,11 @@ public:
 	static void UpGetTreatyData(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpTestharnessReport(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpTestharnessTest(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
-#elif defined GAME_AOC
+	// AOC-only actions
 	static void UpGetAlliedTarget(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpGetGuardState(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpGetUpgradeId(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpOutOfSync(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
-#endif
 
 private:
 	ExpertActionHandler() {};
