@@ -1,8 +1,9 @@
 #include "ExpertFactHandler.h"
 
-#include "expert/fact/ExpertFact.h"
+#include "expert/action/ExpertAction.h"
 #include "protos/expert/expert_api.pb.h"
-#include "protos/expert/fact/fact.pb.h"
+#include "misc/Statics.h"
+#include "structs/Game.h"
 
 void ExpertFactHandler::AttackSoldierCount(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
 {
@@ -2226,7 +2227,6 @@ void ExpertFactHandler::WoodAmount(const google::protobuf::Any& anyCommand, goog
 	anyResult->PackFrom(result);
 }
 
-#if defined GAME_DE
 void ExpertFactHandler::EndingAge(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
 {
 	protos::expert::fact::EndingAge command;
@@ -2262,6 +2262,87 @@ void ExpertFactHandler::FeSubGameType(const google::protobuf::Any& anyCommand, g
 	result.set_result(factValue);
 	anyResult->PackFrom(result);
 }
-#elif defined GAME_AOC
 
-#endif
+void ExpertFactHandler::ModMapDimensions(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::fact::ModMapDimensions command;
+	anyCommand.UnpackTo(&command);
+
+	std::array<int, 2> factValue = ExpertFact::ModMapDimensions();
+
+	protos::expert::fact::ModMapDimensionsResult result;
+	result.set_width(factValue[0]);
+	result.set_height(factValue[1]);
+	anyResult->PackFrom(result);
+}
+
+int ExpertFactHandler::GeneralizeTerrainType(int terrainId)
+{
+	switch (terrainId)
+	{
+		case 2: // terrain-water-beach
+		case 37: // terrain-ice-beach
+		{
+			return 1; // beach
+		}
+		case 4: // terrain-shallows
+		{
+			return 2; // shallows
+		}
+		case 1: // terrain-water
+		case 15: // terrain-water-old
+		case 22: // terrain-water-deep
+		case 23: // terrain-water-medium
+		case 28: // terrain-water-bridge
+		{
+			return 3; // water
+		}
+		case 26: // terrain-ice
+		case 35: // terrain-ice2
+		{
+			return 4; // ice
+		}
+	}
+
+	return 0; // land
+}
+
+void ExpertFactHandler::ModMapTiles(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::fact::ModMapTiles command;
+	anyCommand.UnpackTo(&command);
+
+	protos::expert::fact::ModMapTilesResult result;
+	std::array<int, 2> mapDimensions = ExpertFact::ModMapDimensions();
+	result.set_mapwidth(mapDimensions[0]);
+	result.set_mapheight(mapDimensions[1]);
+
+	// cache temp goal pair
+	int cachedGoals[2];
+	for (int i = 0; i < 2; i++) cachedGoals[i] = ExpertFact::Goal(expert_conf::CONST_TEMP_GOAL_ID + i);
+
+	for (int x = 0; x < mapDimensions[0]; x++)
+	{
+		for (int y = 0; y < mapDimensions[1]; y++)
+		{
+			ExpertAction::SetGoal(expert_conf::CONST_TEMP_GOAL_ID, x);
+			ExpertAction::SetGoal(expert_conf::CONST_TEMP_GOAL_ID + 1, y);
+
+			int visibility = ExpertFact::UpPointExplored(expert_conf::CONST_TEMP_GOAL_ID);
+			if (visibility)
+			{
+				protos::expert::fact::Tile* tile = result.add_tiles();
+				tile->set_x(x);
+				tile->set_y(y);
+				tile->set_height(ExpertFact::UpPointElevation(expert_conf::CONST_TEMP_GOAL_ID));
+				tile->set_terrain(GeneralizeTerrainType(ExpertFact::UpPointTerrain(expert_conf::CONST_TEMP_GOAL_ID)));
+				tile->set_visibility(visibility);
+			}
+		}
+	}
+
+	// restore goals
+	for (int i = 0; i < 2; i++) ExpertAction::SetGoal(expert_conf::CONST_TEMP_GOAL_ID + i, cachedGoals[i]);
+	
+	anyResult->PackFrom(result);
+}

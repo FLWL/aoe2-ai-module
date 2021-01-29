@@ -2,10 +2,13 @@
 #include "google/protobuf/any.pb.h"
 
 #include "misc/Configuration.h"
+#include "expert/fact/ExpertFact.h"
+#include "protos/expert/fact/fact.pb.h"
 
 class ExpertFactHandler
 {
 public:
+	// facts
 	static void AttackSoldierCount(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void AttackWarboatCount(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void BuildingAvailable(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
@@ -167,15 +170,16 @@ public:
 	static void WallInvisiblePercentage(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void WarboatCount(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void WoodAmount(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
-#if defined GAME_DE
+	// DE-only facts
 	static void EndingAge(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void FeCanBuildAtPoint(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void FeSubGameType(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
-#elif defined GAME_AOC
 
-#endif
+	static void ModMapDimensions(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void ModMapTiles(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 
 private:
 	ExpertFactHandler() {};
-};
 
+	static int GeneralizeTerrainType(int terrainId);
+};
