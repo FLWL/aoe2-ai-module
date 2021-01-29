@@ -9,7 +9,7 @@ namespace structs
 	struct ProgramMode
 	{
 		SPACER(0, 8);
-		int32_t programMode;
+		int32_t programModeId;
 	};
 #endif
 }
