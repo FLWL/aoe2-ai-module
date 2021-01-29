@@ -186,7 +186,10 @@
     <ClInclude Include="structs\Game.h" />
     <ClInclude Include="structs\program_information\ProgramInformation.h" />
     <ClInclude Include="structs\program_mode\ProgramMode.h" />
-    <ClInclude Include="structs\world\player\Player.h" />
+    <ClInclude Include="structs\world\ai_expert\AIExpert.h" />
+    <ClInclude Include="structs\world\ai_expert\ai_action\AIAction.h" />
+    <ClInclude Include="structs\world\ai_expert\ai_fact\AIFact.h" />
+    <ClInclude Include="structs\world\ai_expert\symbol_hash_node\SymbolHashNode.h" />
     <ClInclude Include="structs\world\World.h" />
   </ItemGroup>
   <ItemGroup>

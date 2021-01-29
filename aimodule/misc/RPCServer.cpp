@@ -11,26 +11,18 @@ RPCServer::RPCServer(AIModule* aiModule) :
 	server = BuildAndStart(aimodule_conf::RPC_SERVER_ADDRESS, assignedServerPort);
 	if (!server)
 	{
-#if defined DEBUG_MODE
-		std::cout << "[RPC Server] Failed to bind to " << aimodule_conf::RPC_SERVER_ADDRESS << std::endl;
-#endif
-
+		std::cout << "[RPC Server] Warning: failed to bind to " << aimodule_conf::RPC_SERVER_ADDRESS << "." << std::endl;
 		server = BuildAndStart("0.0.0.0:0", assignedServerPort);
 	}
 	
 	if (server)
 	{
 		serverThread = std::make_unique<std::thread>(&RPCServer::ServerThread, this);
-
-#if defined DEBUG_MODE
-		std::cout << "[RPC Server] Listening on port " << assignedServerPort << std::endl;
-#endif
+		std::cout << "[RPC Server] Listening on port " << assignedServerPort << "." << std::endl;
 	}
 	else
 	{
-#if defined DEBUG_MODE
-		std::cout << "[RPC Server] Failed to start" << std::endl;
-#endif
+		std::cout << "[RPC Server] Error: failed to start, RPC calls won't be available" << "." << std::endl;
 	}
 }
 

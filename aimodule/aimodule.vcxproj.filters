@@ -73,8 +73,17 @@
     <Filter Include="Header Files\structs\world">
       <UniqueIdentifier>{d9091ccf-d49c-448d-87f2-7e8934fd3c2a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\structs\world\player">
-      <UniqueIdentifier>{370f2143-6b3e-4cfd-a916-b81a4352c2c3}</UniqueIdentifier>
+    <Filter Include="Header Files\structs\world\ai_expert">
+      <UniqueIdentifier>{5188c3f8-b0f4-4651-a9fa-58c690c81852}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\structs\world\ai_expert\ai_fact">
+      <UniqueIdentifier>{393a36ff-cf9f-4076-baf3-8994e5f74aac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\structs\world\ai_expert\ai_action">
+      <UniqueIdentifier>{9733e43e-0e6a-4f12-a5d0-0a83a03cacf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\structs\world\ai_expert\symbol_hash_node">
+      <UniqueIdentifier>{2135ecd7-bb7c-4cee-99d7-1e6441ebfe7f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -147,11 +156,20 @@
     <ClInclude Include="structs\world\World.h">
       <Filter>Header Files\structs\world</Filter>
     </ClInclude>
-    <ClInclude Include="structs\world\player\Player.h">
-      <Filter>Header Files\structs\world\player</Filter>
-    </ClInclude>
     <ClInclude Include="misc\MemoryUtils.h">
       <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="structs\world\ai_expert\AIExpert.h">
+      <Filter>Header Files\structs\world\ai_expert</Filter>
+    </ClInclude>
+    <ClInclude Include="structs\world\ai_expert\ai_action\AIAction.h">
+      <Filter>Header Files\structs\world\ai_expert\ai_action</Filter>
+    </ClInclude>
+    <ClInclude Include="structs\world\ai_expert\ai_fact\AIFact.h">
+      <Filter>Header Files\structs\world\ai_expert\ai_fact</Filter>
+    </ClInclude>
+    <ClInclude Include="structs\world\ai_expert\symbol_hash_node\SymbolHashNode.h">
+      <Filter>Header Files\structs\world\ai_expert\symbol_hash_node</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
