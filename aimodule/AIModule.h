@@ -8,6 +8,7 @@
 #include "misc/RPCServer.h"
 #include "AIModuleService.h"
 #include "expert/Expert.h"
+#include "structs/Game.h"
 
 class AIModule
 {
@@ -23,13 +24,14 @@ public:
 	AIModuleService* GetService() { return &aiModuleService; };
 	Expert* GetExpert() { return &expert; };
 
+	structs::Game* game;
+
 private:
+	void SetGamePointer();
 	void WaitUntilUnload();
 
 	// submodules initialized in this order
-#ifdef DEBUG_MODE
 	DebugConsole debugConsole;
-#endif
 	Expert expert;
 	AIModuleService aiModuleService;
 	RPCServer rpcServer;

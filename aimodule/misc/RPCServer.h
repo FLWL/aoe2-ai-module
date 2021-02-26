@@ -14,6 +14,7 @@ public:
 	~RPCServer();
 
 private:
+	std::unique_ptr<grpc::Server> BuildAndStart(const std::string& uri, int& assignedServerPort);
 	void ServerThread();
 
 	AIModule* aiModule;

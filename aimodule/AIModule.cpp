@@ -3,20 +3,41 @@
 #include <iostream>
 #include <filesystem>
 
-#include "misc/Statics.h"
 #include "misc/Configuration.h"
-#include "structs/Game.h"
+#include "misc/Statics.h"
+#include "misc/MemoryUtils.h"
 
 AIModule::AIModule() :
-#ifdef DEBUG_MODE
 	debugConsole(this),
-#endif
 	expert(this),
 	unloadRequested(false),
 	aiModuleService(this),
 	rpcServer(this)
 {
+	SetGamePointer();
 	WaitUntilUnload();
+}
+
+void AIModule::SetGamePointer()
+{
+#if defined GAME_DE
+	uintptr_t gameTypeAddress = memory_utils::FindPatternInGameModule(expert_conf::SIG_FUNC_GAME_TYPE);
+	if (gameTypeAddress)
+	{
+		uintptr_t movInstructionAddress = gameTypeAddress + 29;
+		std::vector<uint8_t> movInstructionData = memory_utils::ReadMemory(movInstructionAddress, 7);
+		game = *(structs::Game**)memory_utils::GetInstructionImmMemOperand(movInstructionAddress, movInstructionData);
+	}
+
+	if (!game)
+	{
+		std::cout << "[AI Module] Error: failed to locate struct 'Game'."
+			<< " AI Module general calls will not work."
+			<< std::endl;
+	}
+#elif defined GAME_AOC
+	game = *(structs::Game**)statics::TranslateAddr(expert_conf::ADDR_PTR_BASE_GAME);
+#endif
 }
 
 void AIModule::WaitUntilUnload()
@@ -43,18 +64,20 @@ bool AIModule::IsUnloadRequested()
 
 bool AIModule::IsMatchInProgress()
 {
-	structs::Game* game = *(structs::Game**)statics::TranslateAddr(expert_conf::ADDR_PTR_BASE_GAME);
+	if (!game)
+		return false;
 
 #if defined GAME_DE
-	return game->programMode->programMode == 1;
+	return game->programMode->programModeId == 1;
 #elif defined GAME_AOC
-	return game->programMode == 4;
+	return game->programModeId == 4;
 #endif
 }
 
 std::string AIModule::GetGameDataFilePath()
 {
-	structs::Game* game = *(structs::Game**)statics::TranslateAddr(expert_conf::ADDR_PTR_BASE_GAME);
+	if (!game)
+		return std::string("");
 
 #if defined GAME_DE
 	return std::string("");

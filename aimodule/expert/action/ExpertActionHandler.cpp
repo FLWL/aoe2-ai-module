@@ -903,7 +903,7 @@ void ExpertActionHandler::UpBoundPoint(const google::protobuf::Any& anyCommand, 
 	protos::expert::action::UpBoundPoint command;
 	anyCommand.UnpackTo(&command);
 
-	ExpertAction::UpBoundPoint(command.ingoalpoint1(), command.ingoalpoint2());
+	ExpertAction::UpBoundPoint(command.outgoalpoint(), command.ingoalpoint());
 
 	protos::expert::action::UpBoundPointResult result;
 	anyResult->PackFrom(result);
@@ -4007,7 +4007,6 @@ void ExpertActionHandler::UpUpdateTargets(const google::protobuf::Any& anyComman
 	anyResult->PackFrom(result);
 }
 
-#if defined GAME_DE
 void ExpertActionHandler::ChatDebug(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
 {
 	protos::expert::action::ChatDebug command;
@@ -4106,7 +4105,7 @@ void ExpertActionHandler::UpTestharnessTest(const google::protobuf::Any& anyComm
 	protos::expert::action::UpTestharnessTestResult result;
 	anyResult->PackFrom(result);
 }
-#elif defined GAME_AOC
+
 void ExpertActionHandler::UpGetAlliedTarget(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
 {
 	protos::expert::action::UpGetAlliedTarget command;
@@ -4150,4 +4149,3 @@ void ExpertActionHandler::UpOutOfSync(const google::protobuf::Any& anyCommand, g
 	protos::expert::action::UpOutOfSyncResult result;
 	anyResult->PackFrom(result);
 }
-#endif

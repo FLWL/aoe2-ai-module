@@ -1,15 +1,18 @@
 #pragma once
 #include <string>
+#include <unordered_map>
 #include <stdint.h>
 
 #include "misc/Configuration.h"
+#include "structs/world/ai_expert/AIExpert.h"
 
 class ExpertAction
 {
 public:
-	ExpertAction();
 	~ExpertAction();
+	static void Initialize(const structs::AIExpert* aiExpert);
 
+	// actions
 	static void AcknowledgeEvent(int eventType, int eventId);
 	static void AcknowledgeTaunt(int anyPlayer, int tauntId);
 	static void AttackNow();
@@ -75,7 +78,7 @@ public:
 	static void UpAddPoint(int goalPoint1, int goalPoint2, int typeOp, int count);
 	static void UpAddResearchCost(int typeOp1, int techId, int typeOp2, int value);
 	static void UpAssignBuilders(int typeOp1, int buildingId, int typeOp2, int value);
-	static void UpBoundPoint(int goalPoint1, int goalPoint2);
+	static void UpBoundPoint(int outGoalPoint, int inGoalPoint);
 	static void UpBoundPrecisePoint(int goalPoint, int precise, int typeOp, int border);
 	static void UpBuild(int placementType, int escrowState, int typeOp, int buildingId);
 	static void UpBuildLine(int goalPoint1, int goalPoint2, int typeOp, int buildingId);
@@ -206,7 +209,7 @@ public:
 	static void UpTributeToPlayer(int player, int resourceAmount, int typeOp, int value);
 	static void UpUngarrison(int typeOp, int objectId);
 	static void UpUpdateTargets();
-#if defined GAME_DE
+	// DE-only actions
 	static void ChatDebug(const std::string& inTextString);
 	static void FeBreakPoint(int param1, int param2, int param3, int param4);
 	static void SkyboxClearSignal(int param);
@@ -216,17 +219,26 @@ public:
 	static void UpGetTreatyData(int param);
 	static void UpTestharnessReport(int param1, int param2, int param3);
 	static void UpTestharnessTest(int param1, int param2, int param3, int param4);
-#elif defined GAME_AOC
+	// AOC-only actions
 	static void UpGetAlliedTarget(int param1, int param2);
 	static void UpGetGuardState(int goalState);
 	static void UpGetUpgradeId(int player, int count, int goalTypeId, int goalUpgradeId);
 	static void UpOutOfSync();
-#endif
 
 private:
-	void UpdateAddresses();
-	void EnableDetours();
-	void DisableDetours();
+	static void LoadActionFunctions(const structs::AIExpert* aiExpert);
+	static void ClearActionFunctions();
+	static void UpdateAddresses();
+	static void EnableDetours();
+	static void DisableDetours();
+
+	struct ActionFunction
+	{
+		uintptr_t address;
+		int argc;
+	};
+	inline static std::unordered_map<std::string, ActionFunction*> actionFunctionMap;
+	static void ExecuteActionFunction(const ActionFunction& actionFunction, const int arg1 = 0, const int arg2 = 0, const int arg3 = 0, const int arg4 = 0);
 
 #if defined GAME_DE
 	static char* DetouredGetString(void* aiExpertEngine, int stringId);
@@ -237,215 +249,5 @@ private:
 #endif
 
 	static void SetCustomString(const std::string& inTextString);
-
-	inline static void(*FuncAcknowledgeEvent)(int eventType, int eventId) = 0;
-	inline static void(*FuncAcknowledgeTaunt)(int anyPlayer, int tauntId) = 0;
-	inline static void(*FuncAttackNow)() = 0;
-	inline static void(*FuncBuild)(int buildingId) = 0;
-	inline static void(*FuncBuildForward)(int buildingId) = 0;
-	inline static void(*FuncBuildGate)(int perimeter) = 0;
-	inline static void(*FuncBuildWall)(int perimeter, int wallId) = 0;
-	inline static void(*FuncBuyCommodity)(int commodity) = 0;
-	inline static void(*FuncCcAddResource)(int resource, int value) = 0;
-	inline static void(*FuncChatLocal)(int text) = 0;
-	inline static void(*FuncChatLocalUsingId)(int stringId) = 0;
-	inline static void(*FuncChatLocalUsingRange)(int stringIdStart, int stringIdRange) = 0;
-	inline static void(*FuncChatLocalToSelf)(int text) = 0;
-	inline static void(*FuncChatToAll)(int text) = 0;
-	inline static void(*FuncChatToAllUsingId)(int stringId) = 0;
-	inline static void(*FuncChatToAllUsingRange)(int stringIdStart, int stringIdRange) = 0;
-	inline static void(*FuncChatToAllies)(int text) = 0;
-	inline static void(*FuncChatToAlliesUsingId)(int stringId) = 0;
-	inline static void(*FuncChatToAlliesUsingRange)(int stringIdStart, int stringIdRange) = 0;
-	inline static void(*FuncChatToEnemies)(int text) = 0;
-	inline static void(*FuncChatToEnemiesUsingId)(int stringId) = 0;
-	inline static void(*FuncChatToEnemiesUsingRange)(int stringIdStart, int stringIdRange) = 0;
-	inline static void(*FuncChatToPlayer)(int playerNumber, int text) = 0;
-	inline static void(*FuncChatToPlayerUsingId)(int playerNumber, int stringId) = 0;
-	inline static void(*FuncChatToPlayerUsingRange)(int playerNumber, int stringIdStart, int stringIdRange) = 0;
-	inline static void(*FuncChatTrace)(int traceNumber) = 0;
-	inline static void(*FuncClearTributeMemory)(int playerNumber, int resourceType) = 0;
-	inline static void(*FuncDeleteBuilding)(int buildingType) = 0;
-	inline static void(*FuncDeleteUnit)(int unitType) = 0;
-	inline static void(*FuncDisableRule)(int groupId) = 0;
-	inline static void(*FuncDisableSelf)() = 0;
-	inline static void(*FuncDisableTimer)(int timerId) = 0;
-	inline static void(*FuncEnableRule)(int groupId) = 0;
-	inline static void(*FuncEnableTimer)(int timerId, int timeInterval) = 0;
-	inline static void(*FuncEnableWallPlacement)(int perimeter) = 0;
-	inline static void(*FuncGenerateRandomNumber)(int range) = 0;
-	inline static void(*FuncLog)(int text) = 0;
-	inline static void(*FuncLogTrace)(int traceNumber) = 0;
-	inline static void(*FuncReleaseEscrow)(int resourceType) = 0;
-	inline static void(*FuncResearch)(int researchType) = 0;
-	inline static void(*FuncResign)() = 0;
-	inline static void(*FuncSellCommodity)(int commodityType) = 0;
-	inline static void(*FuncSetDifficultyParameter)(int difficultyParameter, int value) = 0;
-	inline static void(*FuncSetDoctrine)(int doctrine) = 0;
-	inline static void(*FuncSetEscrowPercentage)(int resourceType, int percentage) = 0;
-	inline static void(*FuncSetGoal)(int goalId, int goalValue) = 0;
-	inline static void(*FuncSetSharedGoal)(int goalId, int goal) = 0;
-	inline static void(*FuncSetSignal)(int signalId) = 0;
-	inline static void(*FuncSetStance)(int playerNumber, int stance) = 0;
-	inline static void(*FuncSetStrategicNumber)(int strategicNumber, int value) = 0;
-	inline static void(*FuncSpy)() = 0;
-	inline static void(*FuncTaunt)(int tauntNumber) = 0;
-	inline static void(*FuncTauntUsingRange)(int tauntIdStart, int tauntIdRange) = 0;
-	inline static void(*FuncTrain)(int unitType) = 0;
-	inline static void(*FuncTributeToPlayer)(int playerNumber, int resourceType, int tributeAmount) = 0;
-	inline static void(*FuncUpAddCostData)(int goalId, int typeOp, int opValue) = 0;
-	inline static void(*FuncUpAddObjectById)(int searchSource, int typeOp, int opId) = 0;
-	inline static void(*FuncUpAddObjectCost)(int typeOp1, int objectId, int typeOp2, int value) = 0;
-	inline static void(*FuncUpAddPoint)(int goalPoint1, int goalPoint2, int typeOp, int count) = 0;
-	inline static void(*FuncUpAddResearchCost)(int typeOp1, int techId, int typeOp2, int value) = 0;
-	inline static void(*FuncUpAssignBuilders)(int typeOp1, int buildingId, int typeOp2, int value) = 0;
-	inline static void(*FuncUpBoundPoint)(int goalPoint1, int goalPoint2) = 0;
-	inline static void(*FuncUpBoundPrecisePoint)(int goalPoint, int precise, int typeOp, int border) = 0;
-	inline static void(*FuncUpBuild)(int placementType, int escrowState, int typeOp, int buildingId) = 0;
-	inline static void(*FuncUpBuildLine)(int goalPoint1, int goalPoint2, int typeOp, int buildingId) = 0;
-	inline static void(*FuncUpBuyCommodity)(int typeOp1, int resourceAmount, int typeOp2, int value) = 0;
-	inline static void(*FuncUpCcAddResource)(int typeOp1, int resourceAmount, int typeOp2, int value) = 0;
-	inline static void(*FuncUpCcSendCheat)(int code) = 0;
-	inline static void(*FuncUpChangeName)(int newName) = 0;
-	inline static void(*FuncUpChatDataToAll)(int format, int typeOp, int value) = 0;
-	inline static void(*FuncUpChatDataToPlayer)(int player, int format, int typeOp, int value) = 0;
-	inline static void(*FuncUpChatDataToSelf)(int format, int typeOp, int value) = 0;
-	inline static void(*FuncUpCleanSearch)(int searchSource, int objectData, int searchOrder) = 0;
-	inline static void(*FuncUpCopyPoint)(int goalPoint1, int goalPoint2) = 0;
-	inline static void(*FuncUpCreateGroup)(int goalIndex, int goalCount, int typeOp, int groupId) = 0;
-	inline static void(*FuncUpCrossTiles)(int goalPoint1, int goalPoint2, int typeOp, int tiles) = 0;
-	inline static void(*FuncUpDeleteDistantFarms)(int typeOp, int value) = 0;
-	inline static void(*FuncUpDeleteIdleUnits)(int idleType) = 0;
-	inline static void(*FuncUpDeleteObjects)(int typeOp1, int unitId, int typeOp2, int hitpoints) = 0;
-	inline static void(*FuncUpDisbandGroupType)(int groupType) = 0;
-	inline static void(*FuncUpDropResources)(int resource, int typeOp, int value) = 0;
-	inline static void(*FuncUpFilterDistance)(int typeOp1, int minDistance, int typeOp2, int maxDistance) = 0;
-	inline static void(*FuncUpFilterExclude)(int cmdId, int actionId, int orderId, int classId) = 0;
-	inline static void(*FuncUpFilterGarrison)(int typeOp1, int minGarrison, int typeOp2, int maxGarrison) = 0;
-	inline static void(*FuncUpFilterInclude)(int cmdId, int actionId, int orderId, int onMainland) = 0;
-	inline static void(*FuncUpFilterRange)(int minGarrison, int maxGarrison, int minDistance, int maxDistance) = 0;
-	inline static void(*FuncUpFilterStatus)(int typeOp1, int objectStatus, int typeOp2, int objectList) = 0;
-	inline static void(*FuncUpFindFlare)(int goalPoint) = 0;
-	inline static void(*FuncUpFindLocal)(int typeOp1, int unitId, int typeOp2, int count) = 0;
-	inline static void(*FuncUpFindNextPlayer)(int playerStance, int findPlayerMethod, int goalPlayerId) = 0;
-	inline static void(*FuncUpFindPlayer)(int playerStance, int findPlayerMethod, int goalPlayerId) = 0;
-	inline static void(*FuncUpFindPlayerFlare)(int player, int goalPoint) = 0;
-	inline static void(*FuncUpFindRemote)(int typeOp1, int unitId, int typeOp2, int count) = 0;
-	inline static void(*FuncUpFindResource)(int typeOp1, int resource, int typeOp2, int count) = 0;
-	inline static void(*FuncUpFindStatusLocal)(int typeOp1, int unitId, int typeOp2, int count) = 0;
-	inline static void(*FuncUpFindStatusRemote)(int typeOp1, int unitId, int typeOp2, int count) = 0;
-	inline static void(*FuncUpFullResetSearch)() = 0;
-	inline static void(*FuncUpGarrison)(int objectId, int typeOp, int unitId) = 0;
-	inline static void(*FuncUpGatherInside)(int typeOp1, int buildingId, int typeOp2, int state) = 0;
-	inline static void(*FuncUpGetAttackerClass)(int goalSourceClass) = 0;
-	inline static void(*FuncUpGetCostDelta)(int goalId) = 0;
-	inline static void(*FuncUpGetEvent)(int typeOp, int eventId, int goalValue) = 0;
-	inline static void(*FuncUpGetFact)(int factId, int factParam, int goalId) = 0;
-	inline static void(*FuncUpGetFactMax)(int player, int factId, int param, int goalData) = 0;
-	inline static void(*FuncUpGetFactMin)(int player, int factId, int param, int goalData) = 0;
-	inline static void(*FuncUpGetFactSum)(int player, int factId, int param, int goalData) = 0;
-	inline static void(*FuncUpGetFocusFact)(int factId, int param, int goalData) = 0;
-	inline static void(*FuncUpGetGroupSize)(int typeOp, int groupId, int goalSize) = 0;
-	inline static void(*FuncUpGetIndirectGoal)(int typeOp1, int goalId, int goalValue) = 0;
-	inline static void(*FuncUpGetObjectData)(int objectData, int goalData) = 0;
-	inline static void(*FuncUpGetObjectTargetData)(int objectData, int goalData) = 0;
-	inline static void(*FuncUpGetObjectTypeData)(int typeOp, int objectTypeId, int objectData, int goalData) = 0;
-	inline static void(*FuncUpGetPathDistance)(int goalPoint, int strict, int goalData) = 0;
-	inline static void(*FuncUpGetPlayerColor)(int player, int goalColorId) = 0;
-	inline static void(*FuncUpGetPlayerFact)(int player, int factId, int param, int goalData) = 0;
-	inline static void(*FuncUpGetPoint)(int positionType, int goalPoint) = 0;
-	inline static void(*FuncUpGetPointContains)(int goalPoint, int goalId, int typeOp, int objectId) = 0;
-	inline static void(*FuncUpGetPointDistance)(int goalPoint1, int goalPoint2, int goalDistance) = 0;
-	inline static void(*FuncUpGetPointElevation)(int goalPoint, int goalData) = 0;
-	inline static void(*FuncUpGetPointTerrain)(int goalPoint, int goalTerrain) = 0;
-	inline static void(*FuncUpGetPointZone)(int goalPoint, int goalData) = 0;
-	inline static void(*FuncUpGetPreciseTime)(int goalStart, int goalTime) = 0;
-	inline static void(*FuncUpGetProjectilePlayer)(int projectileType, int goalPlayerId) = 0;
-	inline static void(*FuncUpGetRuleId)(int goalRuleId) = 0;
-	inline static void(*FuncUpGetSearchState)(int goalState) = 0;
-	inline static void(*FuncUpGetSharedGoal)(int typeOp, int sharedGoalId, int goalValue) = 0;
-	inline static void(*FuncUpGetSignal)(int typeOp, int signalId, int goalValue) = 0;
-	inline static void(*FuncUpGetTargetFact)(int factId, int param, int goalData) = 0;
-	inline static void(*FuncUpGetThreatData)(int goalElapsedTime, int goalPlayerId, int goalSourceClass, int goalTargetClass) = 0;
-	inline static void(*FuncUpGetTimer)(int typeOp, int timerId, int goalValue) = 0;
-	inline static void(*FuncUpGetVictoryData)(int goalPlayerId, int goalType, int goalTime) = 0;
-	inline static void(*FuncUpGetVictoryLimit)(int goalLimit) = 0;
-	inline static void(*FuncUpGuardUnit)(int objectId, int typeOp, int unitId) = 0;
-	inline static void(*FuncUpJumpDirect)(int typeOp, int ruleId) = 0;
-	inline static void(*FuncUpJumpDynamic)(int typeOp, int ruleDelta) = 0;
-	inline static void(*FuncUpJumpRule)(int ruleDelta) = 0;
-	inline static void(*FuncUpLerpPercent)(int goalPoint1, int goalPoint2, int typeOp, int percent) = 0;
-	inline static void(*FuncUpLerpTiles)(int goalPoint1, int goalPoint2, int typeOp, int tiles) = 0;
-	inline static void(*FuncUpLogData)(int plain, int format, int typeOp, int value) = 0;
-	inline static void(*FuncUpModifyEscrow)(int resource, int mathOp, int value) = 0;
-	inline static void(*FuncUpModifyFlag)(int goalId, int mathOp, int value) = 0;
-	inline static void(*FuncUpModifyGoal)(int goalId, int mathOp, int value) = 0;
-	inline static void(*FuncUpModifyGroupFlag)(int on, int typeOp, int groupId) = 0;
-	inline static void(*FuncUpModifySn)(int snId, int mathOp, int value) = 0;
-	inline static void(*FuncUpReleaseEscrow)() = 0;
-	inline static void(*FuncUpRemoveObjects)(int searchSource, int objectData, int typeOp, int value) = 0;
-	inline static void(*FuncUpRequestHunters)(int typeOp, int value) = 0;
-	inline static void(*FuncUpResearch)(int escrowState, int typeOp, int techId) = 0;
-	inline static void(*FuncUpResetAttackNow)() = 0;
-	inline static void(*FuncUpResetBuilding)(int preserveResearch, int typeOp, int buildingId) = 0;
-	inline static void(*FuncUpResetCostData)(int goalId) = 0;
-	inline static void(*FuncUpResetFilters)() = 0;
-	inline static void(*FuncUpResetGroup)(int typeOp, int groupId) = 0;
-	inline static void(*FuncUpResetPlacement)(int typeOp, int buildingId) = 0;
-	inline static void(*FuncUpResetScouts)() = 0;
-	inline static void(*FuncUpResetSearch)(int localIndex, int localList, int remoteIndex, int remoteList) = 0;
-	inline static void(*FuncUpResetTargetPriorities)(int priorityType, int mode) = 0;
-	inline static void(*FuncUpResetUnit)(int typeOp, int unitId) = 0;
-	inline static void(*FuncUpRetaskGatherers)(int resource, int typeOp, int value) = 0;
-	inline static void(*FuncUpRetreatNow)() = 0;
-	inline static void(*FuncUpRetreatTo)(int objectId, int typeOp, int unitId) = 0;
-	inline static void(*FuncUpSellCommodity)(int typeOp1, int resourceAmount, int typeOp2, int value) = 0;
-	inline static void(*FuncUpSendFlare)(int goalPoint) = 0;
-	inline static void(*FuncUpSendScout)(int groupType, int positionType) = 0;
-	inline static void(*FuncUpSetAttackStance)(int unitId, int typeOp, int attackStance) = 0;
-	inline static void(*FuncUpSetDefensePriority)(int typeOp1, int buildingId, int typeOp2, int value) = 0;
-	inline static void(*FuncUpSetEvent)(int typeOp1, int eventId, int typeOp2, int value) = 0;
-	inline static void(*FuncUpSetGroup)(int searchSource, int typeOp, int groupId) = 0;
-	inline static void(*FuncUpSetIndirectGoal)(int typeOp1, int goalId, int typeOp2, int value) = 0;
-	inline static void(*FuncUpSetOffensePriority)(int typeOp1, int objectId, int typeOp2, int value) = 0;
-	inline static void(*FuncUpSetPlacementData)(int playerAlly, int objectId, int typeOp, int value) = 0;
-	inline static void(*FuncUpSetPreciseTargetPoint)(int goalPoint) = 0;
-	inline static void(*FuncUpSetSharedGoal)(int typeOp1, int sharedGoalId, int typeOp2, int value) = 0;
-	inline static void(*FuncUpSetSignal)(int typeOp1, int signalId, int typeOp2, int value) = 0;
-	inline static void(*FuncUpSetTargetById)(int typeOp, int id) = 0;
-	inline static void(*FuncUpSetTargetObject)(int searchSource, int typeOp, int index) = 0;
-	inline static void(*FuncUpSetTargetPoint)(int goalPoint) = 0;
-	inline static void(*FuncUpSetTimer)(int typeOp1, int timerId, int typeOp2, int value) = 0;
-	inline static void(*FuncUpSetupCostData)(int resetCost, int goalId) = 0;
-	inline static void(*FuncUpStoreMapName)(int extension) = 0;
-	inline static void(*FuncUpStoreObjectName)() = 0;
-	inline static void(*FuncUpStorePlayerChat)(int player) = 0;
-	inline static void(*FuncUpStorePlayerName)(int player) = 0;
-	inline static void(*FuncUpStoreTechName)(int typeOp, int techId) = 0;
-	inline static void(*FuncUpStoreText)(int typeOp, int languageId) = 0;
-	inline static void(*FuncUpStoreTypeName)(int typeOp, int objectTypeId) = 0;
-	inline static void(*FuncUpTargetObjects)(int target, int action, int formation, int attackStance) = 0;
-	inline static void(*FuncUpTargetPoint)(int goalPoint, int action, int formation, int attackStance) = 0;
-	inline static void(*FuncUpTrain)(int escrowState, int typeOp, int unitId) = 0;
-	inline static void(*FuncUpTributeToPlayer)(int player, int resourceAmount, int typeOp, int value) = 0;
-	inline static void(*FuncUpUngarrison)(int typeOp, int objectId) = 0;
-	inline static void(*FuncUpUpdateTargets)() = 0;
-#if defined GAME_DE
-	inline static void(*FuncChatDebug)(int text) = 0;
-	inline static void(*FuncFeBreakPoint)(int param1, int param2, int param3, int param4) = 0;
-	inline static void(*FuncSkyboxClearSignal)(int param) = 0;
-	inline static void(*FuncSkyboxSetNameMode)(int param) = 0;
-	inline static void(*FuncUpChatDataToAllUsingId)(int param1, int stringId, int param3) = 0;
-	inline static void(*FuncUpChatDataToPlayerUsingId)(int stringId, int playerId, int param3, int param4) = 0;
-	inline static void(*FuncUpGetTreatyData)(int param) = 0;
-	inline static void(*FuncUpTestharnessReport)(int param1, int param2, int param3) = 0;
-	inline static void(*FuncUpTestharnessTest)(int param1, int param2, int param3, int param4) = 0;
-#elif defined GAME_AOC
-	inline static void(*FuncUpGetAlliedTarget)(int param1, int param2) = 0;
-	inline static void(*FuncUpGetGuardState)(int goalState) = 0;
-	inline static void(*FuncUpGetUpgradeId)(int player, int count, int goalTypeId, int goalUpgradeId) = 0;
-	inline static void(*FuncUpOutOfSync)() = 0;
-#endif
-
 	inline static char customString[256] = { };
 };

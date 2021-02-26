@@ -14,6 +14,7 @@ public:
 
 private:
 	void Enable();
+	void UpdateTitle();
 	bool IsEnabled();
 	void Run();
 	void ProcessUserCommand(std::string const& command);
