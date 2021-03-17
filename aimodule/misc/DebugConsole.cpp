@@ -68,10 +68,15 @@ void DebugConsole::ProcessUserCommand(const std::string& command)
 		if (command == "unload")
 		{
 			aiModule->RequestUnload();
-			std::cout << "[AI Module] Requested unload." << std::endl;
+			std::cout << "[Console] Requested unload." << std::endl;
+		}
+		else if (command == "debug")
+		{
+			std::cout << "[Console] Game pointer = " << aiModule->game << std::endl;
 		}
 		else if (command == "test")
 		{
+			// add relevant test code here depending on what you're trying to do
 
 		}
 	}
