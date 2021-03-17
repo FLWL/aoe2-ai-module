@@ -13,9 +13,13 @@ AIModuleService::~AIModuleService()
 
 }
 
-grpc::Status AIModuleService::IsMatchInProgress(grpc::ServerContext* context, const protos::IsMatchInProgressRequest* request, protos::IsMatchInProgressReply* reply)
+grpc::Status AIModuleService::GetMatchStatus(grpc::ServerContext* context, const protos::GetMatchStatusRequest* request, protos::GetMatchStatusReply* reply)
 {
-	reply->set_result(aiModule->IsMatchInProgress());
+	int matchStatus = aiModule->GetMatchStatus();
+	if (matchStatus < 0) matchStatus = 0;
+	if (matchStatus > 3) matchStatus = 2;
+
+	reply->set_matchstatus(static_cast<protos::GetMatchStatusReply_MatchStatus>(matchStatus));
 	return grpc::Status::OK;
 }
 

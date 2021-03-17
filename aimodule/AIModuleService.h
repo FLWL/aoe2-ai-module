@@ -9,7 +9,7 @@ public:
 	AIModuleService(AIModule* aiModule);
 	~AIModuleService();
 
-	grpc::Status IsMatchInProgress(grpc::ServerContext* context, const protos::IsMatchInProgressRequest* request, protos::IsMatchInProgressReply* reply) override;
+	grpc::Status GetMatchStatus(grpc::ServerContext* context, const protos::GetMatchStatusRequest* request, protos::GetMatchStatusReply* reply) override;
 	grpc::Status GetGameDataFilePath(grpc::ServerContext* context, const protos::GetGameDataFilePathRequest* request, protos::GetGameDataFilePathReply* reply) override;
 	grpc::Status Unload(grpc::ServerContext* context, const protos::UnloadRequest* request, protos::UnloadReply* reply) override;
 private:

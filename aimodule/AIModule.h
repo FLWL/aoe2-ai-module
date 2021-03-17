@@ -1,13 +1,12 @@
 #pragma once
-#include <string>
-#include <mutex>
 #include <condition_variable>
+#include <mutex>
+#include <string>
 
-#include "misc/Configuration.h"
-#include "misc/DebugConsole.h"
-#include "misc/RPCServer.h"
 #include "AIModuleService.h"
 #include "expert/Expert.h"
+#include "misc/DebugConsole.h"
+#include "misc/RPCServer.h"
 #include "structs/Game.h"
 
 class AIModule
@@ -18,13 +17,13 @@ public:
 
 	void RequestUnload();
 	bool IsUnloadRequested();
-	bool IsMatchInProgress();
+	int GetMatchStatus();
 	std::string GetGameDataFilePath();
 
 	AIModuleService* GetService() { return &aiModuleService; };
 	Expert* GetExpert() { return &expert; };
 
-	structs::Game* game;
+	inline static structs::Game* game;
 
 private:
 	void SetGamePointer();

@@ -4,8 +4,8 @@
 #include <filesystem>
 
 #include "misc/Configuration.h"
-#include "misc/Statics.h"
 #include "misc/MemoryUtils.h"
+#include "misc/Statics.h"
 
 AIModule::AIModule() :
 	debugConsole(this),
@@ -31,7 +31,7 @@ void AIModule::SetGamePointer()
 
 	if (!game)
 	{
-		std::cout << "[AI Module] Error: failed to locate struct 'Game'."
+		std::cout << "[AI Module] Error: failed to locate class 'Game'."
 			<< " AI Module general calls will not work."
 			<< std::endl;
 	}
@@ -62,16 +62,12 @@ bool AIModule::IsUnloadRequested()
 	return unloadRequested;
 }
 
-bool AIModule::IsMatchInProgress()
+int AIModule::GetMatchStatus()
 {
-	if (!game)
-		return false;
+	if (!game || !game->world)
+		return 2; // NO_MATCH
 
-#if defined GAME_DE
-	return game->programMode->programModeId == 1;
-#elif defined GAME_AOC
-	return game->programModeId == 4;
-#endif
+	return game->world->gameState;
 }
 
 std::string AIModule::GetGameDataFilePath()
