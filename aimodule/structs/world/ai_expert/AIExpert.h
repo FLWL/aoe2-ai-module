@@ -11,7 +11,7 @@ namespace structs
 	struct AIExpert
 	{
 #if defined GAME_DE
-		void* vfptr;
+		void* virtualTable;
 		int16_t maxStrings;
 		int16_t numStrings;
 		char** string;
@@ -24,7 +24,7 @@ namespace structs
 		AIAction* action;
 		char** actionNames;
 #elif defined GAME_AOC
-		void* vfptr;
+		void* virtualTable;
 		int16_t maxStrings;
 		int16_t numStrings;
 		char** string;
