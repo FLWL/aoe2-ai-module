@@ -8,9 +8,9 @@ package protos;
 service AIModuleAPI {
   
   /**
-   * Check if a match is currently in progress.
+   * Get the current match status to determine if match has been started or finished.
    */
-  rpc IsMatchInProgress(IsMatchInProgressRequest) returns (IsMatchInProgressReply) { }
+  rpc GetMatchStatus(GetMatchStatusRequest) returns (GetMatchStatusReply) { }
   
   /**
    * Get the path to the game data (.dat) file that is being used by the game. Only available on AoC.
@@ -24,16 +24,22 @@ service AIModuleAPI {
 }
 
 /**
- * `IsMatchInProgressRequest` call parameters.
+ * `GetMatchStatusRequest` call parameters.
  */
-message IsMatchInProgressRequest {
+message GetMatchStatusRequest {
   
 }
 /**
- * `IsMatchInProgressRequest` call reply.
+ * `GetMatchStatusReply` call reply.
  */
-message IsMatchInProgressReply {
-  bool result = 1;
+message GetMatchStatusReply {
+  enum MatchStatus {
+    IN_PROGRESS = 0;
+    FINISHED = 1;
+    NO_MATCH = 2;
+    LOADING = 3;
+  }
+  MatchStatus matchStatus = 1;
 }
 
 /**
