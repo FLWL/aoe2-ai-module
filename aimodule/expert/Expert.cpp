@@ -12,6 +12,7 @@
 #include "misc/Statics.h"
 #include "misc/MemoryUtils.h"
 #include "expert/action/ExpertActionHandler.h"
+#include "expert/command/ExpertCommandHandler.h"
 #include "expert/fact/ExpertFactHandler.h"
 
 Expert* Expert::instance;
@@ -249,12 +250,21 @@ void Expert::PopulateCommandMap()
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetTreatyData", &ExpertActionHandler::UpGetTreatyData });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpTestharnessReport", &ExpertActionHandler::UpTestharnessReport });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpTestharnessTest", &ExpertActionHandler::UpTestharnessTest });
+	commandMap.insert({ "type.googleapis.com/protos.expert.action.FeGetSignal", &ExpertActionHandler::FeGetSignal });
+	commandMap.insert({ "type.googleapis.com/protos.expert.action.FeSetSignal", &ExpertActionHandler::FeSetSignal });
+	commandMap.insert({ "type.googleapis.com/protos.expert.action.FeCcEffectAmount", &ExpertActionHandler::FeCcEffectAmount });
+	commandMap.insert({ "type.googleapis.com/protos.expert.action.FeCcEffectPercent", &ExpertActionHandler::FeCcEffectPercent });
 	// AOC-only actions
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetAlliedTarget", &ExpertActionHandler::UpGetAlliedTarget });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetGuardState", &ExpertActionHandler::UpGetGuardState });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpGetUpgradeId", &ExpertActionHandler::UpGetUpgradeId });
 	commandMap.insert({ "type.googleapis.com/protos.expert.action.UpOutOfSync", &ExpertActionHandler::UpOutOfSync });
 	
+	// completely custom commands added by the module
+	commandMap.insert({ "type.googleapis.com/protos.expert.command.GetMapDimensions", &ExpertCommandHandler::GetMapDimensions });
+	commandMap.insert({ "type.googleapis.com/protos.expert.command.GetTiles", &ExpertCommandHandler::GetTiles });
+	commandMap.insert({ "type.googleapis.com/protos.expert.command.GetUnits", &ExpertCommandHandler::GetUnits });
+
 	// facts
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.AttackSoldierCount", &ExpertFactHandler::AttackSoldierCount });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.AttackWarboatCount", &ExpertFactHandler::AttackWarboatCount });
@@ -421,10 +431,6 @@ void Expert::PopulateCommandMap()
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.EndingAge", &ExpertFactHandler::EndingAge });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.FeCanBuildAtPoint", &ExpertFactHandler::FeCanBuildAtPoint });
 	commandMap.insert({ "type.googleapis.com/protos.expert.fact.FeSubGameType", &ExpertFactHandler::FeSubGameType });
-
-	// newish actions and facts added by the module
-	commandMap.insert({ "type.googleapis.com/protos.expert.fact.ModMapDimensions", &ExpertFactHandler::ModMapDimensions });
-	commandMap.insert({ "type.googleapis.com/protos.expert.fact.ModMapTiles", &ExpertFactHandler::ModMapTiles });
 }
 
 void Expert::EnableDetours()
@@ -465,8 +471,6 @@ int32_t __fastcall Expert::DetouredRunList(structs::AIExpert* aiExpert, void* un
 		Expert::instance->factsAndActionsInitialized = true;
 	}
 
-	auto result = FuncRunList(aiExpert, listId, statsOutput);
-
 	auto t1 = std::chrono::high_resolution_clock::now();
 	int numCommandsProcessed = Expert::instance->ProcessCommands();
 	auto t2 = std::chrono::high_resolution_clock::now();
@@ -477,7 +481,8 @@ int32_t __fastcall Expert::DetouredRunList(structs::AIExpert* aiExpert, void* un
 		std::cout << "[Expert] Processed " << numCommandsProcessed  << " command" << (numCommandsProcessed == 1 ? "" : "s") << " in " << duration << " us." << std::endl;
 	}
 
-	return result;
+	// run the commands from .per AI files after the module's
+	return FuncRunList(aiExpert, listId, statsOutput);
 }
 
 int Expert::ProcessCommands()
