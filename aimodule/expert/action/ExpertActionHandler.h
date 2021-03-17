@@ -213,6 +213,10 @@ public:
 	static void UpGetTreatyData(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpTestharnessReport(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpTestharnessTest(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void FeGetSignal(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void FeSetSignal(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void FeCcEffectAmount(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	static void FeCcEffectPercent(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	// AOC-only actions
 	static void UpGetAlliedTarget(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void UpGetGuardState(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);

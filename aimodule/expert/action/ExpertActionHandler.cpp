@@ -4106,6 +4106,50 @@ void ExpertActionHandler::UpTestharnessTest(const google::protobuf::Any& anyComm
 	anyResult->PackFrom(result);
 }
 
+void ExpertActionHandler::FeGetSignal(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::FeGetSignal command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::FeGetSignal(command.param1(), command.param2(), command.param3());
+
+	protos::expert::action::FeGetSignalResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::FeSetSignal(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::FeSetSignal command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::FeSetSignal(command.param1(), command.param2(), command.param3(), command.param4());
+
+	protos::expert::action::FeSetSignalResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::FeCcEffectAmount(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::FeCcEffectAmount command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::FeCcEffectAmount(command.param1(), command.param2(), command.param3(), command.param4());
+
+	protos::expert::action::FeCcEffectAmountResult result;
+	anyResult->PackFrom(result);
+}
+
+void ExpertActionHandler::FeCcEffectPercent(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	protos::expert::action::FeCcEffectPercent command;
+	anyCommand.UnpackTo(&command);
+
+	ExpertAction::FeCcEffectPercent(command.param1(), command.param2(), command.param3(), command.param4());
+
+	protos::expert::action::FeCcEffectPercentResult result;
+	anyResult->PackFrom(result);
+}
+
 void ExpertActionHandler::UpGetAlliedTarget(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
 {
 	protos::expert::action::UpGetAlliedTarget command;
