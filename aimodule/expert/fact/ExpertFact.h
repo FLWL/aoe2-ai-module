@@ -183,9 +183,6 @@ public:
 	static int EndingAge();
 	static bool FeCanBuildAtPoint(int param1, int param2, int param3, int param4);
 	static int FeSubGameType();
-	// custom facts
-	static std::array<int, 2> ModMapDimensions();
-	static int ModPointVisibility(int inConstPointX, int inConstPointY, int mapWidth = 0, int mapHeight = 0);
 
 	inline static int lastRelOpValue = -1;
 
