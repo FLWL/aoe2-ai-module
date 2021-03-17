@@ -2121,3 +2121,66 @@ message UpUpdateTargets {
 message UpUpdateTargetsResult {
   
 }
+
+/**
+ * Only available in DE.
+ */
+message FeGetSignal {
+  int32 param1 = 1;
+  int32 param2 = 2;
+  int32 param3 = 3;
+}
+/**
+ * Only available in DE.
+ */
+message FeGetSignalResult {
+  
+}
+
+/**
+ * Only available in DE.
+ */
+message FeSetSignal {
+  int32 param1 = 1;
+  int32 param2 = 2;
+  int32 param3 = 3;
+  int32 param4 = 4;
+}
+/**
+ * Only available in DE.
+ */
+message FeSetSignalResult {
+  
+}
+
+/**
+ * Only available in DE.
+ */
+message FeCcEffectAmount {
+  int32 param1 = 1;
+  int32 param2 = 2;
+  int32 param3 = 3;
+  int32 param4 = 4;
+}
+/**
+ * Only available in DE.
+ */
+message FeCcEffectAmountResult {
+  
+}
+
+/**
+ * Only available in DE.
+ */
+message FeCcEffectPercent {
+  int32 param1 = 1;
+  int32 param2 = 2;
+  int32 param3 = 3;
+  int32 param4 = 4;
+}
+/**
+ * Only available in DE.
+ */
+message FeCcEffectPercentResult {
+  
+}
