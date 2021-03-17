@@ -85,6 +85,27 @@
     <Filter Include="Header Files\structs\world\ai_expert\symbol_hash_node">
       <UniqueIdentifier>{2135ecd7-bb7c-4cee-99d7-1e6441ebfe7f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\expert\command">
+      <UniqueIdentifier>{0eb6897f-6233-4cc9-a11b-b373be4e326e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\expert\command">
+      <UniqueIdentifier>{61459c1d-3fe8-445c-afd7-92850a9ebabe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protos\expert\command">
+      <UniqueIdentifier>{aeb83aed-4c02-4305-94a3-acffe72b179f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\protos\expert\command">
+      <UniqueIdentifier>{6f4492af-0842-4217-aa3c-80895389c8a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\structs\world\player">
+      <UniqueIdentifier>{1dced15e-e286-4ddb-9b6b-1022b89165df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\structs\world\unit">
+      <UniqueIdentifier>{391823c1-2694-43ab-817a-6e8c9cd51adb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\structs\world\unit\master_unit">
+      <UniqueIdentifier>{1886592d-5345-4270-a7f6-9012213a2ad6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIModule.h">
@@ -171,6 +192,30 @@
     <ClInclude Include="structs\world\ai_expert\symbol_hash_node\SymbolHashNode.h">
       <Filter>Header Files\structs\world\ai_expert\symbol_hash_node</Filter>
     </ClInclude>
+    <ClInclude Include="expert\command\ExpertCommand.h">
+      <Filter>Header Files\expert\command</Filter>
+    </ClInclude>
+    <ClInclude Include="expert\command\ExpertCommandHandler.h">
+      <Filter>Header Files\expert\command</Filter>
+    </ClInclude>
+    <ClInclude Include="protos\expert\command\command.pb.h">
+      <Filter>Header Files\protos\expert\command</Filter>
+    </ClInclude>
+    <ClInclude Include="structs\world\player\Player.h">
+      <Filter>Header Files\structs\world\player</Filter>
+    </ClInclude>
+    <ClInclude Include="structs\world\player\PlayerUnitsList.h">
+      <Filter>Header Files\structs\world\player</Filter>
+    </ClInclude>
+    <ClInclude Include="structs\world\unit\Unit.h">
+      <Filter>Header Files\structs\world\unit</Filter>
+    </ClInclude>
+    <ClInclude Include="structs\world\unit\UnitVirtualTable.h">
+      <Filter>Header Files\structs\world\unit</Filter>
+    </ClInclude>
+    <ClInclude Include="structs\world\unit\master_unit\MasterUnit.h">
+      <Filter>Header Files\structs\world\unit\master_unit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -226,6 +271,15 @@
     </ClCompile>
     <ClCompile Include="expert\fact\ExpertFactHandler.cpp">
       <Filter>Source Files\expert\fact</Filter>
+    </ClCompile>
+    <ClCompile Include="expert\command\ExpertCommand.cpp">
+      <Filter>Source Files\expert\command</Filter>
+    </ClCompile>
+    <ClCompile Include="expert\command\ExpertCommandHandler.cpp">
+      <Filter>Source Files\expert\command</Filter>
+    </ClCompile>
+    <ClCompile Include="protos\expert\command\command.pb.cc">
+      <Filter>Source Files\protos\expert\command</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

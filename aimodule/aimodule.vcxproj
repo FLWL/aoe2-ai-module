@@ -129,6 +129,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -167,6 +168,8 @@
     <ClInclude Include="AIModuleService.h" />
     <ClInclude Include="expert\action\ExpertAction.h" />
     <ClInclude Include="expert\action\ExpertActionHandler.h" />
+    <ClInclude Include="expert\command\ExpertCommand.h" />
+    <ClInclude Include="expert\command\ExpertCommandHandler.h" />
     <ClInclude Include="expert\Expert.h" />
     <ClInclude Include="expert\ExpertCommandQueue.h" />
     <ClInclude Include="expert\ExpertService.h" />
@@ -180,6 +183,7 @@
     <ClInclude Include="protos\ai_module_api.grpc.pb.h" />
     <ClInclude Include="protos\ai_module_api.pb.h" />
     <ClInclude Include="protos\expert\action\action.pb.h" />
+    <ClInclude Include="protos\expert\command\command.pb.h" />
     <ClInclude Include="protos\expert\expert_api.grpc.pb.h" />
     <ClInclude Include="protos\expert\expert_api.pb.h" />
     <ClInclude Include="protos\expert\fact\fact.pb.h" />
@@ -190,6 +194,11 @@
     <ClInclude Include="structs\world\ai_expert\ai_action\AIAction.h" />
     <ClInclude Include="structs\world\ai_expert\ai_fact\AIFact.h" />
     <ClInclude Include="structs\world\ai_expert\symbol_hash_node\SymbolHashNode.h" />
+    <ClInclude Include="structs\world\player\Player.h" />
+    <ClInclude Include="structs\world\player\PlayerUnitsList.h" />
+    <ClInclude Include="structs\world\unit\master_unit\MasterUnit.h" />
+    <ClInclude Include="structs\world\unit\Unit.h" />
+    <ClInclude Include="structs\world\unit\UnitVirtualTable.h" />
     <ClInclude Include="structs\world\World.h" />
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +207,8 @@
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="expert\action\ExpertAction.cpp" />
     <ClCompile Include="expert\action\ExpertActionHandler.cpp" />
+    <ClCompile Include="expert\command\ExpertCommand.cpp" />
+    <ClCompile Include="expert\command\ExpertCommandHandler.cpp" />
     <ClCompile Include="expert\Expert.cpp" />
     <ClCompile Include="expert\ExpertCommandQueue.cpp" />
     <ClCompile Include="expert\ExpertService.cpp" />
@@ -208,6 +219,7 @@
     <ClCompile Include="protos\ai_module_api.grpc.pb.cc" />
     <ClCompile Include="protos\ai_module_api.pb.cc" />
     <ClCompile Include="protos\expert\action\action.pb.cc" />
+    <ClCompile Include="protos\expert\command\command.pb.cc" />
     <ClCompile Include="protos\expert\expert_api.grpc.pb.cc" />
     <ClCompile Include="protos\expert\expert_api.pb.cc" />
     <ClCompile Include="protos\expert\fact\fact.pb.cc" />
