@@ -174,12 +174,6 @@ public:
 	static void EndingAge(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void FeCanBuildAtPoint(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
 	static void FeSubGameType(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
-
-	static void ModMapDimensions(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
-	static void ModMapTiles(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
-
 private:
 	ExpertFactHandler() {};
-
-	static int GeneralizeTerrainType(int terrainId);
 };

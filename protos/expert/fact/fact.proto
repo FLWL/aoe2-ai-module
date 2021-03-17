@@ -1345,27 +1345,3 @@ message WoodAmount {
 message WoodAmountResult {
   int32 result = 1;
 }
-
-message ModMapDimensions {
-  
-}
-message ModMapDimensionsResult {
-  int32 width = 1;
-  int32 height = 2;
-}
-
-message ModMapTiles {
-  
-}
-message ModMapTilesResult {
-  int32 mapWidth = 1;
-  int32 mapHeight = 2;
-  repeated Tile tiles = 3;
-}
-message Tile {
-  int32 x = 1;
-  int32 y = 2;
-  int32 height = 3;
-  int32 terrain = 4;
-  int32 visibility = 5;
-}

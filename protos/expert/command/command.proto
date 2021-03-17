@@ -1,0 +1,54 @@
+syntax = "proto3";
+/**
+ * Command message and reply definitions for use with Expert API subsystem `ExecuteCommandList` call.
+ */
+
+package protos.expert.command;
+
+message GetMapDimensions {
+  
+}
+message GetMapDimensionsResult {
+  int32 width = 1;
+  int32 height = 2;
+}
+
+message GetTiles {
+  
+}
+message GetTilesResult {
+  repeated Tile tiles = 3;
+}
+
+message Tile {
+  int32 x = 1;
+  int32 y = 2;
+  int32 height = 3;
+  int32 terrain = 4;
+  int32 visibility = 5;
+}
+
+message GetUnits {
+  
+}
+message GetUnitsResult {
+  repeated Unit units = 1;
+}
+
+message Unit {
+  int32 entityId = 1;
+  int32 unitId = 2;
+  int32 visibility = 3;
+  int32 positionX = 4;
+  int32 positionY = 5;
+}
+
+
+
+
+
+
+
+
+
+
