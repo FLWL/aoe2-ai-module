@@ -219,6 +219,10 @@ public:
 	static void UpGetTreatyData(int param);
 	static void UpTestharnessReport(int param1, int param2, int param3);
 	static void UpTestharnessTest(int param1, int param2, int param3, int param4);
+	static void FeGetSignal(int param1, int param2, int param3);
+	static void FeSetSignal(int param1, int param2, int param3, int param4);
+	static void FeCcEffectAmount(int param1, int param2, int param3, int param4);
+	static void FeCcEffectPercent(int param1, int param2, int param3, int param4);
 	// AOC-only actions
 	static void UpGetAlliedTarget(int param1, int param2);
 	static void UpGetGuardState(int goalState);

@@ -169,45 +169,50 @@ void ExpertAction::AttackNow()
 
 void ExpertAction::Build(int inConstBuildingId)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("build");
+
 	if (ExpertFact::CanBuildWithEscrow(inConstBuildingId))
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("build");
 		ExecuteActionFunction(actionFunction, inConstBuildingId);
 	}
 }
 
 void ExpertAction::BuildForward(int inConstBuildingId)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("build-forward");
+
 	if (ExpertFact::CanBuildWithEscrow(inConstBuildingId))
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("build-forward");
 		ExecuteActionFunction(actionFunction, inConstBuildingId);
 	}
 }
 
 void ExpertAction::BuildGate(int inConstPerimeter)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("build-gate");
+
 	if (ExpertFact::CanBuildGateWithEscrow(inConstPerimeter))
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("build-gate");
 		ExecuteActionFunction(actionFunction, inConstPerimeter);
 	}
 }
 
 void ExpertAction::BuildWall(int inConstPerimeter, int inConstWallId)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("build-wall");
+
 	if (ExpertFact::CanBuildWallWithEscrow(inConstPerimeter, inConstWallId))
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("build-wall");
 		ExecuteActionFunction(actionFunction, inConstPerimeter, inConstWallId);
 	}
 }
 
 void ExpertAction::BuyCommodity(int inConstCommodity)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("buy-commodity");
+
 	if (ExpertFact::CanBuyCommodity(inConstCommodity))
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("buy-commodity");
 		ExecuteActionFunction(actionFunction, inConstCommodity);
 	}
 }
@@ -233,9 +238,10 @@ void ExpertAction::ChatLocalUsingId(int inConstLanguageId)
 
 void ExpertAction::ChatLocalUsingRange(int inConstLanguageId, int inConstValue)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("chat-local-using-range");
+
 	if (inConstValue != 0) // crashes otherwise
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("chat-local-using-range");
 		ExecuteActionFunction(actionFunction, inConstLanguageId, inConstValue);
 	}
 }
@@ -262,9 +268,10 @@ void ExpertAction::ChatToAllUsingId(int inConstLanguageId)
 
 void ExpertAction::ChatToAllUsingRange(int inConstLanguageId, int inConstValue)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("chat-to-all-using-range");
+
 	if (inConstValue != 0) // crashes otherwise
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("chat-to-all-using-range");
 		ExecuteActionFunction(actionFunction, inConstLanguageId, inConstValue);
 	}
 }
@@ -284,9 +291,10 @@ void ExpertAction::ChatToAlliesUsingId(int inConstLanguageId)
 
 void ExpertAction::ChatToAlliesUsingRange(int inConstLanguageId, int inConstValue)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("chat-to-allies-using-range");
+
 	if (inConstValue != 0) // crashes otherwise
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("chat-to-allies-using-range");
 		ExecuteActionFunction(actionFunction, inConstLanguageId, inConstValue);
 	}
 }
@@ -306,9 +314,10 @@ void ExpertAction::ChatToEnemiesUsingId(int inConstLanguageId)
 
 void ExpertAction::ChatToEnemiesUsingRange(int inConstLanguageId, int inConstValue)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("chat-to-enemies-using-range");
+
 	if (inConstValue != 0) // crashes otherwise
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("chat-to-enemies-using-range");
 		ExecuteActionFunction(actionFunction, inConstLanguageId, inConstValue);
 	}
 }
@@ -328,9 +337,10 @@ void ExpertAction::ChatToPlayerUsingId(int inPlayerAnyPlayer, int inConstLanguag
 
 void ExpertAction::ChatToPlayerUsingRange(int inPlayerAnyPlayer, int inConstLanguageId, int inConstValue)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("chat-to-player-using-range");
+
 	if (inConstValue != 0) // crashes otherwise
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("chat-to-player-using-range");
 		ExecuteActionFunction(actionFunction, inPlayerAnyPlayer, inConstLanguageId, inConstValue);
 	}
 }
@@ -373,9 +383,10 @@ void ExpertAction::DisableSelf()
 
 void ExpertAction::DisableTimer(int inConstTimerId)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("disable-timer");
+
 	if (inConstTimerId != 0) // can crash otherwise
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("disable-timer");
 		ExecuteActionFunction(actionFunction, inConstTimerId);
 	}
 }
@@ -394,11 +405,12 @@ void ExpertAction::EnableRule(int inConstRuleGroupId)
 
 void ExpertAction::EnableTimer(int inConstTimerId, int inConstValue)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("enable-timer");
+
 #if defined GAME_AOC
 	if (inConstValue != 0) // crashes otherwise
 #endif
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("enable-timer");
 		ExecuteActionFunction(actionFunction, inConstTimerId, inConstValue);
 	}
 }
@@ -411,9 +423,10 @@ void ExpertAction::EnableWallPlacement(int inConstPerimeter)
 
 void ExpertAction::GenerateRandomNumber(int inConstValue)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("generate-random-number");
+
 	if (inConstValue != 0) // crashes otherwise
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("generate-random-number");
 		ExecuteActionFunction(actionFunction, inConstValue);
 	}
 }
@@ -439,9 +452,10 @@ void ExpertAction::ReleaseEscrow(int inConstResource)
 
 void ExpertAction::Research(int inConstTechId)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("research");
+
 	if (ExpertFact::CanResearchWithEscrow(inConstTechId)) // fixes a potential crash, at least in aoc
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("research");
 		ExecuteActionFunction(actionFunction, inConstTechId);
 	}
 }
@@ -454,9 +468,10 @@ void ExpertAction::Resign()
 
 void ExpertAction::SellCommodity(int inConstCommodity)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("sell-commodity");
+
 	if (ExpertFact::CanSellCommodity(inConstCommodity))
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("sell-commodity");
 		ExecuteActionFunction(actionFunction, inConstCommodity);
 	}
 }
@@ -535,9 +550,10 @@ void ExpertAction::SetStrategicNumber(int inConstSnId, int inConstValue)
 
 void ExpertAction::Spy()
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("spy");
+
 	if (ExpertFact::CanSpyWithEscrow())
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("spy");
 		ExecuteActionFunction(actionFunction);
 	}
 }
@@ -550,18 +566,20 @@ void ExpertAction::Taunt(int inConstTauntId)
 
 void ExpertAction::TauntUsingRange(int inConstTauntId, int inConstValue)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("taunt-using-range");
+
 	if (inConstValue != 0) // crashes otherwise
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("taunt-using-range");
 		ExecuteActionFunction(actionFunction, inConstTauntId, inConstValue);
 	}
 }
 
 void ExpertAction::Train(int inConstUnitId)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("train");
+
 	if (ExpertFact::CanTrainWithEscrow(inConstUnitId))
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("train");
 		ExecuteActionFunction(actionFunction, inConstUnitId);
 	}
 }
@@ -622,22 +640,24 @@ void ExpertAction::UpBoundPrecisePoint(int inGoalPoint, int inConstPrecise, int 
 
 void ExpertAction::UpBuild(int inConstPlacementType, int inGoalEscrowState, int typeOp, int inOpBuildingId)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("up-build");
+
 	if (ExpertFact::UpCanBuild(inGoalEscrowState, typeOp, inOpBuildingId))
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("up-build");
 		ExecuteActionFunction(actionFunction, inConstPlacementType, inGoalEscrowState, typeOp, inOpBuildingId);
 	}
 }
 
 void ExpertAction::UpBuildLine(int inGoalPoint1, int inGoalPoint2, int typeOp, int inOpBuildingId)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("up-build-line");
+
 	int cachedGoal = ExpertFact::Goal(expert_conf::CONST_TEMP_GOAL_ID);
 	ExpertAction::SetGoal(expert_conf::CONST_TEMP_GOAL_ID, 0); // with-escrow
 
 	if (ExpertFact::UpCanBuildLine(expert_conf::CONST_TEMP_GOAL_ID, inGoalPoint1, typeOp, inOpBuildingId))
 	{
 		ExpertAction::SetGoal(expert_conf::CONST_TEMP_GOAL_ID, cachedGoal);
-		static const ActionFunction actionFunction = *actionFunctionMap.at("up-build-line");
 		ExecuteActionFunction(actionFunction, inGoalPoint1, inGoalPoint2, typeOp, inOpBuildingId);
 		return;
 	}
@@ -694,11 +714,12 @@ void ExpertAction::UpChatDataToSelf(const std::string& inTextFormattedString, in
 
 void ExpertAction::UpCleanSearch(int inConstSearchSource, int inConstObjectData, int inConstSearchOrder)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("up-clean-search");
+
 #if defined GAME_DE
 	if (inConstSearchSource != 0) // crashes otherwise
 #endif
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("up-clean-search");
 		ExecuteActionFunction(actionFunction, inConstSearchSource, inConstObjectData, inConstSearchOrder);
 	}
 }
@@ -813,11 +834,12 @@ void ExpertAction::UpFindPlayer(int inConstPlayerStance, int inConstFindPlayerMe
 
 void ExpertAction::UpFindPlayerFlare(int inPlayerAnyPlayer, int outGoalPoint)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("up-find-player-flare");
+
 #if defined GAME_AOC
 	if (outGoalPoint >= 40 && outGoalPoint <= 510) // crashes otherwise
 #endif
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("up-find-player-flare");
 		ExecuteActionFunction(actionFunction, inPlayerAnyPlayer, outGoalPoint);
 	}
 }
@@ -1152,9 +1174,10 @@ void ExpertAction::UpRequestHunters(int typeOp, int inOpValue)
 
 void ExpertAction::UpResearch(int inGoalEscrowState, int typeOp, int inOpTechId)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("up-research");
+
 	if (ExpertFact::UpCanResearch(inGoalEscrowState, typeOp, inOpTechId))
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("up-research");
 		ExecuteActionFunction(actionFunction, inGoalEscrowState, typeOp, inOpTechId);
 	}
 }
@@ -1323,11 +1346,12 @@ void ExpertAction::UpSetTargetById(int typeOp, int inOpId)
 
 void ExpertAction::UpSetTargetObject(int inConstSearchSource, int typeOp, int inOpIndex)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("up-set-target-object");
+
 #if defined GAME_DE
 	if (inConstSearchSource != 0) // crashes otherwise
 #endif
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("up-set-target-object");
 		ExecuteActionFunction(actionFunction, inConstSearchSource, typeOp, inOpIndex);
 	}
 }
@@ -1340,11 +1364,12 @@ void ExpertAction::UpSetTargetPoint(int inGoalPoint)
 
 void ExpertAction::UpSetTimer(int typeOp1, int inOp1TimerId, int typeOp2, int inOp2Value)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("up-set-timer");
+
 #if defined GAME_AOC
 	if (inOp2Value != 0) // crashes otherwise
 #endif
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("up-set-timer");
 		ExecuteActionFunction(actionFunction, typeOp1, inOp1TimerId, typeOp2, inOp2Value);
 	}
 }
@@ -1411,9 +1436,10 @@ void ExpertAction::UpTargetPoint(int inGoalPoint, int inConstTargetAction, int i
 
 void ExpertAction::UpTrain(int inGoalEscrowState, int typeOp, int inOpUnitId)
 {
+	static const ActionFunction actionFunction = *actionFunctionMap.at("up-train");
+
 	if (ExpertFact::UpCanTrain(inGoalEscrowState, typeOp, inOpUnitId))
 	{
-		static const ActionFunction actionFunction = *actionFunctionMap.at("up-train");
 		ExecuteActionFunction(actionFunction, inGoalEscrowState, typeOp, inOpUnitId);
 	}
 }
@@ -1488,6 +1514,30 @@ void ExpertAction::UpTestharnessReport(int param1, int param2, int param3)
 void ExpertAction::UpTestharnessTest(int param1, int param2, int param3, int param4)
 {
 	static const ActionFunction actionFunction = *actionFunctionMap.at("up-testharness-test");
+	ExecuteActionFunction(actionFunction, param1, param2, param3, param4);
+}
+
+void ExpertAction::FeGetSignal(int param1, int param2, int param3)
+{
+	static const ActionFunction actionFunction = *actionFunctionMap.at("fe-get-signal");
+	ExecuteActionFunction(actionFunction, param1, param2, param3);
+}
+
+void ExpertAction::FeSetSignal(int param1, int param2, int param3, int param4)
+{
+	static const ActionFunction actionFunction = *actionFunctionMap.at("fe-set-signal");
+	ExecuteActionFunction(actionFunction, param1, param2, param3, param4);
+}
+
+void ExpertAction::FeCcEffectAmount(int param1, int param2, int param3, int param4)
+{
+	static const ActionFunction actionFunction = *actionFunctionMap.at("fe-cc-effect-amount");
+	ExecuteActionFunction(actionFunction, param1, param2, param3, param4);
+}
+
+void ExpertAction::FeCcEffectPercent(int param1, int param2, int param3, int param4)
+{
+	static const ActionFunction actionFunction = *actionFunctionMap.at("fe-cc-effect-percent");
 	ExecuteActionFunction(actionFunction, param1, param2, param3, param4);
 }
 
