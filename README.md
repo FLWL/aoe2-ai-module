@@ -10,9 +10,9 @@ This project is aimed at extending the possibilities of AI scripting in Age of E
 
 The AI module consists of a DLL file that has to be loaded into the Age of Empires process, after which it starts a gRPC server on port 37412 by default. Available gRPC definitions can be seen in the `protos` folder and in the project's wiki. These can be used from virtually any scripting environment the gRPC framework is available on. A Python example has been provided in the `client_python` folder.
 
-At the moment the 32-bit version of the module supports AoC with Userpatch 1.5 and the 64-bit one has been tested with Definitive Edition build 43210 and 44834, but might work with others. For caveats with specific versions see below and the project's Wiki.
+At the moment the 32-bit version of the module supports AoC with Userpatch 1.5 and the 64-bit one supports builds 43210 and higher.
 
-Note that this library is still under development and is not an easy to use solution just yet. There may be bugs, unsupported functionality and the pre-release binaries might not always be up to date.
+Note that this library is still under development and is not an easy to use solution just yet. There may be bugs, unsupported functionality and the release binaries might not always be up to date.
 
 # Compiling
 * Clone this repository.
@@ -33,7 +33,7 @@ There are also automated builds by GitHub Actions available under the Releases s
 * Zydis
 
 # Known issues
-* DE: The module can trip the anti-tampering mechanism of the game.
+* DE: The module can trip the anti-tampering mechanism and/or crash the game sometimes.
 
 # Disclaimer
 * This library interfaces with Age of Empires 2: Definitive Edition in ways that are not officially supported by the developers of the game. While the authors of this library try to minimize its impact on the normal operation of the game, it cannot be guaranteed due to the nature of the design. It is therefore recommendeed to use this software only in offline mode in local single player matches. The authors of this library do not provide any kind of warranty nor take liability for the consequences of (mis)using this software. See the license document for further details.
