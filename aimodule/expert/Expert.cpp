@@ -619,6 +619,7 @@ int Expert::GetAnyCommandResult(const google::protobuf::Any& anyResult)
 						{
 							return messageReflection->GetBool(*message, resultFieldDescriptor);
 						}
+						case google::protobuf::FieldDescriptor::Type::TYPE_SINT32:
 						case google::protobuf::FieldDescriptor::Type::TYPE_INT32:
 						{
 							return messageReflection->GetInt32(*message, resultFieldDescriptor);
