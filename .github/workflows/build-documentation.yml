@@ -82,6 +82,7 @@ jobs:
             .\vcpkg\installed\x64-windows-static\tools\protobuf\protoc.exe -I . -I .\vcpkg\installed\x64-windows-static\include --doc_out .\documentation\ --plugin=protoc-gen-doc=.\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,%WIKI_PREFIX%-AI-Module-API.md protos/ai_module_api.proto
             .\vcpkg\installed\x64-windows-static\tools\protobuf\protoc.exe -I . -I .\vcpkg\installed\x64-windows-static\include --doc_out .\documentation\ --plugin=protoc-gen-doc=.\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,%WIKI_PREFIX%-Expert-API.md protos/expert/expert_api.proto
             .\vcpkg\installed\x64-windows-static\tools\protobuf\protoc.exe -I . -I .\vcpkg\installed\x64-windows-static\include --doc_out .\documentation\ --plugin=protoc-gen-doc=.\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,%WIKI_PREFIX%-Expert-Actions.md protos/expert/action/action.proto
+            .\vcpkg\installed\x64-windows-static\tools\protobuf\protoc.exe -I . -I .\vcpkg\installed\x64-windows-static\include --doc_out .\documentation\ --plugin=protoc-gen-doc=.\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,%WIKI_PREFIX%-Expert-Commands.md protos/expert/command/command.proto
             .\vcpkg\installed\x64-windows-static\tools\protobuf\protoc.exe -I . -I .\vcpkg\installed\x64-windows-static\include --doc_out .\documentation\ --plugin=protoc-gen-doc=.\protoc-gen-doc\protoc-gen-doc.exe --doc_opt=markdown,%WIKI_PREFIX%-Expert-Facts.md protos/expert/fact/fact.proto
           )
         shell: cmd
