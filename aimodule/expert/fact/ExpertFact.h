@@ -185,6 +185,7 @@ public:
 	static int FeSubGameType();
 
 	inline static int lastRelOpValue = -1;
+	static void ChangeTypeOpToConst(int& typeOp, int& opValue);
 
 private:
 	static void LoadFactFunctions(const structs::AIExpert* aiExpert);
@@ -211,6 +212,4 @@ private:
 	inline static intptr_t(__thiscall* FuncInternalWallCompletedPercentage)(void* informationAI, int perimeter) = 0;
 	inline static intptr_t(__thiscall* FuncInternalWallInvisiblePercentage)(void* informationAI, int perimeter) = 0;
 #endif
-
-	static void ChangeTypeOpToConst(int& typeOp, int& opValue);
 };

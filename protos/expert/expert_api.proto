@@ -37,8 +37,12 @@ message CommandResultList {
 message ConditionalCommand {
   google.protobuf.Any fact = 1;
   string compareOp = 2;
-  int32 value = 3;
-  google.protobuf.Any command = 4;
+  oneof value {
+    int32 inConstValue = 3;
+    int32 inGoalValue = 4;
+    int32 inSnValue = 5;
+  }
+  google.protobuf.Any command = 6;
 }
 message ConditionalCommandResult {
   bool fired = 1;

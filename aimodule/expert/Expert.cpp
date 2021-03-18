@@ -538,7 +538,14 @@ int Expert::ProcessCommandList(const protos::expert::CommandList* commandList, p
 		google::protobuf::Any anyCommand = commandList->commands(requestIndex);
 		google::protobuf::Any* anyResult = commandResultList->add_results();
 
-		numCommandsProcessed += ExecuteCommand(anyCommand, anyResult);
+		try
+		{
+			numCommandsProcessed += ExecuteCommand(anyCommand, anyResult);
+		}
+		catch (const std::exception& e)
+		{
+			std::cout << "[Expert] Failed to execute command '" << anyCommand.type_url() << "': " << e.what() << std::endl;
+		}
 	}
 
 	return numCommandsProcessed;
@@ -557,9 +564,30 @@ int Expert::ExecuteCommand(const google::protobuf::Any& anyCommand, google::prot
 		int numCommandsProcessed = ExecuteCommand(conditionalCommand.fact(), &factResultAny);
 		int factResultInt = GetAnyCommandResult(factResultAny);
 
+		// get the expected fact value as a const
+		int expectedValue = 0;
+		switch (conditionalCommand.value_case())
+		{
+			case protos::expert::ConditionalCommand::kInConstValue:
+			{
+				expectedValue = conditionalCommand.inconstvalue();
+				break;
+			}
+			case protos::expert::ConditionalCommand::kInGoalValue:
+			{
+				expectedValue = ExpertFact::Goal(conditionalCommand.ingoalvalue());
+				break;
+			}
+			case protos::expert::ConditionalCommand::kInSnValue:
+			{
+				expectedValue = ExpertFact::StrategicNumber(conditionalCommand.insnvalue());
+				break;
+			}
+		}
+
 		// prepare result message, compare fact result to expected
 		protos::expert::ConditionalCommandResult conditionalCommandResult;
-		if (CompareFactResult(factResultInt, conditionalCommand.compareop(), conditionalCommand.value()))
+		if (CompareFactResult(factResultInt, conditionalCommand.compareop(), expectedValue))
 		{
 			numCommandsProcessed += ExecuteCommand(conditionalCommand.command(), conditionalCommandResult.mutable_result());
 			conditionalCommandResult.set_fired(true);
