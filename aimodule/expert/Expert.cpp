@@ -5,7 +5,6 @@
 #include <sstream>
 #include <chrono>
 
-#include <Windows.h>
 #include <detours/detours.h>
 
 #include "AIModule.h"
@@ -14,6 +13,7 @@
 #include "expert/action/ExpertActionHandler.h"
 #include "expert/command/ExpertCommandHandler.h"
 #include "expert/fact/ExpertFactHandler.h"
+#include "google/protobuf/dynamic_message.h"
 
 Expert* Expert::instance;
 
@@ -537,20 +537,129 @@ int Expert::ProcessCommandList(const protos::expert::CommandList* commandList, p
 	{
 		google::protobuf::Any anyCommand = commandList->commands(requestIndex);
 		google::protobuf::Any* anyResult = commandResultList->add_results();
-		
-		try
-		{
-			auto commandHandler = commandMap.at(anyCommand.type_url());
-			commandHandler(anyCommand, anyResult);
-			numCommandsProcessed++;
-		}
-		catch (const std::exception&)
-		{
-			std::cout << "[Expert] Received unsupported command '" << anyCommand.type_url() << "'." << std::endl;
-		}
+
+		numCommandsProcessed += ExecuteCommand(anyCommand, anyResult);
 	}
 
 	return numCommandsProcessed;
+}
+
+int Expert::ExecuteCommand(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
+{
+	if (anyCommand.type_url() == "type.googleapis.com/protos.expert.ConditionalCommand")
+	{
+		// unpack conditional command message
+		protos::expert::ConditionalCommand conditionalCommand;
+		anyCommand.UnpackTo(&conditionalCommand);
+
+		// execute fact function and get its result as an integer
+		google::protobuf::Any factResultAny;
+		int numCommandsProcessed = ExecuteCommand(conditionalCommand.fact(), &factResultAny);
+		int factResultInt = GetAnyCommandResult(factResultAny);
+
+		// prepare result message, compare fact result to expected
+		protos::expert::ConditionalCommandResult conditionalCommandResult;
+		if (CompareFactResult(factResultInt, conditionalCommand.compareop(), conditionalCommand.value()))
+		{
+			numCommandsProcessed += ExecuteCommand(conditionalCommand.command(), conditionalCommandResult.mutable_result());
+			conditionalCommandResult.set_fired(true);
+		}
+		
+		anyResult->PackFrom(conditionalCommandResult);
+		return numCommandsProcessed;
+	}
+
+	// execute normal command
+	try
+	{
+		auto commandHandler = commandMap.at(anyCommand.type_url());
+		commandHandler(anyCommand, anyResult);
+		return 1;
+	}
+	catch (const std::exception&)
+	{
+		std::cout << "[Expert] Received unsupported command '" << anyCommand.type_url() << "'." << std::endl;
+	}
+
+	return 0;
+}
+
+// get the integer value of the result field from any command, fact, or action if applicable
+int Expert::GetAnyCommandResult(const google::protobuf::Any& anyResult)
+{
+	auto descriptorPool = google::protobuf::DescriptorPool::generated_pool();
+	auto messageFactory = google::protobuf::MessageFactory::generated_factory();
+
+	if (descriptorPool && messageFactory)
+	{
+		// look up the message type
+		auto messageDescriptor = descriptorPool->FindMessageTypeByName(TypeUrlToTypeName(anyResult.type_url()));
+
+		if (messageDescriptor)
+		{
+			// look up the prototype for the said message type, get reflection, look up the result field
+			auto messagePrototype = messageFactory->GetPrototype(messageDescriptor);
+			auto messageReflection = messagePrototype->GetReflection();
+			auto resultFieldDescriptor = messageDescriptor->FindFieldByName("result");
+
+			if (messagePrototype && messageReflection && resultFieldDescriptor)
+			{
+				// initialize a new empty message using given prototype at runtime
+				auto message = messagePrototype->New();
+
+				if (message)
+				{
+					// fill message with data from the Any object passed into this function
+					message->ParseFromString(anyResult.value());
+
+					// read the result field, adjust for type
+					switch (resultFieldDescriptor->type())
+					{
+						case google::protobuf::FieldDescriptor::Type::TYPE_BOOL:
+						{
+							return messageReflection->GetBool(*message, resultFieldDescriptor);
+						}
+						case google::protobuf::FieldDescriptor::Type::TYPE_INT32:
+						{
+							return messageReflection->GetInt32(*message, resultFieldDescriptor);
+						}
+						case google::protobuf::FieldDescriptor::Type::TYPE_MESSAGE:
+						{
+#pragma push_macro("GetMessage")
+#undef GetMessage
+							// allow extracting the result from ConditionalCommandResult, not really needed
+							auto& subMessage = messageReflection->GetMessage(*message, resultFieldDescriptor);
+							if (subMessage.GetTypeName() == "google.protobuf.Any")
+							{
+								return GetAnyCommandResult(dynamic_cast<const google::protobuf::Any&>(subMessage));
+							}
+#pragma pop_macro("GetMessage")
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return 0;
+}
+
+std::string Expert::TypeUrlToTypeName(const std::string& typeUrl)
+{
+	return typeUrl.substr(typeUrl.find("/") + 1);
+}
+
+bool Expert::CompareFactResult(int factResult, const std::string& compareOp, int expectedValue)
+{
+	if (compareOp == "==") return factResult == expectedValue;
+	if (compareOp == ">=") return factResult >= expectedValue;
+	if (compareOp == "<=") return factResult <= expectedValue;
+	if (compareOp == ">") return factResult > expectedValue;
+	if (compareOp == "<") return factResult < expectedValue;
+	if (compareOp == "!=") return factResult != expectedValue;
+
+	return false;
 }
 
 Expert::~Expert()

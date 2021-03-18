@@ -30,6 +30,10 @@ private:
 	void DisableDetours();
 	int ProcessCommands();
 	int ProcessCommandList(const protos::expert::CommandList* commandList, protos::expert::CommandResultList* commandResultList);
+	int ExecuteCommand(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult);
+	int GetAnyCommandResult(const google::protobuf::Any& anyResult);
+	std::string TypeUrlToTypeName(const std::string& typeUrl);
+	bool CompareFactResult(int factResult, const std::string& compareOp, int expectedValue);
 	bool factsAndActionsInitialized;
 
 	// submodules initialized in this order

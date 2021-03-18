@@ -12,10 +12,6 @@ service ExpertAPI {
    * Send a list of expert actions and facts (commands) to the AI Module. The list will be processed during the next AI tick for the specified player. If that does not occur in 5 seconds, an error code will be returned.
    */
   rpc ExecuteCommandList(CommandList) returns (CommandResultList) {}
-  /**
-   * Experimental. Currently unsupported.
-   */
-  rpc ResolveConst(ResolveConstRequest) returns (ResolveConstResponse) {}
 }
 
 /**
@@ -34,14 +30,17 @@ message CommandResultList {
 }
 
 /**
- * Experimental. Currently unsupported.
+ * An optional structure that can be put in the CommandList message commands list. The server
+ * will evaluate the fact and compare it to the specified value using the operator given. The
+ * command to be conditionally executed can be anything, including a fact.
  */
-message ResolveConstRequest {
-  string constToResolve = 1;
+message ConditionalCommand {
+  google.protobuf.Any fact = 1;
+  string compareOp = 2;
+  int32 value = 3;
+  google.protobuf.Any command = 4;
 }
-/**
- * Experimental. Currently unsupported.
- */
-message ResolveConstResponse {
-  int32 constValue = 1;
+message ConditionalCommandResult {
+  bool fired = 1;
+  google.protobuf.Any result = 2;
 }
