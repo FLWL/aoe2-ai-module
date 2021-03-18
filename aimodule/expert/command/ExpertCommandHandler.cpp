@@ -92,11 +92,60 @@ void ExpertCommandHandler::GetTiles(const google::protobuf::Any& anyCommand, goo
 	anyResult->PackFrom(result);
 }
 
+#if defined GAME_AOC
+int GetMyPlayerNumber()
+{
+	for (int i = 0; i <= 8; i++)
+	{
+		if (ExpertFact::PlayerNumber(i))
+			return i;
+	}
+
+	return 0;
+}
+
+void AddUnitIfVisible(structs::Unit* gameUnit, structs::Player* player, protos::expert::command::GetUnitsResult& unitsResult)
+{
+	uint8_t visibility = gameUnit->virtualTable->getVisibility(gameUnit, player);
+	if (!visibility) return;
+
+	protos::expert::command::Unit* protoUnit = unitsResult.add_units();
+	protoUnit->set_entityid(gameUnit->entityId);
+	protoUnit->set_visibility(visibility);
+	protoUnit->set_positionx(gameUnit->positionX);
+	protoUnit->set_positiony(gameUnit->positionY);
+
+	if (gameUnit->masterUnit)
+	{
+		protoUnit->set_unitid(gameUnit->masterUnit->id);
+	}
+}
+#endif
+
 void ExpertCommandHandler::GetUnits(const google::protobuf::Any& anyCommand, google::protobuf::Any* anyResult)
 {
 	protos::expert::command::GetUnits command;
+	protos::expert::command::GetUnitsResult result;
 	anyCommand.UnpackTo(&command);
 
-	protos::expert::command::GetUnitsResult result;
+#if defined GAME_AOC
+	structs::Game* game = AIModule::game;
+	if (game && game->world)
+	{
+		structs::Player* myPlayer = game->world->players[GetMyPlayerNumber()];
+
+		for (int playerNumber = 0; playerNumber < game->world->numPlayers; playerNumber++)
+		{
+			structs::Player* currentPlayer = game->world->players[playerNumber];
+
+			for (int listIndex = 0; listIndex < currentPlayer->units->numUnits; listIndex++)
+			{
+				structs::Unit* currentUnit = currentPlayer->units->units[listIndex];
+				AddUnitIfVisible(currentUnit, myPlayer, result);
+			}
+		}
+	}
+#endif
+
 	anyResult->PackFrom(result);
 }
