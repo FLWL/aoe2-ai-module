@@ -10,7 +10,7 @@
 
 namespace aimodule_conf
 {
-	static const std::wstring VERSION = L"0.2.1";
+	static const std::wstring VERSION = L"0.2.2";
 	static const std::string RPC_SERVER_ADDRESS = "0.0.0.0:37412";
 
 #if defined GAME_AOC
